@@ -13,7 +13,7 @@ public class HomeController {
 	}
 	
 
-	//루트 URL "/"에 접속하면 /main으로 리다이렉트되며, /main은 index.jsp를 반환함
+	//루트 URL "/"에 접속하면 /main으로 리다이렉트되며, /main은 index.jsp를 반환함..
 	// => http:localhost:8080/ 으로 접속하면 url에 보이는 것은 localhost:8080/main이라는 이야기
 	      @RequestMapping("/")
 	       public String home() {
