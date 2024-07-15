@@ -108,4 +108,10 @@ public class MemberServiceImp implements MemberService {
      return result > 0;
  }
  
+//멤버 등급 확인 로직 
+ @Override
+ public String getMemberGrade(String mem_id) {
+     return memberDAO.getMemberGrade(mem_id);
+ }
+
 }

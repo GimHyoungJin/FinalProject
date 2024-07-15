@@ -45,4 +45,9 @@
         SET passwd = #{passwd}
         WHERE mem_id = #{mem_id}
      </update>
+     
+     <select id="getMemberGrade" parameterType="String" resultType="String">
+        SELECT mem_grade FROM member WHERE mem_id = #{mem_id}
+    </select>
+     
 </mapper>

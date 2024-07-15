@@ -406,18 +406,22 @@ public class MemberCont {
         return ResponseEntity.ok(response);
     }
     
-    //처음 홈페이지를 로드하면 로그인 상태를 확인하는 엔드포인트
+    // 처음 홈페이지를 로드하면 로그인 상태를 확인하는 엔드포인트
     @GetMapping("/status")
     public ResponseEntity<?> loginStatus(HttpSession session) {
-    	// 세션에서 "mem_id" 값을 가져옴
+        // 세션에서 "mem_id" 값을 가져옴
         String mem_id = (String) session.getAttribute("mem_id");
         // 로그인 상태 확인
         // 브라우저에서 "/member/status"로 GET 요청을 보내면,
         // JSON 형태로 {"loggedIn": true, "mem_id": "회원 아이디"} 응답을 받음
         if (mem_id != null) {
-            return ResponseEntity.ok(Map.of("loggedIn", true, "mem_id", mem_id));
+            // 관리자 여부 확인
+            // "isAdmin" 필드를 추가하여 관리자 여부를 클라이언트에 전달
+            String memberGrade = memberService.getMemberGrade(mem_id);
+            boolean isAdmin = "0".equals(memberGrade);
+            return ResponseEntity.ok(Map.of("loggedIn", true, "mem_id", mem_id, "isAdmin", isAdmin));
         } else {
-        	// 로그아웃 상태일 때 응답
+            // 로그아웃 상태일 때 응답
             // 로그아웃 상태일 때 JSON 형태로 {"loggedIn": false} 응답을 받음
             return ResponseEntity.ok(Map.of("loggedIn", false));
         }

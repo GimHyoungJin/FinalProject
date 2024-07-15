@@ -12,4 +12,5 @@ public interface MemberService {
     boolean updatePassword(String mem_id, String newPassword);//새로 설정한 비밀번호를 업데이트
     boolean checkSocialId(String socialId, String provider);//소셜 로그인 테이블 중복확인 로직
     boolean regSocialMember(SocialMemberDTO socialMemberDTO); //소셜 등록 로직
+    String getMemberGrade(String mem_id); //멤버 등급을 확인하는 로직
 }

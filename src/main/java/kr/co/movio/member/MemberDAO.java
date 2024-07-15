@@ -43,4 +43,9 @@ public class MemberDAO {
     public int updatePassword(MemberDTO memberDTO) {
         return sqlSession.update("member.updatePassword", memberDTO);
     }
+    
+    // 회원 등급 조회
+    public String getMemberGrade(String mem_id) {
+        return sqlSession.selectOne("member.getMemberGrade", mem_id);
+    }
 }

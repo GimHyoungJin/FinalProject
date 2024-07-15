@@ -10,17 +10,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="<c:url value='/css/header.css' />" rel="stylesheet" type="text/css">
     <link href="<c:url value='/css/footer.css' />" rel="stylesheet" type="text/css">
-    <link href="<c:url value='/resources/css/movie/movie.css' />" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/movie/movie.css">
+    <link href="<c:url value='/css/movie/movie.css' />" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <%@ include file="/WEB-INF/header.jsp" %>
+    <%@ include file="../../header.jsp" %>
     
     <!-- 영화 페이지 메인 콘텐츠 -->
     <div class="container mt-4 d-flex justify-content-between align-items-center">
-	    <h1>박스오피스</h1>
-	    <a href="<c:url value='/movie/write' />" class="btn btn-primary">영화등록</a>
-	</div>
+       <h1>박스오피스</h1>
+       <!-- 관리자만 볼 수 있게 하는 것 해당 로직은 header.js에 들어가 있습니다. -->
+       <div id="admin-button-container" style="display: none;">
+       <a href="<c:url value='/movie/write' />" class="btn btn-primary">영화등록</a>
+       </div>
+   	</div>
 
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
         <div class="container-fluid">
@@ -58,6 +60,6 @@
         </div>
     </div>
     
-    <%@ include file="/WEB-INF/footer.jsp" %>
+    <%@ include file="../../footer.jsp" %>
 </body>
 </html>

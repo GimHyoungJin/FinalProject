@@ -1,10 +1,13 @@
 package kr.co.movio.reservation;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import kr.co.movio.movie.MovieDAO;
+import kr.co.movio.movie.MovieDTO;
 import kr.co.movio.theater.TheaterDAO;
+import kr.co.movio.theater.TheaterDTO;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +39,14 @@ public class reservationCont {
         }
     }
 
-    
     // 영화 리스트
     @GetMapping("/booking")
-    public String reservation() {
+    public String reservation(Model model) {
+    	List<MovieDTO> movieList = movieDao.getMovies();
+    	//List<TheaterDTO> theaterList = theaterDao.getAllTheaters();
+    	
+    	model.addAttribute("movies", movieList);
+    	//model.addAttribute("theaters", theaterList);
         return "reservation/booking";
     }
     

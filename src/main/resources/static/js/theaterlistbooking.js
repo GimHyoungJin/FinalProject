@@ -1,62 +1,34 @@
 $(document).ready(function() {
-    // 영화 목록 불러오기
-    $.ajax({
-        url: '/movies',
-        method: 'GET',
-        success: function(data) {
-            var movieList = $('#movie-list');
-            movieList.empty();
-            data.forEach(function(movie) {
-                movieList.append('<li>' + movie.movieTitle + '</li>');
-            });
-        }
-    });
+    // 초기 상태에서는 영화 정보 숨기기
+    $('#movie-poster').hide();
+    $('#movie-title-container').hide();
 
-    // 극장 목록 불러오기
-    $.ajax({
-        url: '/theaters',
-        method: 'GET',
-        success: function(data) {
-            var theaterList = $('#theater-list');
-            theaterList.empty();
-            data.forEach(function(theater) {
-                theaterList.append('<li>' + theater.theaterName + '</li>');
-            });
-        }
-    });
-
-    var selectedMovie = null;
-    var selectedTheater = null;
-    var selectedDate = null;
-
+    // 영화 목록 항목 클릭 이벤트 처리
     $('#movie-list').on('click', 'li', function() {
-        selectedMovie = $(this).text();
-        $('#movie-list li').removeClass('selected');
-        $(this).addClass('selected');
-    });
-
-    $('#theater-list').on('click', 'li', function() {
-        selectedTheater = $(this).text();
-        $('#theater-list li').removeClass('selected');
-        $(this).addClass('selected');
-    });
-
-    $('#date-list').on('click', 'li', function() {
-        selectedDate = $(this).text();
-        $('#date-list li').removeClass('selected');
-        $(this).addClass('selected');
-    });
-
-    $('#select-seat-btn').on('click', function() {
-        if (selectedMovie && selectedTheater && selectedDate) {
-            var queryParams = $.param({
-                movie: selectedMovie,
-                theater: selectedTheater,
-                date: selectedDate
-            });
-            window.location.href = '/seat-selection?' + queryParams;
+        if ($(this).hasClass('selected')) {
+            // 이미 선택된 항목을 다시 클릭한 경우
+            $(this).removeClass('selected');
+            $('#movie-title').text('');
+            $('#movie-poster').hide();
+            $('#movie-title-container').hide();
+            $('#movie-select-message').show(); // 메시지 다시 표시
         } else {
-            alert('영화, 극장, 날짜를 모두 선택해 주세요.');
+            // 이전 선택된 요소의 선택 상태를 제거
+            $('#movie-list li').removeClass('selected');
+
+            // 현재 선택된 요소에 선택 상태 추가
+            $(this).addClass('selected');
+
+            var movieTitle = $(this).data('title');
+            var posterUrl = $(this).data('poster'); // data-poster 속성에서 포스터 URL 가져오기
+
+            // 영화 제목과 포스터 업데이트
+            $('#movie-title').text(movieTitle);
+            $('#movie-poster').attr('src', posterUrl).show();
+
+            // 숨겨진 요소들 표시
+            $('#movie-title-container').show();
+            $('#movie-select-message').hide(); // 메시지 숨기기
         }
     });
 });

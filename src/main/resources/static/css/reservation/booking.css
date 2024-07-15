@@ -64,15 +64,13 @@
     color: white;
 }
 
-/* 영화 정보 스타일 */
-.movie-info {
-    display: flex; /* 플렉스 박스 레이아웃 사용 */
-    align-items: center; /* 아이템을 수직 중앙에 배치 */
-    height: 100%; /* 부모 요소의 높이를 100%로 설정 */
+/* 초기 상태에서 영화 포스터 숨기기 */
+#movie-poster {
+    display: none;
 }
 
 /* 영화 포스터 이미지 스타일 */
-.movie-info img {
+#movie-poster {
     width: auto; /* 너비를 자동으로 설정 */
     height: 100%; /* 높이를 부모 요소에 맞게 설정 */
     object-fit: cover; /* 이미지 비율 유지하며 크기 조정 */
@@ -126,19 +124,6 @@
 /* 버튼 아이콘 스타일 */
 .seat-button button .button-icon {
     margin-right: 5px; /* 오른쪽 여백 5픽셀 */
-}
-
-/* 새로운 스타일 추가 (리스트 기본 스타일 설정) */
-#movie-list, #theater-list, #date-list {
-    list-style: none; /* 리스트 불릿 제거 */
-    padding: 0; /* 내부 여백 제거 */
-    margin: 0; /* 리스트의 기본 여백 제거 */
-}
-
-/* 리스트 아이템의 기본 스타일 설정 (패딩, 커서 모양) */
-#movie-list li, #theater-list li, #date-list li {
-    padding: 5px 10px; /* 위아래로 5픽셀의 내부 여백 추가, 양옆 여백 10px */
-    cursor: pointer; /* 커서를 손가락 모양으로 변경 */
 }
 
 /* 선택된 요소 스타일 */
