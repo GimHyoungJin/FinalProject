@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin">
+    <select id="getAllMembers" resultType="kr.co.movio.admin.AdminDTO">
+        SELECT 
+            id,
+            name,
+            email,
+            registration_date AS registrationDate,
+            status,
+            phone,
+            birth_date AS birthDate,
+            gender,
+            address,
+            is_active AS isActive,
+            is_admin AS isAdmin,
+            user_level AS userLevel,
+            password
+        FROM members
+    </select>
+    <update id="updateMemberStatus" parameterType="map">
+        UPDATE members
+        SET status = #{status}
+        WHERE id = #{memberId}
+    </update>
+</mapper>

@@ -1,0 +1,99 @@
+/* 모든 요소와 그 가상 요소에 대해 box-sizing을 border-box로 설정 */
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+/* after 가상 요소에 빈 문자열을 content로 설정 */
+:after {
+  content: "";
+}
+
+/* 사이드바 영역 스타일링 */
+#sidebar {
+  position: sticky; /* 스크롤 시 고정 위치를 유지하여 항상 화면에 표시되도록 함 */
+  left: 0; /* 왼쪽에 고정 */
+  top: 0; /* 상단에 고정 */
+  width: 200px; /* 너비를 200px로 설정 */
+  height: 100vh; /* 높이를 100vh로 설정하여 화면 전체 높이를 차지 */
+  background: #c0c0c0; /* 배경색을 회색으로 설정 */
+  overflow-x: hidden; /* 수평 스크롤바 숨김 */
+  padding-top: 20px; /* 상단 패딩 20px 설정 */
+  border-right: 1px solid #ecf0f1; /* 오른쪽 테두리 설정 */
+  display: flex; /* Flexbox 레이아웃 사용 */
+  flex-direction: column; /* 요소들을 세로로 정렬 */
+  justify-content: space-between; /* 사이드바의 내용과 정보를 공간을 균등하게 분배 */
+}
+
+/* 사이드바 내부의 메뉴 스타일링 */
+#sidebar-menu {
+  list-style-type: none; /* 기본 리스트 스타일 제거 */
+  padding: 0; /* 패딩 제거 */
+  margin: 0; /* 마진 제거 */
+  flex-grow: 1; /* 남는 공간을 차지하도록 설정 */
+}
+
+/* 사이드바 메뉴 아이템 스타일링 */
+#sidebar-menu .sidebar-item {
+  padding: 30px 40px; /* 아이템 패딩 설정 */
+  text-align: center; /* 텍스트 중앙 정렬 */
+}
+
+/* 사이드바 메뉴 링크 스타일링 */
+#sidebar-menu .sidebar-item a {
+  display: block; /* 블록 요소로 설정 */
+  color: #000000; /* 글자 색상을 검정색으로 설정 */
+  text-decoration: none; /* 밑줄 제거 */
+  transition: transform 0.6s; /* 0.6초 동안의 부드러운 전환 효과 설정 */
+  transform-style: preserve-3d; /* 3D 변환을 유지하도록 설정 */
+}
+
+/* 사이드바 메뉴 링크의 앞면과 뒷면 스타일링 */
+#sidebar-menu .sidebar-item a .front,
+#sidebar-menu .sidebar-item a .back {
+  position: absolute; /* 절대 위치를 설정 */
+  backface-visibility: hidden; /* 뒤쪽의 요소를 숨김 */
+}
+
+/* 사이드바 메뉴 링크의 앞면 스타일링 */
+#sidebar-menu .sidebar-item a .front {
+  z-index: 2; /* 앞면의 z-index 설정 */
+  transform: rotateY(0deg); /* 초기 회전 각도 설정 */
+}
+
+/* 사이드바 메뉴 링크의 뒷면 스타일링 */
+#sidebar-menu .sidebar-item a .back {
+  transform: rotateY(180deg); /* 뒷면의 회전 각도 설정 */
+}
+
+/* 사이드바 메뉴 아이템에 마우스를 올렸을 때의 효과 */
+#sidebar-menu .sidebar-item:hover a {
+  transform: rotateY(180deg); /* Y축을 기준으로 180도 회전 */
+}
+
+/* active 클래스가 있는 경우의 사이드바 메뉴 링크 스타일링 */
+#sidebar-menu .sidebar-item a.active {
+  background: #2980b9; /* 활성화된 아이템의 배경색 설정 */
+  color: #000000; /* 활성화된 아이템의 글자 색상 설정 */
+}
+
+/* 사이드바 제목 스타일링 */
+#sidebar-top h2 {
+  color: #000000; /* 글자 색상을 검정색으로 설정 */
+  text-align: center; /* 텍스트 중앙 정렬 */
+  padding: 20px; /* 패딩 설정 */
+  margin: 0; /* 여백 제거 */
+}
+
+/* 고객센터 정보 스타일링 */
+.center-info {
+  color: #000000; /* 글자 색상을 검정색으로 설정 */
+  text-align: center; /* 텍스트 중앙 정렬 */
+  padding: 10px; /* 패딩 설정 */
+}
+
+/* 아이콘 이미지 스타일링 */
+#sidebar-menu .sidebar-item img {
+  width: 35px; /* 아이콘 너비를 35px로 설정 */
+  height: 35px; /* 아이콘 높이를 35px로 설정 */
+  margin-bottom: 10px; /* 아이콘과 텍스트 사이의 간격 설정 */
+}
