@@ -1,7 +1,7 @@
 package kr.co.movio.product;
 
 public class ProductDTO {
-	
+    
     private String pro_detail_code;
     private String pro_code;
     private String pro_name;
@@ -10,7 +10,8 @@ public class ProductDTO {
     private String pro_photo;  // 파일 이름 필드
     private long filesize;
     private String category;   // 카테고리 필드 추가
-
+    private int proStock;
+    
     // 기본 생성자
     public ProductDTO() {
     }
@@ -80,6 +81,10 @@ public class ProductDTO {
         this.category = category;
     }
 
+    public int getPro_stock() {
+        return proStock;
+    }
+    
     @Override
     public String toString() {
         return "ProductDTO{" +

@@ -1,53 +1,63 @@
 package kr.co.movio.product;
 
 import java.util.List;
-import java.util.Map;
 
+import java.util.Map;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class ProductDAO {
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private SqlSession sqlSession;
 
     public List<Map<String, Object>> list() {
-        String sql = "SELECT * FROM product";
-        return jdbcTemplate.queryForList(sql);
+        return sqlSession.selectList("kr.co.movio.product.ProductDAO.list");
     }
 
     public List<Map<String, Object>> search(String productName) {
-        String sql = "SELECT * FROM product WHERE pro_name LIKE ?";
-        return jdbcTemplate.queryForList(sql, "%" + productName + "%");
+        return sqlSession.selectList("kr.co.movio.product.ProductDAO.search", productName);
     }
 
-    public Map<String, Object> detail(String proDetailCode) {
-        String sql = "SELECT * FROM product WHERE pro_detail_code = ?";
-        return jdbcTemplate.queryForMap(sql, proDetailCode);
+    public ProductDTO detail(String proDetailCode) {
+        return sqlSession.selectOne("kr.co.movio.product.ProductMapper.detail", proDetailCode);
     }
 
     public boolean update(Map<String, Object> params) {
-        String sql = "UPDATE product SET pro_name = ?, pro_detail = ?, pro_price = ?, pro_photo = ?, pro_stock = ? WHERE pro_detail_code = ?";
-        int result = jdbcTemplate.update(sql, params.get("pro_name"), params.get("pro_detail"), params.get("pro_price"), params.get("pro_photo"), params.get("pro_stock"), params.get("pro_detail_code"));
+        int result = sqlSession.update("kr.co.movio.product.ProductDAO.update", params);
         return result > 0;
     }
 
     public boolean delete(String proDetailCode) {
-        String sql = "DELETE FROM product WHERE pro_detail_code = ?";
-        int result = jdbcTemplate.update(sql, proDetailCode);
+        int result = sqlSession.delete("kr.co.movio.product.ProductDAO.delete", proDetailCode);
         return result > 0;
     }
 
     public String getCategoryNameByProCode(String proCode) {
-        String sql = "SELECT category_name FROM category WHERE pro_code = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[] { proCode }, String.class);
+        return sqlSession.selectOne("kr.co.movio.product.ProductDAO.getCategoryNameByProCode", proCode);
     }
 
     public int getMaxProDetailCode(String proCode) {
-        String sql = "SELECT MAX(CAST(SUBSTRING(pro_detail_code, LENGTH(?) + 1) AS UNSIGNED)) FROM product WHERE pro_code = ?";
-        Integer maxCode = jdbcTemplate.queryForObject(sql, new Object[] { proCode, proCode }, Integer.class);
-        return (maxCode != null) ? maxCode : 0;
+        return sqlSession.selectOne("kr.co.movio.product.ProductDAO.getMaxProDetailCode", proCode);
+    }
+
+    public List<ProductDTO> getProductsByProCode(String proCode) {
+        List<ProductDTO> products = sqlSession.selectList("kr.co.movio.product.ProductDAO.listByProCode", proCode);
+        System.out.println("DAO에서 조회한 제품들: " + products);
+        return products;
+    }
+
+    public Product getProductByDetailCode(String proDetailCode) {
+        return sqlSession.selectOne("kr.co.movio.product.ProductDAO.getProductByDetailCode", proDetailCode);
+    }
+    
+    public String getProCodeByDetailCode(String proDetailCode) {
+        return sqlSession.selectOne("kr.co.movio.product.ProductDAO.getProCodeByDetailCode", proDetailCode);
+    }
+
+    public void updateProductStock(ProductDTO product) {
+        sqlSession.update("kr.co.movio.product.ProductMapper.updateProductStock", product);
     }
 }

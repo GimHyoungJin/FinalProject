@@ -66,25 +66,27 @@
 <!-- 상품 목록 출력 -->
 <div class="container mt-3">
     <div class="row">
-        <c:forEach var="product" items="${products}">
-            <div class="col-sm-4 mb-3">
-                <c:choose>
-                    <c:when test="${product.proPhoto != null && product.proPhoto != '-'}">
-                        <a href="detail?pro_detail_code=${product.proDetailCode}">
-                            <img src="${pageContext.request.contextPath}/storage/${product.proPhoto}" class="img-responsive margin" style="width:100%">
-                        </a>
-                    </c:when>
-                    <c:otherwise>
-                        등록된 사진 없음!!<br>
-                    </c:otherwise>
-                </c:choose>
-                <br>상품명 : 
-                <a href="detail?pro_detail_code=${product.proDetailCode}">${product.proName}</a>
-                <br>상품가격 : ${product.proPrice}원
-            </div>
-        </c:forEach>
+		<c:forEach var="product" items="${products}">
+		    <div class="col-sm-4 mb-3">
+		        <c:choose>
+		            <c:when test="${product.pro_photo != null && product.pro_photo != '-'}">
+		                <a href="detail?pro_detail_code=${product.pro_detail_code}">
+		                    <img src="${pageContext.request.contextPath}/storage/${product.pro_photo}" class="img-responsive margin" style="width:100%">
+		                </a>
+		            </c:when>
+		            <c:otherwise>
+		                등록된 사진 없음!!<br>
+		            </c:otherwise>
+		        </c:choose>
+		        <br>상품명 : 
+		        <a href="detail?pro_detail_code=${product.pro_detail_code}">${product.pro_name}</a>
+		        <br>상품가격 : ${product.pro_price}원
+		    </div>
+		</c:forEach>
+
     </div>
 </div>
+
  
 <!-- 푸터 포함 -->
 <%@ include file="../../footer.jsp" %>

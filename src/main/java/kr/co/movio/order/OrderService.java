@@ -11,7 +11,7 @@ import java.util.List; // 리스트를 다루기 위해 가져옵니다.
 import java.util.Random; // 랜덤 숫자를 생성하기 위해 가져옵니다.
 
 import kr.co.movio.product.Product; // Product 엔티티를 가져옵니다.
-import kr.co.movio.product.ProductRepository; // ProductRepository를 가져옵니다.
+import kr.co.movio.product.ProductDAO; // ProductDAO를 가져옵니다.
 
 @Service // 이 클래스가 서비스 레이어임을 나타냅니다.
 public class OrderService {
@@ -19,9 +19,9 @@ public class OrderService {
     @Autowired // Spring이 자동으로 OrderDAO 객체를 주입합니다.
     private OrderDAO orderDAO;
 
-    @Autowired // Spring이 자동으로 ProductRepository 객체를 주입합니다.
-    private ProductRepository productRepository;
-    
+    @Autowired // Spring이 자동으로 ProductDAO 객체를 주입합니다.
+    private ProductDAO productDAO;
+
     // 주문 번호를 생성하는 메서드
     public String generateOrderNo() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss"); // 날짜 형식을 "yyyyMMddHHmmss"로 지정합니다.
@@ -59,15 +59,14 @@ public class OrderService {
                 throw new RuntimeException("Invalid order detail data: " + detail); // 예외를 발생시킵니다.
             }
 
-            Product product = productRepository.findById(proDetailCode)
-                .orElseThrow(() -> new RuntimeException("상품을 찾을 수 없습니다.")); // 상품 상세 코드로 상품을 찾습니다.
+            Product product = productDAO.detail(proDetailCode); // 상품 상세 코드로 상품을 찾습니다.
             if (product.getProStock() >= quantity) { // 상품의 재고가 주문 수량보다 많은 경우
                 product.setProStock(product.getProStock() - quantity); // 상품의 재고를 주문 수량만큼 감소시킵니다.
-                productRepository.save(product); // 상품 정보를 저장합니다.
+                productDAO.updateProductStock(product); // 상품 정보를 업데이트합니다.
             } else {
                 throw new RuntimeException("재고가 부족합니다: " + product.getProName()); // 재고가 부족한 경우 예외를 발생시킵니다.
             }
-        }
+        } 
         
         // 장바구니 삭제
         orderDAO.cartDelete(memId); // 사용자의 장바구니를 삭제합니다.

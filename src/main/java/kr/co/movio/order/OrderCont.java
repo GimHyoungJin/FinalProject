@@ -1,7 +1,6 @@
 package kr.co.movio.order;
 
 import org.springframework.beans.factory.annotation.Autowired; // Spring의 의존성 주입을 위한 어노테이션을 가져옵니다.
-
 import org.springframework.stereotype.Controller; // 이 클래스가 Spring MVC의 컨트롤러임을 나타냅니다.
 import org.springframework.web.bind.annotation.GetMapping; // HTTP GET 요청을 매핑하기 위해 가져옵니다.
 import org.springframework.web.bind.annotation.ModelAttribute; // 모델 속성을 바인딩하기 위해 가져옵니다.

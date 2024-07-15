@@ -1,33 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="order">
-  <insert id="orderInsert" parameterType="kr.co.movio.order.OrderDTO" useGeneratedKeys="true" keyProperty="order_no">
-    INSERT INTO orders (order_no, mem_id, order_total, order_state, order_date) 
-    VALUES (#{order_no}, #{mem_id}, #{order_total}, 'I', DEFAULT)
-  </insert>
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.movio.order.OrderMapper">
 
-  <insert id="orderdetailInsert" parameterType="map">
-    INSERT INTO orderdetail (order_no, pro_detail_code, order_detail_amount, order_detail_price) 
-    SELECT #{order_no}, pro_detail_code, cart_amount, cart_price 
-    FROM cart 
-    WHERE mem_id=#{s_id}
-  </insert>
+    <select id="totalamount" resultType="int" parameterType="string">
+        SELECT SUM(amount) FROM orders WHERE s_id = #{s_id}
+    </select>
 
-  <select id="totalamount" parameterType="string" resultType="int">
-    SELECT SUM(cart_price * cart_amount) 
-    FROM cart 
-    WHERE mem_id = #{s_id}
-  </select>
+    <insert id="orderInsert" parameterType="kr.co.movio.order.OrderDTO">
+        INSERT INTO orders (order_no, s_id, order_date, total_amount)
+        VALUES (#{order_no}, #{s_id}, #{order_date}, #{total_amount})
+    </insert>
 
-  <select id="orderDesc" parameterType="string" resultType="hashmap">
-    SELECT * 
-    FROM orderdetail 
-    WHERE order_no = #{order_no}
-  </select>
+    <insert id="orderdetailInsert" parameterType="map">
+        INSERT INTO orderdetail (order_no, pro_detail_code, order_detail_amount)
+        VALUES (#{order_no}, #{pro_detail_code}, #{order_detail_amount})
+    </insert>
 
-  <delete id="cartDelete" parameterType="string">
-    DELETE FROM cart 
-    WHERE mem_id = #{s_id}
-  </delete>
+    <delete id="cartDelete" parameterType="string">
+        DELETE FROM cart WHERE s_id = #{s_id}
+    </delete>
+
+    <select id="orderDesc" resultType="hashmap" parameterType="string">
+        SELECT pro_detail_code, order_detail_amount AS quantity
+        FROM orderdetail
+        WHERE order_no = #{orderNo}
+    </select>
+
 </mapper>
