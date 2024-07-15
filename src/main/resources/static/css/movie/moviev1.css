@@ -1,0 +1,47 @@
+/* movie.css */
+.container {
+    margin-top: 20px;
+}
+
+.navbar-light.bg-light {
+    background-color: #f8f9fa !important; /* 밝은 배경색 */
+}
+
+.nav-link {
+    color: #000 !important; /* 링크 색상 검은색 */
+}
+
+.nav-link:hover {
+    color: #007bff !important; /* 링크 색상 파란색 */
+}
+
+.nav-link.active {
+    font-weight: bold;
+    color: #007bff !important; /* 활성 링크 색상 파란색 */
+}
+
+.divider {
+    border-top: 2px solid #ccc;
+    margin: 20px 0;
+}
+
+.card {
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.card-img-top {
+    width: 100%;
+    height: auto;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.age-rating-icon {
+    width: 20px; /* 이미지 너비 조정 */
+    height: auto; /* 높이 자동으로 조정 */
+    margin-left: 5px; /* 제목과 이미지 사이 여백 설정 */
+}

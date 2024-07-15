@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="socialMember">
+	<!-- 소셜 가입 정보가 중복되는지 확인 -->
+    <select id="countSocialIdAndProd" parameterType="kr.co.movio.member.SocialMemberDTO" resultType="int">
+        SELECT COUNT(*)
+        FROM social_member
+        WHERE social_id = #{socialId}
+          AND provider = #{provider}
+    </select>
+    
+	<!-- 카카오, 구글 정보를 DB에 저장하는것 -->
+    <insert id="saveSocialMem" parameterType="kr.co.movio.member.SocialMemberDTO">
+        INSERT INTO social_member (social_id, provider, nickname, email, profile_image, regdate, gender, birth, age_range, birth_year, phone)
+	    VALUES (#{socialId}, #{provider}, #{nickname}, #{email}, #{profileImage}, current_date, #{gender}, #{birth}, #{ageRange}, #{birthYear}, #{phone})
+    </insert>
+   
+</mapper>

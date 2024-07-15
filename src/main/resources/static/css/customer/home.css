@@ -1,0 +1,103 @@
+/* 고객센터 홈 페이지 스타일 */
+#customer-home {
+  text-align: center; /* 텍스트를 중앙 정렬 */
+  padding: 1rem; /* 내부 여백 1rem */
+  margin-top: 2rem; /* 상단 여백 2rem (조정) */
+}
+
+#customer-home h1 {
+  font-size: 2rem; /* 글씨 크기를 2rem으로 설정 */
+  margin-bottom: 1rem; /* 아래쪽 여백 1rem */
+}
+
+#inquiry-sections {
+  display: flex; /* 플렉스박스 레이아웃 사용 */
+  flex-wrap: wrap; /* 줄 바꿈을 허용 */
+  justify-content: center; /* 자식 요소들을 중앙에 정렬 */
+  gap: 2rem; /* 자식 요소들 사이의 간격 2rem */
+  margin-bottom: 2.5rem; /* 아래쪽 여백 2.5rem */
+}
+
+#inquiry-sections .section {
+  flex: 1 1 30%; /* 각 섹션이 30% 너비를 가짐 */
+  max-width: 15rem; /* 최대 너비를 15rem으로 설정 */
+  text-align: center; /* 텍스트를 중앙 정렬 */
+}
+
+#inquiry-sections .section img {
+  width: 3rem; /* 아이콘 너비 3rem */
+  height: 3rem; /* 아이콘 높이 3rem */
+  object-fit: contain; /* 이미지의 내용이 원본 비율을 유지하면서 요소에 맞춰지게 함 */
+  margin-bottom: 0.5rem; /* 아래쪽 여백 0.5rem */
+}
+
+#inquiry-sections .section .description {
+  font-size: 0.9rem; /* 설명 텍스트의 글씨 크기를 0.9rem으로 설정 */
+  color: #666; /* 설명 텍스트의 색상을 회색으로 설정 */
+  margin-top: 0.5rem; /* 상단 여백 0.5rem */
+}
+
+#divider-line {
+  width: 80%; /* 너비를 80%로 설정 */
+  border-bottom: 1px solid #ccc; /* 아래쪽 테두리를 회색 실선으로 설정 */
+  margin: 2rem auto; /* 상하 여백 2rem, 좌우 자동 정렬 */
+}
+
+#notice-section {
+  margin-top: 2rem; /* 상단 여백 2rem (조정) */
+}
+
+#notice-section h2 {
+  font-size: 1.5rem; /* 글씨 크기를 1.5rem으로 설정 */
+  margin-bottom: 2rem; /* 아래쪽 여백 2rem */
+  text-align: center; /* 공지사항 글씨를 중앙에 정렬 */
+}
+
+#notice-list {
+  margin-top: 2rem; /* 상단 여백 2rem */
+  text-align: center; /* 공지사항 리스트를 중앙에 정렬 */
+}
+
+#notice-list table {
+  width: 100%; /* 테이블 너비를 100%로 설정 */
+  border-collapse: collapse; /* 테두리 중복을 없앰 */
+}
+
+#notice-list th, #notice-list td {
+  padding: 1rem; /* 내부 여백 1rem */
+  border-bottom: 1px solid #ccc; /* 아래쪽 테두리를 회색 실선으로 설정 */
+}
+
+#notice-list a {
+  color: #333; /* 링크 텍스트 색상을 어두운 회색으로 설정 */
+  text-decoration: none; /* 링크 텍스트의 밑줄을 없앰 */
+}
+
+#notice-list a:hover {
+  text-decoration: underline; /* 링크 텍스트에 마우스를 올리면 밑줄이 생김 */
+}
+
+#more-notices {
+  display: block; /* 블록 요소로 설정 */
+  margin-top: 2rem; /* 상단 여백 2rem */
+  color: #007bff; /* 링크 텍스트 색상을 파란색으로 설정 */
+  text-decoration: none; /* 링크 텍스트의 밑줄을 없앰 */
+  font-size: 1rem; /* 더보기 링크의 글씨 크기를 1rem으로 설정 */
+}
+
+#more-notices:hover {
+  text-decoration: underline; /* 링크 텍스트에 마우스를 올리면 밑줄이 생김 */
+}
+
+/* 반응형 디자인을 위한 미디어 쿼리 추가 */
+@media (max-width: 768px) {
+  #inquiry-sections {
+    flex-direction: column; /* 세로 방향 정렬 */
+    gap: 1rem; /* 간격을 1rem으로 설정 */
+  }
+
+  #inquiry-sections .section {
+    flex: 1 1 100%; /* 각 섹션이 100% 너비를 가짐 */
+    max-width: none; /* 최대 너비 제한을 없앰 */
+  }
+}

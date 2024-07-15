@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mypageInquiryMapper">
+    <select id="getInquiriesByMemberId" parameterType="string" resultType="kr.co.movio.mypage.inquiry.MypageInquiryDTO">
+        SELECT 
+            inq_num AS inq_num,
+            mem_id AS mem_id,
+            theater_id AS theater_id,
+            inq_type AS inq_type,
+            inq_title AS inq_title,
+            inq_content AS inq_content,
+            inq_date AS inq_date
+        FROM inquiry
+        WHERE mem_id = #{memId}
+    </select>
+</mapper>
