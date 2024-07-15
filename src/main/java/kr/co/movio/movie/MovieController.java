@@ -159,30 +159,29 @@ public class MovieController {
                                 Model model,
                                 HttpServletRequest req) {
         ServletContext application = req.getServletContext();
-        String basePath = application.getRealPath("/storage");
+        String basePath = application.getRealPath("/static/images/poster");
 
         try {
             // 가장 높은 movie_id 값을 가져와서 새로운 movie_id 설정
             String maxMovieId = movieDao.getMaxMovieId();
             int newMovieId = maxMovieId != null ? Integer.parseInt(maxMovieId) + 1 : 1;
             MovieDTO movie = new MovieDTO();
-            movie.setMovie_id(String.valueOf(newMovieId));
+            movie.setMovie_id(newMovieId);
             movie.setMovie_title(movieTitle);
             movie.setRelease_date(releaseDate);
             movie.setDescription(description);
 
             if (!posterFile.isEmpty()) {
                 String originalFilename = posterFile.getOriginalFilename();
-                String fileName = UUID.randomUUID().toString() + "_" + originalFilename;
                 Path uploadPath = Paths.get(basePath).toAbsolutePath().normalize();
 
                 if (!Files.exists(uploadPath)) {
                     Files.createDirectories(uploadPath);
                 }
 
-                Path targetLocation = uploadPath.resolve(fileName);
+                Path targetLocation = uploadPath.resolve(originalFilename);
                 posterFile.transferTo(targetLocation.toFile());
-                movie.setPoster_url("/storage/" + fileName);
+                movie.setPoster_url("/images/poster/" + originalFilename);
             }
 
             movie.setTrailer_url(trailerUrl);
@@ -196,38 +195,43 @@ public class MovieController {
         }
     }
 
-    // 영화 수정 페이지
+ // 영화 수정 페이지
     @GetMapping("/edit")
     public String showEditForm(@RequestParam("id") String movieId, Model model) {
         MovieDTO movie = movieDao.getMovieById(movieId);
         if (movie != null) {
             model.addAttribute("movie", movie);
+            model.addAttribute("posterUrl", movie.getPoster_url());  // 기존 이미지 URL을 모델에 추가
         }
         return "movie/edit";
     }
 
-    // 영화 수정 처리
+
+ // 영화 수정 처리
     @PostMapping("/update")
     public String updateMovie(@ModelAttribute MovieDTO movie,
                               @RequestParam("poster") MultipartFile posterFile,
+                              @RequestParam("existingPosterUrl") String existingPosterUrl, // 기존 포스터 URL을 받을 새로운 파라미터 추가
                               HttpServletRequest req) {
         ServletContext application = req.getServletContext();
-        String basePath = application.getRealPath("/storage");
+        String basePath = application.getRealPath("/static/images/poster");
 
         try {
-            if (!posterFile.isEmpty()) {
+            if (!posterFile.isEmpty()) { // 포스터 파일이 선택된 경우
                 String originalFilename = posterFile.getOriginalFilename();
-                String fileName = UUID.randomUUID().toString() + "_" + originalFilename;
                 Path uploadPath = Paths.get(basePath).toAbsolutePath().normalize();
 
                 if (!Files.exists(uploadPath)) {
                     Files.createDirectories(uploadPath);
                 }
 
-                Path targetLocation = uploadPath.resolve(fileName);
+                Path targetLocation = uploadPath.resolve(originalFilename);
                 posterFile.transferTo(targetLocation.toFile());
-                movie.setPoster_url("/storage/" + fileName);
+                movie.setPoster_url("/static/images/poster/" + originalFilename);
+            } else { // 포스터 파일이 선택되지 않은 경우
+                movie.setPoster_url(existingPosterUrl); // 기존 포스터 URL을 유지
             }
+
             movieDao.updateMovie(movie);
             return "redirect:/movie/moviedetail?id=" + movie.getMovie_id();
         } catch (Exception e) {
@@ -235,6 +239,8 @@ public class MovieController {
             return "movie/edit";
         }
     }
+
+
 
     // 영화 삭제 처리
     @PostMapping("/delete")
@@ -247,5 +253,4 @@ public class MovieController {
             return "movie/movielist";
         }
     }
-
 }

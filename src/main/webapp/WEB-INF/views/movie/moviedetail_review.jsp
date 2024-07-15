@@ -8,6 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     
     <link href="<c:url value='/css/header.css' />" rel="stylesheet" type="text/css">
     <link href="<c:url value='/css/footer.css' />" rel="stylesheet" type="text/css">
@@ -189,6 +190,26 @@
     .star-rating label:hover ~ label {
         color: #f5b301;
     }
+    /* 별점 표시를 위한 스타일 추가 */
+    .stars-outer {
+        display: inline-block;
+        position: relative;
+        font-family: FontAwesome;
+        color: #ccc; /* 빈 별 색상 */
+    }
+    .stars-inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        color: #f5b301; /* 채워진 별 색상 */
+    }
+    .stars-outer::before, .stars-inner::before {
+        content: "\f005\f005\f005\f005\f005";
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+    }
     
 </style>
 
@@ -282,7 +303,12 @@
                     <div class="review-item">
                         <div class="review-user">${review.mem_id} <span class="review-date">(${review.review_date})</span></div>
                         <div class="review-text">${review.review_text}</div>
-                        <div class="review-rating">평점: ${review.rating}</div> <!-- 여기서 Rating을 평점으로 변경 -->
+                        <div class="review-rating">
+                            평점: ${review.rating}
+                            <div class="stars-outer">
+                                <div class="stars-inner" style="width: ${review.rating * 20}%;"></div>
+                            </div>
+                        </div>
                         <c:if test="${review.mem_id == sessionScope.mem_id}">
                             <button class="btn btn-warning btn-sm" onclick="editReview('${review.review_id}', '${review.review_text}', ${review.rating}, '${review.review_date}')">수정</button>
                             <button class="btn btn-danger btn-sm" onclick="deleteReview('${review.review_id}', '${movieId}')">삭제</button>

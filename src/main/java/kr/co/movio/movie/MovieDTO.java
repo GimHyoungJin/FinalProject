@@ -1,20 +1,22 @@
 package kr.co.movio.movie;
 
 public class MovieDTO {
-    private String movie_id;
+    private int movie_id; // movie_id를 int 타입으로 변경
     private String movie_title;
     private String release_date;
     private String description;
     private String poster_url;
     private String trailer_url;
     private int total_audience; // 누적관객수
+    private String age_rating; // age_rating 필드 추가
+    private String genre; // genre 필드 추가
 
     // Getters and Setters
-    public String getMovie_id() {
+    public int getMovie_id() {
         return movie_id;
     }
 
-    public void setMovie_id(String movie_id) {
+    public void setMovie_id(int movie_id) {
         this.movie_id = movie_id;
     }
 
@@ -65,13 +67,28 @@ public class MovieDTO {
     public void setTotal_audience(int total_audience) {
         this.total_audience = total_audience;
     }
+ 
+    public String getAge_rating() {
+        return age_rating;
+    }
+
+    public void setAge_rating(String age_rating) {
+        this.age_rating = age_rating;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
 
 	@Override
 	public String toString() {
 		return "MovieDTO [movie_id=" + movie_id + ", movie_title=" + movie_title + ", release_date=" + release_date
 				+ ", description=" + description + ", poster_url=" + poster_url + ", trailer_url=" + trailer_url
-				+ ", total_audience=" + total_audience + "]";
+				+ ", total_audience=" + total_audience + ", age_rating=" + age_rating + ", genre=" + genre + "]";
 	}
-    
     
 }
