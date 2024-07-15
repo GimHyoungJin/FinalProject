@@ -1,6 +1,7 @@
 package kr.co.movio.order;
 
 import java.util.HashMap;
+
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,8 @@ public class OrderDAO {
     @Autowired
     private SqlSession sqlSession;
     
-    public int totalamount(String s_id) {
-        Integer result = sqlSession.selectOne("kr.co.movio.order.OrderMapper.totalamount", s_id);
-        return result != null ? result : 0;  
+    public int totalamount(String memId) {
+        return sqlSession.selectOne("kr.co.movio.order.OrderMapper.totalamount", memId);
     }
     
     public void orderInsert(OrderDTO orderdto) {

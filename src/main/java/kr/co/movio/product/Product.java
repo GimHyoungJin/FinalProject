@@ -72,4 +72,11 @@ public class Product {
         this.proPhoto = proPhoto;
     }
 
+    public int getProStock() {
+        return proStock;
+    }
+
+    public void setProStock(int proStock) {
+        this.proStock = proStock;
+    }
 }

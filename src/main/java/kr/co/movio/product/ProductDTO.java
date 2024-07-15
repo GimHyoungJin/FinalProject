@@ -85,6 +85,10 @@ public class ProductDTO {
         return proStock;
     }
     
+    public void setPro_stock(int proStock) {
+        this.proStock = proStock;
+    }
+    
     @Override
     public String toString() {
         return "ProductDTO{" +

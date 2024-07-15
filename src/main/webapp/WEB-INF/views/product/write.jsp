@@ -87,7 +87,7 @@
 				    </tr>
 				    <tr>
 						<td>상품사진</td>
-						<td> <input type="file" name="img" class="form-control" required> </td>
+						<td> <input type="file" name="pro_photo" class="form-control" required> </td>
 				    </tr>
 				    <tr>
 						<td>재고수량</td>

@@ -1,5 +1,11 @@
 package kr.co.movio.product;
 
+import java.util.List;
+import java.util.Map;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,15 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.ui.Model;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/product")
@@ -40,25 +40,84 @@ public class ProductCont {
     @GetMapping("/listByProCode")
     public ModelAndView listByProCode(@RequestParam("pro_code") String proCode, ModelAndView mav) {
         List<ProductDTO> products = productService.getProductsByProCode(proCode);
-        System.out.println("컨트롤러에서 조회한 제품들: " + products);
         mav.addObject("products", products);
         mav.setViewName("product/list");
-        mav.addObject("selectedProCode", proCode);
+        mav.addObject("selectedProCode", proCode); // 현재 선택된 pro_code를 뷰에 추가
+        return mav;
+    }
+
+    @GetMapping("/write")
+    public String write() {
+        return "product/write";
+    }
+
+    @PostMapping("/insert")
+    public String insert(@RequestParam Map<String, Object> map, @RequestParam("pro_photo") MultipartFile proPhoto, HttpServletRequest req) {
+        ServletContext application = req.getServletContext();
+        String basePath = application.getRealPath("/storage");
+
+        String filename = "-";
+        long filesize = 0;
+
+        if (proPhoto != null && !proPhoto.isEmpty()) {
+            filesize = proPhoto.getSize();
+            try {
+                String originalFilename = proPhoto.getOriginalFilename();
+                filename = originalFilename;
+
+                File file = new File(basePath, originalFilename);
+                int i = 1;
+                while (file.exists()) {
+                    int lastDot = originalFilename.lastIndexOf(".");
+                    filename = originalFilename.substring(0, lastDot) + "_" + i + originalFilename.substring(lastDot);
+                    file = new File(basePath, filename);
+                    i++;
+                }
+                proPhoto.transferTo(file);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+
+        map.put("pro_photo", filename);
+        map.put("filesize", filesize);
+
+        String proCode = (String) map.get("pro_code");
+        String proDetailCode = generateProDetailCode(proCode);
+        map.put("pro_detail_code", proDetailCode);
+
+        if (map.get("pro_stock") != null) {
+            map.put("pro_stock", Integer.parseInt((String) map.get("pro_stock")));
+        }
+
+        productService.insert(map);
+
+        return "redirect:/product/listByProCode?pro_code=" + proCode;
+    }
+
+
+
+    @GetMapping("/search")
+    public ModelAndView search(@RequestParam(defaultValue = "") String product_name) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("product/list");
+        mav.addObject("list", productDao.search(product_name));
+        mav.addObject("product_name", product_name);
+        return mav;
+    }
+
+    @GetMapping("/detail")
+    public ModelAndView detail(@RequestParam("pro_detail_code") String pro_detail_code) {
+        System.out.println("pro detail code" + pro_detail_code);
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("product/detail");
+        ProductDTO product = productDao.detail(pro_detail_code);
+        mav.addObject("product", product);
         return mav;
     }
 
     @PostMapping("/update")
     public String update(@RequestParam Map<String, Object> params, @RequestParam("pro_photo") MultipartFile file, HttpServletRequest req) {
-        String proDetailCode = (String) params.get("pro_detail_code");
-
-        System.out.println("Received params: " + params);
-        if (proDetailCode == null || proDetailCode.isEmpty()) {
-            System.out.println("Product detail code is missing");
-            throw new IllegalArgumentException("Product detail code is missing");
-        }
-
-        System.out.println("Updating product with detail code: " + proDetailCode);
-
         ServletContext application = req.getServletContext();
         String basePath = application.getRealPath("/storage");
 
@@ -78,30 +137,43 @@ public class ProductCont {
                 file.transferTo(uploadFile);
                 params.put("pro_photo", filename);
             } else {
-                ProductDTO product = productDao.detail(proDetailCode);
-                if (product == null) {
-                    throw new IllegalArgumentException("Product not found with detail code: " + proDetailCode);
-                }
-                params.put(proDetailCode, basePath);
+                ProductDTO product = productDao.detail((String) params.get("pro_detail_code"));
+                params.put("pro_photo", product.getPro_photo());
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         productDao.update(params);
 
-        String proCode = productService.getProCodeByDetailCode(proDetailCode);
+        String proCode = (String) params.get("pro_code");
         return "redirect:/product/listByProCode?pro_code=" + proCode;
-    } 
-    
-    @GetMapping("/detail")
-    public ModelAndView detail(@RequestParam("pro_detail_code") String proDetailCode, ModelAndView mav) {
-        ProductDTO product = productService.getProductByDetailCode(proDetailCode);
-        if (product == null) {
-            throw new IllegalArgumentException("Product not found with detail code: " + proDetailCode);
-        }
-        mav.addObject("product", product);
-        mav.setViewName("product/detail");
-        return mav;
     }
 
+    @PostMapping("/delete")
+    public String delete(@RequestParam("pro_detail_code") String pro_detail_code) {
+        ProductDTO product = productDao.detail(pro_detail_code);
+        String proCode = product.getPro_code();
+        
+        boolean isDeleted = productDao.delete(pro_detail_code);
+        
+        if (isDeleted) {
+            return "redirect:/product/listByProCode?pro_code=" + proCode;
+        } else {
+            throw new IllegalArgumentException("Failed to delete the product");
+        }
+    }
+
+    @GetMapping("/getCategoryName")
+    public Map<String, String> getCategoryName(@RequestParam String pro_code) {
+        String categoryName = productDao.getCategoryNameByProCode(pro_code);
+        Map<String, String> response = new HashMap<>();
+        response.put("categoryName", categoryName);
+        return response;
+    }
+    
+    private String generateProDetailCode(String proCode) {
+        int maxNumber = productDao.getMaxProDetailCode(proCode);
+        String nextNumber = String.format("%02d", maxNumber + 1);
+        return proCode + nextNumber;
+    }
 }

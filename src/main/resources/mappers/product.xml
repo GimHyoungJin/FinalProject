@@ -81,5 +81,4 @@
     <select id="getProCodeByDetailCode" parameterType="String" resultType="String">
         SELECT pro_code FROM product WHERE pro_detail_code = #{pro_detail_code}
     </select>
-    
 </mapper>

@@ -22,12 +22,14 @@
 			return false;
 		}//if end
 		
-		let deliveryaddr = $("#deliveryaddr").val().trim();
-		if(deliveryaddr.length<=2) {
-			alert("받는주소 입력해주세요");
-			$("#deliveryaddr").focus();
-			return false;
-		}//if end
+		let deliverypnum = $("#deliverypnum").val().trim();
+		let numericRegex = /^[0-9]{11}$/;
+
+		if (!numericRegex.test(deliverypnum)) {
+		    alert("번호를 입력해주세요");
+		    $("#deliverypnum").focus();
+		    return false;
+		}
 		
 		if(confirm("결제할까요?")){
 			return true;

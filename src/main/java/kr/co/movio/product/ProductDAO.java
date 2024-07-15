@@ -1,7 +1,6 @@
 package kr.co.movio.product;
 
 import java.util.List;
-
 import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ public class ProductDAO {
     }
 
     public ProductDTO detail(String proDetailCode) {
-        return sqlSession.selectOne("kr.co.movio.product.ProductMapper.detail", proDetailCode);
+        return sqlSession.selectOne("kr.co.movio.product.ProductDAO.detail", proDetailCode);
     }
 
     public boolean update(Map<String, Object> params) {
