@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="vouchers">
-    <select id="isVoucherAvailable" parameterType="string" resultType="int">
-        SELECT COUNT(*)
-        FROM vouchers
-        WHERE voucher_number = #{voucherNumber} AND mem_id IS NULL
+    <select id="isVoucherAvailable" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM unused_vouchers WHERE voucher_number = #{voucherNumber}
     </select>
 
     <update id="registerVoucher" parameterType="map">
-        UPDATE vouchers
-        SET mem_id = #{memId}, status = 'registered'
-        WHERE voucher_number = #{voucherNumber}
+        INSERT INTO vouchers (voucher_number, mem_id, expiration_date, used)
+        VALUES (#{voucherNumber}, #{memId}, NOW(), false)
     </update>
+
+    <delete id="deleteUnusedVoucher" parameterType="String">
+        DELETE FROM unused_vouchers WHERE voucher_number = #{voucherNumber}
+    </delete>
+
+    <insert id="insertUnusedVoucher" parameterType="String">
+        INSERT INTO unused_vouchers (voucher_number, created_at)
+        VALUES (#{voucherNumber}, NOW())
+    </insert>
 </mapper>

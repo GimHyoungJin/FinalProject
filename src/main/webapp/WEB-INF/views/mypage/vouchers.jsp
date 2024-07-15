@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <title>영화관람권</title>
+  <title>영화 관람권</title>
   <meta charset="utf-8">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -48,8 +48,8 @@
       <!-- 메인 콘텐츠 시작 -->
       <div class="col-md-9">
         <div class="content-wrapper">
-          <h2>영화관람권</h2>
-          <p>보유하신 영화관람권/예매권 내역입니다. 소지하신 기록(종이) 관람권은 등록 후 이용하실 수 있습니다.</p>
+          <h2>영화 관람권</h2>
+          <p>보유하신 영화 관람권/예매권 내역입니다. 소지하신 기록(종이) 관람권은 등록 후 이용하실 수 있습니다.</p>
           <button type="button" class="btn btn-primary" onclick="openVoucherModal()">관람권 등록</button>
           <div class="card mt-3">
             <div class="card-body">
@@ -75,7 +75,7 @@
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="voucherModalLabel">영화관람권 등록</h5>
+                  <h5 class="modal-title" id="voucherModalLabel">영화 관람권 등록</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -84,13 +84,8 @@
                       <label for="voucherNumber">관람권 번호</label>
                       <input type="text" class="form-control" id="voucherNumber" name="voucherNumber" required>
                     </div>
-                    <div class="mt-3">
-                      <img src="<c:url value='/images/mypage/voucher_example.png' />" alt="관람권 예시" class="img-fluid">
-                    </div>
-                    <p class="mt-3">- 관람권 뒷면 왼쪽 하단의 앞 12자리를 입력해주세요.<br>
-                      - 마지막 4자리는 관람권의 스크래치 부분을 긁어 해당 숫자를 입력해 주세요.<br>
-                      - 관람권 뒷면의 하단 스크래치 부분을 긁어 관람권 번호를 입력해주세요.<br>
-                      - 스크래치 개봉후에는 현장(극장) 사용이 불가합니다.<br></p>
+                    <p class="mt-3">- 보유하신 관람권 12자리를 입력해주세요.<br>
+                      - 관람권 등록 후 결제가 취소될 경우 자동 회수처리 되어 사용하실 수 없습니다.<br></p>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                       <button type="submit" class="btn btn-primary">등록</button>
@@ -100,7 +95,7 @@
               </div>
             </div>
           </div>
-
+          
           <!-- 로그인 모달 창 -->
           <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -160,6 +155,7 @@
           <c:if test="${not empty error}">
             <div class="alert alert-danger mt-3">${error}</div>
           </c:if>
+          
 
           <c:if test="${not empty message}">
             <div class="alert alert-success mt-3">${message}</div>
