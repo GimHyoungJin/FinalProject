@@ -156,7 +156,6 @@ public class MovieController {
                                 @RequestParam("description") String description,
                                 @RequestParam("poster") MultipartFile posterFile,
                                 @RequestParam("trailerUrl") String trailerUrl,
-                                @RequestParam("total_audience") String totalAudienceStr,
                                 Model model,
                                 HttpServletRequest req) {
         ServletContext application = req.getServletContext();
@@ -171,9 +170,6 @@ public class MovieController {
             movie.setMovie_title(movieTitle);
             movie.setRelease_date(releaseDate);
             movie.setDescription(description);
-
-            int totalAudience = Integer.parseInt(totalAudienceStr);
-            movie.setTotal_audience(totalAudience);
 
             if (!posterFile.isEmpty()) {
                 String originalFilename = posterFile.getOriginalFilename();
@@ -214,14 +210,11 @@ public class MovieController {
     @PostMapping("/update")
     public String updateMovie(@ModelAttribute MovieDTO movie,
                               @RequestParam("poster") MultipartFile posterFile,
-                              @RequestParam("total_audience") int totalAudience,
                               HttpServletRequest req) {
         ServletContext application = req.getServletContext();
         String basePath = application.getRealPath("/storage");
 
         try {
-            movie.setTotal_audience(totalAudience);
-
             if (!posterFile.isEmpty()) {
                 String originalFilename = posterFile.getOriginalFilename();
                 String fileName = UUID.randomUUID().toString() + "_" + originalFilename;

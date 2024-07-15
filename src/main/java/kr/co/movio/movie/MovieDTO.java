@@ -65,4 +65,13 @@ public class MovieDTO {
     public void setTotal_audience(int total_audience) {
         this.total_audience = total_audience;
     }
+
+	@Override
+	public String toString() {
+		return "MovieDTO [movie_id=" + movie_id + ", movie_title=" + movie_title + ", release_date=" + release_date
+				+ ", description=" + description + ", poster_url=" + poster_url + ", trailer_url=" + trailer_url
+				+ ", total_audience=" + total_audience + "]";
+	}
+    
+    
 }

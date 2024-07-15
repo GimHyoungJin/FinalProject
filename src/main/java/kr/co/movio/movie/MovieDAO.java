@@ -35,5 +35,5 @@ public class MovieDAO {
     public String getMaxMovieId() {
         return sqlSession.selectOne("movie.getMaxMovieId");
     }
-
+    
 }

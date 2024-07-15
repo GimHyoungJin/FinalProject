@@ -35,7 +35,7 @@
             </div>
             <div class="mb-3">
                 <label for="poster" class="form-label">포스터 이미지</label>
-                <input type="file" class="form-control" id="poster" name="poster">
+                <input type="file" class="form-control" id="poster" name="poster" value="${movie.poster_url}">
             </div>
             <div class="mb-3">
                 <label for="trailerUrl" class="form-label">예고편 URL</label>

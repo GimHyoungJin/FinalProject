@@ -53,8 +53,8 @@
 	    <div class="movie-info">
 	        <img id="movie-poster" src="<c:url value='/images/poster/탈주세로v2.png' />" alt="영화 포스터">
 	        <div>
-	            <span>영화: <span id="movie-title">탈주</span></span>
-	            <span>상영관: <span id="theater-name">상영관명</span></span>
+	            <span>영화: <span id="movie-title"></span></span>
+	            <span>상영관: <span id="theater-name"></span></span>
 	        </div>
 	    </div>
 	    <div class="seat-button">
