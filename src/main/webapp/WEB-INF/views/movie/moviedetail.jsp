@@ -190,11 +190,14 @@
         </div>
 
         <div class="actions">
-            <a href="<c:url value='/movie/edit?id=${movieId}' />" class="btn btn-primary">영화 수정</a>
-            <form action="<c:url value='/movie/delete' />" method="post" style="display:inline;">
-                <input type="hidden" name="id" value="${movieId}">
-                <button type="submit" class="btn btn-danger">영화 삭제</button>
-            </form>
+        	<!-- 관리자만 볼 수 있게 하는 것 해당 로직은 header.js에 들어가 있습니다. -->
+       		<div id="admin-button-container" style="display: none;">
+	            <a href="<c:url value='/movie/edit?id=${movieId}' />" class="btn btn-primary">영화 수정</a>
+	            <form action="<c:url value='/movie/delete' />" method="post" style="display:inline;">
+	                <input type="hidden" name="id" value="${movieId}">
+	                <button type="submit" class="btn btn-danger">영화 삭제</button>
+	            </form>
+            </div>
         </div>
     </div>
 
