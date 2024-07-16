@@ -2,16 +2,13 @@ package kr.co.movio.admin.theater;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
 @RequestMapping("/admin/theater")
-public class AdminTheaterCont{
+public class AdminTheaterCont {
 
     private final AdminTheaterDAO theaterDAO;
 
@@ -28,7 +25,7 @@ public class AdminTheaterCont{
 
     @PostMapping("/add")
     public String addTheater(@RequestParam("theaterName") String theaterName,
-                             @RequestParam("regionId") int regionId,
+                             @RequestParam("regionId") String regionId,
                              @RequestParam("address") String address,
                              @RequestParam("screenCount") int screenCount,
                              @RequestParam("totalSeats") int totalSeats,

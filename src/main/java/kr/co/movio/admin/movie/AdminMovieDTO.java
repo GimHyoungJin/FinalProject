@@ -1,48 +1,32 @@
 package kr.co.movio.admin.movie;
 
 public class AdminMovieDTO {
-
-    private int id;
-    private String title;
+    private int movieId;
+    private String movieTitle;
     private String releaseDate;
+    private String description;
+    private String posterUrl;
+    private String trailerUrl;
+    private int totalAudience;
     private String ageRating;
     private String genre;
-    private String description;
-    private String image;
-    private String trailerUrl;
-    private String status;
+    private String status; // status 속성 추가
 
-    public AdminMovieDTO() {
-        // 기본 생성자
+    // Getters and Setters
+    public int getMovieId() {
+        return movieId;
     }
 
-    public AdminMovieDTO(int id, String title, String releaseDate, String ageRating, String genre, String description, String image, String trailerUrl, String status) {
-        this.id = id;
-        this.title = title;
-        this.releaseDate = releaseDate;
-        this.ageRating = ageRating;
-        this.genre = genre;
-        this.description = description;
-        this.image = image;
-        this.trailerUrl = trailerUrl;
-        this.status = status;
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
     }
 
-    // Getters and setters
-    public int getId() {
-        return id;
+    public String getMovieTitle() {
+        return movieTitle;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    public void setMovieTitle(String movieTitle) {
+        this.movieTitle = movieTitle;
     }
 
     public String getReleaseDate() {
@@ -51,6 +35,38 @@ public class AdminMovieDTO {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPosterUrl() {
+        return posterUrl;
+    }
+
+    public void setPosterUrl(String posterUrl) {
+        this.posterUrl = posterUrl;
+    }
+
+    public String getTrailerUrl() {
+        return trailerUrl;
+    }
+
+    public void setTrailerUrl(String trailerUrl) {
+        this.trailerUrl = trailerUrl;
+    }
+
+    public int getTotalAudience() {
+        return totalAudience;
+    }
+
+    public void setTotalAudience(int totalAudience) {
+        this.totalAudience = totalAudience;
     }
 
     public String getAgeRating() {
@@ -69,30 +85,6 @@ public class AdminMovieDTO {
         this.genre = genre;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getTrailerUrl() {
-        return trailerUrl;
-    }
-
-    public void setTrailerUrl(String trailerUrl) {
-        this.trailerUrl = trailerUrl;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -100,4 +92,12 @@ public class AdminMovieDTO {
     public void setStatus(String status) {
         this.status = status;
     }
+
+	@Override
+	public String toString() {
+		return "AdminMovieDTO [movieId=" + movieId + ", movieTitle=" + movieTitle + ", releaseDate=" + releaseDate
+				+ ", description=" + description + ", posterUrl=" + posterUrl + ", trailerUrl=" + trailerUrl
+				+ ", totalAudience=" + totalAudience + ", ageRating=" + ageRating + ", genre=" + genre + ", status="
+				+ status + "]";
+	}
 }

@@ -3,7 +3,7 @@ package kr.co.movio.admin.theater;
 public class AdminTheaterDTO {
 
     private int theaterId;
-    private int regionId;
+    private String regionId;
     private String theaterName;
     private String address;
     private int screenCount;
@@ -11,7 +11,7 @@ public class AdminTheaterDTO {
     private double latitude;
     private double longitude;
 
-    public AdminTheaterDTO(int theaterId, int regionId, String theaterName, String address, int screenCount, int totalSeats, double latitude, double longitude) {
+    public AdminTheaterDTO(int theaterId, String regionId, String theaterName, String address, int screenCount, int totalSeats, double latitude, double longitude) {
         this.theaterId = theaterId;
         this.regionId = regionId;
         this.theaterName = theaterName;
@@ -31,11 +31,11 @@ public class AdminTheaterDTO {
         this.theaterId = theaterId;
     }
 
-    public int getRegionId() {
+    public String getRegionId() {
         return regionId;
     }
 
-    public void setRegionId(int regionId) {
+    public void setRegionId(String regionId) {
         this.regionId = regionId;
     }
 
@@ -86,4 +86,11 @@ public class AdminTheaterDTO {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
+
+	@Override
+	public String toString() {
+		return "AdminTheaterDTO [theaterId=" + theaterId + ", regionId=" + regionId + ", theaterName=" + theaterName
+				+ ", address=" + address + ", screenCount=" + screenCount + ", totalSeats=" + totalSeats + ", latitude="
+				+ latitude + ", longitude=" + longitude + "]";
+	}
 }

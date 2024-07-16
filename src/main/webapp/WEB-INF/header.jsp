@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- 상단 헤더 -->
 <header id="header" class="bg-light py-0 border-bottom header-hidden">
@@ -9,8 +10,8 @@
                     <a id="login-link" class="nav-link small custom-small-font" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">로그인</a>
                 </li>
                 <li class="nav-item">
-                <a id="register-link" class="nav-link small custom-small-font" href="<c:url value='/member/agreement' />">회원가입</a>
-            </li>
+                    <a id="register-link" class="nav-link small custom-small-font" href="<c:url value='/member/agreement' />">회원가입</a>
+                </li>
                 <li class="nav-item">
                     <a id="quick-reserve-link" class="nav-link small custom-small-font" href="<c:url value='/reservation/booking' />" onclick="checkLogin(event)">예매</a>
                 </li>
@@ -102,20 +103,25 @@
                                 <li><a id="notices-link" href="<c:url value='/customer/noticeList' />">공지사항</a></li>
                                 <li><a id="inquiry-link" href="<c:url value='/customer/inquiryForm' />">1:1문의</a></li>
                                 <li><a id="inquiry-link" href="<c:url value='/customer/terms' />">이용약관</a></li>
-                                <li><a id="admin-link" href="<c:url value='/admin/members' />" onclick="checkLogin(event)"> 관리자 페이지</a></li>
+                                <!-- 관리자 페이지 링크 (관리자 등급 사용자만) -->
+                                <c:if test="${not empty sessionScope.member && sessionScope.member.mem_grade == 0}">
+                                    <li class="nav-item">
+                                        <a id="admin-link" href="<c:url value='/admin/members' />" class="nav-link small custom-small-font" onclick="checkLogin(event)">관리자 페이지</a>
+                                    </li>
+                                </c:if>
                             </ul>
                         </div>
                         <div id="mypage-column" class="col-md-3">
-                      <h6>MyPage</h6>
-                      <ul class="list-unstyled">
-                          <li><a id="mypage-home-link" href="<c:url value='/mypage/mypage' />" onclick="checkLogin(event)">나의 무비오</a></li>
-                          <li><a id="bookinglist-link" href="<c:url value='/mypage/bookinglist' />" onclick="checkLogin(event)">예매/구매내역</a></li>
-                          <li><a id="vouchers-link" href="<c:url value='/mypage/vouchers' />" onclick="checkLogin(event)">영화관람권</a></li>
-                          <li><a id="store-vouchers-link" href="<c:url value='/mypage/store_vouchers' />" onclick="checkLogin(event)">스토어교환권</a></li>
-                          <li><a id="my-inquiries-link" href="<c:url value='/mypage/inquiry' />" onclick="checkLogin(event)">나의문의내역</a></li>
-                          <li><a id="profile-link" href="<c:url value='/mypage/profile' />" onclick="checkLogin(event)">회원정보</a></li>
-                      </ul>
-                  </div>
+                          <h6>MyPage</h6>
+                          <ul class="list-unstyled">
+                              <li><a id="mypage-home-link" href="<c:url value='/mypage/mypage' />" onclick="checkLogin(event)">나의 무비오</a></li>
+                              <li><a id="bookinglist-link" href="<c:url value='/mypage/bookinglist' />" onclick="checkLogin(event)">예매/구매내역</a></li>
+                              <li><a id="vouchers-link" href="<c:url value='/mypage/vouchers' />" onclick="checkLogin(event)">영화관람권</a></li>
+                              <li><a id="store-vouchers-link" href="<c:url value='/mypage/store_vouchers' />" onclick="checkLogin(event)">스토어교환권</a></li>
+                              <li><a id="my-inquiries-link" href="<c:url value='/mypage/inquiry' />" onclick="checkLogin(event)">나의문의내역</a></li>
+                              <li><a id="profile-link" href="<c:url value='/mypage/profile' />" onclick="checkLogin(event)">회원정보</a></li>
+                          </ul>
+                      </div>
                     </div>
                     <div class="row mt-4 justify-content-center">
                         <div id="login-buttons" class="col-md-4 text-center">
@@ -160,25 +166,25 @@
                     <div class="text-center mt-3">
                         <a id="find-id-pw-link" href="<c:url value='/member/findIdPw' />">ID/PW찾기</a> | <a id="register-link-modal" href="<c:url value='/member/agreement' />">회원가입</a>
                     </div>
-               <div class="login-buttons mt-3">
-                   <a href="javascript:void(0)" id="kakaobtn"><img src="<c:url value='/images/logo/kakao_login.png' />" alt="카카오 로그인"></a>
-                  <div id="g_id_onload"
-                       data-client_id="1051773193513-6ue0j504qgi80d191t7si0bpoahig155.apps.googleusercontent.com"
-                       data-login_uri="http://localhost:8080/member/googleLogin"
-                       data-auto_prompt="false">
-                   </div>
-                   <div class="g_id_signin"
-                       data-type="standard"
-                       data-size="large"
-                       data-theme="outline"
-                       data-text="sign_in_with"
-                       data-shape="rectangular"
-                       data-logo_alignment="left">
-                   </div>
-               </div>
+                    <div class="login-buttons mt-3">
+                        <a href="javascript:void(0)" id="kakaobtn"><img src="<c:url value='/images/logo/kakao_login.png' />" alt="카카오 로그인"></a>
+                        <div id="g_id_onload"
+                             data-client_id="1051773193513-6ue0j504qgi80d191t7si0bpoahig155.apps.googleusercontent.com"
+                             data-login_uri="http://localhost:8080/member/googleLogin"
+                             data-auto_prompt="false">
+                        </div>
+                        <div class="g_id_signin"
+                             data-type="standard"
+                             data-size="large"
+                             data-theme="outline"
+                             data-text="sign_in_with"
+                             data-shape="rectangular"
+                             data-logo_alignment="left">
+                        </div>
+                    </div>
                 </div>
                 <div id="poster-wrapper" class="poster-wrapper">
-                   <img id="posterImage" src="<c:url value='/images/poster/우마무스메.png' />" alt="포스터 이미지">
+                    <img id="posterImage" src="<c:url value='/images/poster/우마무스메.png' />" alt="포스터 이미지">
                 </div>
             </div>
         </div>

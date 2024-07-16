@@ -20,14 +20,16 @@
       <div class="col-md-3 sidebar">
         <div class="list-group">
           <a href="<c:url value='/mypage/mypage' />" class="list-group-item header" aria-current="true">
-            관리자 메뉴
+            관리자 페이지
           </a>
-          <a href="<c:url value='/admin/members' />" class="list-group-item list-group-item-action">회원 목록</a>
-          <a href="<c:url value='/admin/other' />" class="list-group-item list-group-item-action">기타 메뉴</a>
+         <a href="<c:url value='/admin/movie' />" class="list-group-item list-group-item-action">영화 관리</a>
+           <a href="<c:url value='/admin/theater' />" class="list-group-item list-group-item-action">영화관 관리</a>
+         
         </div>
       </div>
       <div class="col-md-9">
-        <h2>회원 목록</h2>
+        <h1>회원 관리</h1>
+        <br><br><br> 
         <div class="mt-3 mb-3">
         </div>
         <div class="table-responsive">
@@ -71,7 +73,7 @@
                           <select name="grade" class="form-select" onchange="this.form.submit()">
                             <option value="1" <c:if test="${member.grade == 1}">selected</c:if>>일반 회원</option>
                             <option value="2" <c:if test="${member.grade == 2}">selected</c:if>>우수 회원</option>
-                            <option value="3" <c:if test="${member.grade == 0}">selected</c:if>>관리자</option>
+                            <option value="0" <c:if test="${member.grade == 0}">selected</c:if>>관리자</option>
                           </select>
                         </form>
                       </td>

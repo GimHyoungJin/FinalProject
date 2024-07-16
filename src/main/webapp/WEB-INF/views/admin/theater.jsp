@@ -41,8 +41,9 @@
    		 <div class="list-group-item header" aria-current="true">
     		관리자 페이지
 		 </div>
+         <a href="<c:url value='/admin/members' />" class="list-group-item list-group-item-action">회원 관리</a>
          <a href="<c:url value='/admin/movie' />" class="list-group-item list-group-item-action">영화 관리</a>
-          <a href="<c:url value='/admin/members' />" class="list-group-item list-group-item-action">회원 관리</a>
+          
         </div>
       </div>
       <!-- 메인 콘텐츠 -->
@@ -61,13 +62,13 @@
             <label for="regionId" class="form-label">지역</label>
             <select class="form-select" id="regionId" name="regionId" required>
               <option value="">지역 선택</option>
-              <option value="1">서울</option>
-              <option value="2">부산</option>
-              <option value="3">대구</option>
-              <option value="4">인천</option>
-              <option value="5">광주</option>
-              <option value="6">대전</option>
-              <option value="7">울산</option>
+              <option value="seoul">서울</option>
+              <option value="busan">부산</option>
+              <option value="daegu">대구</option>
+              <option value="incheon">인천</option>
+              <option value="gwangju">광주</option>
+              <option value="daejeon">대전</option>
+              <option value="ulsan">울산</option>
             </select>
           </div>
           <div class="mb-3">
@@ -79,7 +80,7 @@
             <input type="number" class="form-control" id="screenCount" name="screenCount" required>
           </div>
           <div class="mb-3">
-            <label for="totalSeats" class="form-label">전체 좌석수</label>
+            <label for="totalSeats" class="form-label">좌석수</label>
             <input type="number" class="form-control" id="totalSeats" name="totalSeats" required>
           </div>
           <div class="mb-3">
@@ -90,23 +91,25 @@
             <label for="longitude" class="form-label">경도</label>
             <input type="number" step="0.000001" class="form-control" id="longitude" name="longitude" required>
           </div>
-          <button type="submit" class="btn btn-primary">등록</button>
-          
+          <button type="submit" class="btn btn-primary">추가</button>
         </form>
-
-        <!-- 영화관 목록 테이블 -->
-        <table class="table table-bordered">
+        </div>
+        </div>
+        <br>
+        <h3 class="card-title">영화관 목록</h3>
+        <div class="table-responsive">
+        <table class="table table-striped">
           <thead>
             <tr>
-              <th>지점아이디</th>
-              <th>지역아이디</th>
-              <th>지점명</th>
+              <th>ID</th>
+              <th>지역</th>
+              <th>영화관 명</th>
               <th>주소</th>
               <th>상영관수</th>
-              <th>전체 좌석수</th>
+              <th>좌석수</th>
               <th>위도</th>
               <th>경도</th>
-              <th>관리</th>
+              <th>삭제</th>
             </tr>
           </thead>
           <tbody>
@@ -121,7 +124,7 @@
                 <td>${theater.latitude}</td>
                 <td>${theater.longitude}</td>
                 <td>
-                  <form action="<c:url value='/admin/theater/delete' />" method="post" class="d-inline">
+                  <form action="<c:url value='/admin/theater/delete' />" method="post">
                     <input type="hidden" name="theaterId" value="${theater.theaterId}">
                     <button type="submit" class="btn btn-danger">삭제</button>
                   </form>
@@ -130,7 +133,7 @@
             </c:forEach>
           </tbody>
         </table>
-        
+      </div>
       </div>
     </div>
   </div>
