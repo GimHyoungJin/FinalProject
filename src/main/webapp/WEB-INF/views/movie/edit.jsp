@@ -51,6 +51,28 @@
               <label for="trailerUrl" class="form-label">예고편 URL</label>
               <input type="text" class="form-control" id="trailerUrl" name="trailer_url" value="${movie.trailer_url}" required>
           </div>
+          <div class="mb-3">
+        <label for="ageRating" class="form-label">연령 등급</label>
+        <select class="form-control" id="ageRating" name="age_rating" required>
+          <option value="전체이용가">전체이용가</option>
+          <option value="12세 이용가">12세 이용가</option>
+          <option value="15세 이용가">15세 이용가</option>
+          <option value="청소년 관람불가">청소년 관람불가</option>
+        </select>
+	      </div>
+	      <div class="mb-3">
+	        <label for="genre" class="form-label">장르</label>
+	        <select class="form-control" id="genre" name="genre" required>
+	          <option value="애니메이션">애니메이션</option>
+	          <option value="공포(호러)">공포(호러)</option>
+	          <option value="드라마">드라마</option>
+	          <option value="범죄/액션">범죄/액션</option>
+	          <option value="액션/어드벤처/코미디">액션/어드벤처/코미디</option>
+	          <option value="스릴러">스릴러</option>
+	          <option value="로맨스">로맨스</option>
+	          <option value="코미디">코미디</option>
+	        </select>
+	      </div>
           <button type="submit" class="btn btn-primary">수정 완료</button>
       </form>
   </div>

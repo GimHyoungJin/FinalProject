@@ -240,7 +240,7 @@
                 <h2>예매율</h2>
                 <p>${movieGrade}%</p>
             </div>
-			<div class="stat">
+            <div class="stat">
                 <h2>누적 관객수</h2>
                 <p>${totalAudience}명</p>
             </div>
@@ -321,17 +321,17 @@
                     <ul class="pagination">
                         <c:if test="${currentPage > 1}">
                             <li class="page-item">
-                                <a class="page-link" href="${pageContext.request.contextPath}/movie/comment?id=${movieId}&page=${currentPage - 1}">&laquo; 이전</a>
+                                <a class="page-link" href="${pageContext.request.contextPath}/movie/comment?id=${movieId}&sort=${param.sort}&page=${currentPage - 1}">&laquo; 이전</a>
                             </li>
                         </c:if>
                         <c:forEach var="i" begin="1" end="${totalPages}">
                             <li class="page-item ${currentPage == i ? 'active' : ''}">
-                                <a class="page-link" href="${pageContext.request.contextPath}/movie/comment?id=${movieId}&page=${i}">${i}</a>
+                                <a class="page-link" href="${pageContext.request.contextPath}/movie/comment?id=${movieId}&sort=${param.sort}&page=${i}">${i}</a>
                             </li>
                         </c:forEach>
                         <c:if test="${currentPage < totalPages}">
                             <li class="page-item">
-                                <a class="page-link" href="${pageContext.request.contextPath}/movie/comment?id=${movieId}&page=${currentPage + 1}">다음 &raquo;</a>
+                                <a class="page-link" href="${pageContext.request.contextPath}/movie/comment?id=${movieId}&sort=${param.sort}&page=${currentPage + 1}">다음 &raquo;</a>
                             </li>
                         </c:if>
                     </ul>
@@ -410,18 +410,19 @@
                             <textarea name="review_text" id="editReviewText" class="form-control" rows="10"></textarea>
                         </div>
                         <div class="mb-3">
-						    <label for="editrating" class="form-label">평점</label>
-						    <div class="star-rating">
-						        <input type="radio" id="edit-5-stars" name="rating" value="5" />
-						        <label for="edit-5-stars" class="star">&#9733;</label>
-						        <input type="radio" id="edit-4-stars" name="rating" value="4" />
-						        <label for="edit-4-stars" class="star">&#9733;</label>
-						        <input type="radio" id="edit-3-stars" name="rating" value="3" />
-						        <label for="edit-3-stars" class="star">&#9733;</label>
-						        <input type="radio" id="edit-2-stars" name="rating" value="2" />
-						        <label for="edit-2-stars" class="star">&#9733;</label>
-						        <input type="radio" id="edit-1-stars" name="rating" value="1" />
-						        <label for="edit-1-stars" class="star">&#9733;</label>
+                            <label for="editrating" class="form-label">평점</label>
+                            <div class="star-rating">
+                                <input type="radio" id="edit-5-stars" name="rating" value="5" />
+                                <label for="edit-5-stars" class="star">&#9733;</label>
+                                <input type="radio" id="edit-4-stars" name="rating" value="4" />
+                                <label for="edit-4-stars" class="star">&#9733;</label>
+                                <input type="radio" id="edit-3-stars" name="rating" value="3" />
+                                <label for="edit-3-stars" class="star">&#9733;</label>
+                                <input type="radio" id="edit-2-stars" name="rating" value="2" />
+                                <label for="edit-2-stars" class="star">&#9733;</label>
+                                <input type="radio" id="edit-1-stars" name="rating" value="1" />
+                                <label for="edit-1-stars" class="star">&#9733;</label>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary">수정</button>
                     </form>

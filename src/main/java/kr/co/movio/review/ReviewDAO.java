@@ -53,6 +53,15 @@ public class ReviewDAO {
         return sqlSession.selectList("review.getReviewsByMovieIdSortedByRatingPaged", params);
     }
 
+    // 특정 영화의 리뷰를 날짜순으로 페이징 처리하여 가져오는 메서드
+    public List<ReviewDTO> getReviewsByMovieIdSortedByDatePaged(String movie_id, int offset, int limit) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("movie_id", movie_id);
+        params.put("offset", offset);
+        params.put("limit", limit);
+        return sqlSession.selectList("review.getReviewsByMovieIdSortedByDatePaged", params);
+    }
+
     // 특정 영화의 리뷰 총 개수를 가져오는 메서드
     public int getTotalReviewCountByMovieId(String movie_id) {
         return sqlSession.selectOne("review.getTotalReviewCountByMovieId", movie_id);

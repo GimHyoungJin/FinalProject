@@ -35,6 +35,14 @@
         ORDER BY rating DESC
         LIMIT #{limit} OFFSET #{offset}
     </select>
+    
+    <!-- getReviewsByMovieIdSortedByDatePaged 쿼리 추가 -->
+    <select id="getReviewsByMovieIdSortedByDatePaged" parameterType="map" resultType="kr.co.movio.review.ReviewDTO">
+        SELECT * FROM review 
+        WHERE movie_id = #{movie_id}
+        ORDER BY review_date DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
 
     <select id="getTotalReviewCountByMovieId" parameterType="string" resultType="int">
         SELECT COUNT(*) FROM review 

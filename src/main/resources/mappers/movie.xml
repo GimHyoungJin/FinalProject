@@ -6,22 +6,26 @@
 <mapper namespace="movie">
 
     <insert id="addMovie" parameterType="kr.co.movio.movie.MovieDTO">
-        INSERT INTO movie (movie_id, movie_title, release_date, description, poster_url, trailer_url, total_audience)
-        VALUES (#{movie_id}, #{movie_title}, #{release_date}, #{description}, #{poster_url}, #{trailer_url}, #{total_audience})
+        INSERT INTO movie (movie_id, movie_title, release_date, description, poster_url, trailer_url, total_audience, age_rating, genre)
+        VALUES (#{movie_id}, #{movie_title}, #{release_date}, #{description}, #{poster_url}, #{trailer_url}, #{total_audience}, #{age_rating}, #{genre})
     </insert>
 
     <select id="getMovies" resultType="kr.co.movio.movie.MovieDTO">
-        SELECT movie_id, movie_title, release_date, description, poster_url, trailer_url, total_audience FROM movie
+        SELECT movie_id, movie_title, release_date, description, poster_url, trailer_url, total_audience, age_rating, genre
+        FROM movie
     </select>
 
     <select id="getMovieById" parameterType="String" resultType="kr.co.movio.movie.MovieDTO">
-        SELECT movie_id, movie_title, release_date, description, poster_url, trailer_url, total_audience FROM movie WHERE movie_id = #{movie_id}
+        SELECT movie_id, movie_title, release_date, description, poster_url, trailer_url, total_audience, age_rating, genre
+        FROM movie
+        WHERE movie_id = #{movie_id}
     </select>
 
     <update id="updateMovie" parameterType="kr.co.movio.movie.MovieDTO">
         UPDATE movie
         SET movie_title = #{movie_title}, release_date = #{release_date}, 
-            description = #{description}, poster_url = #{poster_url}, trailer_url = #{trailer_url}, total_audience = #{total_audience}
+            description = #{description}, poster_url = #{poster_url}, trailer_url = #{trailer_url}, total_audience = #{total_audience},
+            age_rating = #{age_rating}, genre = #{genre}
         WHERE movie_id = #{movie_id}
     </update>
 
@@ -30,7 +34,7 @@
     </delete>
 
     <select id="getMaxMovieId" resultType="String">
-	    SELECT MAX(movie_id) FROM movie
-	</select>
+        SELECT MAX(movie_id) FROM movie
+    </select>
 
 </mapper>

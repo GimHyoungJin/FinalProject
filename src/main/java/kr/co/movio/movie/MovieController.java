@@ -50,7 +50,6 @@ public class MovieController {
         return "movie/movielist";
     }
 
-
     @GetMapping("/comingsoon")
     public String comingSoon(Model model) {
         try {
@@ -81,6 +80,7 @@ public class MovieController {
                 model.addAttribute("movieId", movieId);
                 model.addAttribute("trailerUrl", movie.getTrailer_url());
                 model.addAttribute("totalAudience", movie.getTotal_audience());
+                model.addAttribute("ageRating", movie.getAge_rating()); // 연령 등급 추가
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,8 +89,15 @@ public class MovieController {
     }
 
     @GetMapping("/comment")
-    public String movieComment(@RequestParam("id") String movieId, @RequestParam(value = "sort", required = false) String sort, Model model) {
+    public String movieComment(@RequestParam("id") String movieId,
+                               @RequestParam(value = "sort", required = false) String sort,
+                               @RequestParam(value = "page", defaultValue = "1") int page,
+                               Model model) {
+        int pageSize = 5;  // 페이지당 리뷰 수
+        int offset = (page - 1) * pageSize;
+
         try {
+            // 영화 정보를 가져와 모델에 추가
             MovieDTO movie = movieDao.getMovieById(movieId);
             if (movie != null) {
                 model.addAttribute("title", movie.getMovie_title());
@@ -99,22 +106,32 @@ public class MovieController {
                 model.addAttribute("posterUrl", movie.getPoster_url());
                 model.addAttribute("movieId", movieId);
                 model.addAttribute("trailerUrl", movie.getTrailer_url());
-
-                List<ReviewDTO> reviewList;
-                if ("totalAudience".equals(sort)) {
-                    reviewList = reviewDao.getReviewsByMovieIdSortedByRating(movieId);
-                } else {
-                    reviewList = reviewDao.getReviewsByMovieIdSortedByDate(movieId);
-                }
-
-                model.addAttribute("reviewCount", reviewList.size());
-                model.addAttribute("reviewList", reviewList);
+                model.addAttribute("totalAudience", movie.getTotal_audience());
+                model.addAttribute("ageRating", movie.getAge_rating());
             }
+
+            // 리뷰 목록을 페이징 및 정렬 기준에 따라 가져와서 모델에 추가
+            List<ReviewDTO> reviewList;
+            if ("rating".equals(sort)) {
+                reviewList = reviewDao.getReviewsByMovieIdSortedByRatingPaged(movieId, offset, pageSize);
+            } else {
+                reviewList = reviewDao.getReviewsByMovieIdSortedByDatePaged(movieId, offset, pageSize);
+            }
+
+            int totalReviews = reviewDao.getTotalReviewCountByMovieId(movieId);
+            int totalPages = (int) Math.ceil((double) totalReviews / pageSize);
+
+            model.addAttribute("reviewCount", totalReviews);
+            model.addAttribute("reviewList", reviewList);
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", totalPages);
+            model.addAttribute("movieId", movieId);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return "movie/moviedetail_review";
     }
+
 
     @GetMapping("/trailer")
     public String showTrailer(@RequestParam("id") String movieId, Model model) {
@@ -134,7 +151,6 @@ public class MovieController {
         return "movie/trailer_url";
     }
 
-
     @GetMapping("/write")
     public String showMovieWriteForm(@RequestParam(value = "category", required = false) String category, Model model) {
         if (category == null || category.isEmpty()) {
@@ -150,6 +166,8 @@ public class MovieController {
                                 @RequestParam("description") String description,
                                 @RequestParam("poster") MultipartFile posterFile,
                                 @RequestParam("trailerUrl") String trailerUrl,
+                                @RequestParam("age_rating") String ageRating,
+                                @RequestParam("genre") String genre,
                                 Model model,
                                 HttpServletRequest req) {
         ServletContext application = req.getServletContext();
@@ -164,6 +182,8 @@ public class MovieController {
             movie.setMovie_title(movieTitle);
             movie.setRelease_date(releaseDate);
             movie.setDescription(description);
+            movie.setAge_rating(ageRating); // 연령 등급 설정
+            movie.setGenre(genre); // 장르 설정
 
             if (!posterFile.isEmpty()) {
                 String originalFilename = posterFile.getOriginalFilename();
@@ -189,7 +209,7 @@ public class MovieController {
         }
     }
 
- // 영화 수정 페이지
+    // 영화 수정 페이지
     @GetMapping("/edit")
     public String showEditForm(@RequestParam("id") String movieId, Model model) {
         MovieDTO movie = movieDao.getMovieById(movieId);
@@ -200,8 +220,7 @@ public class MovieController {
         return "movie/edit";
     }
 
-
- // 영화 수정 처리
+    // 영화 수정 처리
     @PostMapping("/update")
     public String updateMovie(@ModelAttribute MovieDTO movie,
                               @RequestParam("poster") MultipartFile posterFile,
@@ -233,8 +252,6 @@ public class MovieController {
             return "movie/edit";
         }
     }
-
-
 
     // 영화 삭제 처리
     @PostMapping("/delete")

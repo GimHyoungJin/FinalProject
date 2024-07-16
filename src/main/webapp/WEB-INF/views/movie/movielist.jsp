@@ -22,7 +22,7 @@
        <div id="admin-button-container" style="display: none;">
        <a href="<c:url value='/movie/write' />" class="btn btn-primary">영화등록</a>
        </div>
-   	</div>
+    </div>
 
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
         <div class="container-fluid">
@@ -50,7 +50,26 @@
                             <img src="${movie.poster_url}" class="card-img-top" alt="${movie.movie_title}">
                         </a>
                         <div class="card-body">
-                            <h5 class="card-title">${movie.movie_title}</h5>
+                            <h5 class="card-title d-flex align-items-center">
+                                <c:choose>
+                                    <c:when test="${movie.age_rating == '전체이용가'}">
+                                        <img src="/images/logo/ageall.png" alt="연령 등급" style="width: 20px; height: 20px; margin-right: 5px;">
+                                    </c:when>
+                                    <c:when test="${movie.age_rating == '12세 이용가'}">
+                                        <img src="/images/logo/age12.png" alt="연령 등급" style="width: 20px; height: 20px; margin-right: 5px;">
+                                    </c:when>
+                                    <c:when test="${movie.age_rating == '15세 이용가'}">
+                                        <img src="/images/logo/age15.png" alt="연령 등급" style="width: 20px; height: 20px; margin-right: 5px;">
+                                    </c:when>
+                                    <c:when test="${movie.age_rating == '청소년 관람불가'}">
+                                        <img src="/images/logo/age19.png" alt="연령 등급" style="width: 20px; height: 20px; margin-right: 5px;">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span>연령 등급 정보 없음</span>
+                                    </c:otherwise>
+                                </c:choose>
+                                ${movie.movie_title}
+                            </h5>
                             <p class="card-text">개봉일 ${movie.release_date}</p>
                             <a href="<c:url value='/reservation/movieBooking?id=${movie.movie_id}' />" class="btn btn-primary btn-block mb-4">예매</a>
                         </div>
