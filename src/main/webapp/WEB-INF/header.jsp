@@ -98,9 +98,10 @@
                             <h6>고객센터</h6>
                             <ul class="list-unstyled">
                                 <li><a id="support-home-link" href="<c:url value='/customer/home' />">고객센터 홈</a></li>
-                                <li><a id="lost-items-link" href="<c:url value='/customer/lost' />">분실물 문의</a></li>
-                                <li><a id="notices-link" href="<c:url value='/customer/notice' />">공지사항</a></li>
-                                <li><a id="inquiry-link" href="<c:url value='/customer/inquiry' />">1:1문의</a></li>
+                                <li><a id="lost-items-link" href="<c:url value='/customer/lostItemList' />">분실물 문의</a></li>
+                                <li><a id="notices-link" href="<c:url value='/customer/noticeList' />">공지사항</a></li>
+                                <li><a id="inquiry-link" href="<c:url value='/customer/inquiryForm' />">1:1문의</a></li>
+                                <li><a id="inquiry-link" href="<c:url value='/customer/terms' />">이용약관</a></li>
                             </ul>
                         </div>
                         <div id="mypage-column" class="col-md-3">
