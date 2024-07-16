@@ -34,6 +34,7 @@ $(document).ready(function() {
     
 });
 
+/*
  function getTheaters(region_id) {
 	    $.ajax({
 	        url: '/reservation/booking/theater',
@@ -55,3 +56,4 @@ $(document).ready(function() {
 	        }
 	    }); // ajax end   
     }
+*/
