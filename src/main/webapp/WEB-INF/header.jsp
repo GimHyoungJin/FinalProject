@@ -102,6 +102,7 @@
                                 <li><a id="notices-link" href="<c:url value='/customer/noticeList' />">공지사항</a></li>
                                 <li><a id="inquiry-link" href="<c:url value='/customer/inquiryForm' />">1:1문의</a></li>
                                 <li><a id="inquiry-link" href="<c:url value='/customer/terms' />">이용약관</a></li>
+                                <li><a id="admin-link" href="<c:url value='/admin/members' />" onclick="checkLogin(event)"> 관리자 페이지</a></li>
                             </ul>
                         </div>
                         <div id="mypage-column" class="col-md-3">

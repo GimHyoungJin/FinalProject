@@ -1,27 +1,42 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.movio.admin.AdminDAO">
 
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="admin">
     <select id="getAllMembers" resultType="kr.co.movio.admin.AdminDTO">
         SELECT 
-            id,
-            name,
+            mem_id AS id,
+            username AS name,
             email,
-            registration_date AS registrationDate,
-            status,
+            regdate AS joinDate,
+            passwd AS password,
             phone,
-            birth_date AS birthDate,
+            birth AS birthDate,
             gender,
-            address,
-            is_active AS isActive,
-            is_admin AS isAdmin,
-            user_level AS userLevel,
-            password
-        FROM members
+            CONCAT(address1, ' ', address2) AS address,
+            sms_agree AS smsOptIn,
+            email_agree AS emailOptIn,
+            mem_grade AS grade
+        FROM member
     </select>
-    <update id="updateMemberStatus" parameterType="map">
-        UPDATE members
-        SET status = #{status}
-        WHERE id = #{memberId}
-    </update>
+    
+    <select id="selectMemberByUsername" parameterType="String" resultType="kr.co.movio.admin.AdminDTO">
+        SELECT 
+            mem_id AS id,
+            username AS name,
+            email,
+            regdate AS joinDate,
+            passwd AS password,
+            phone,
+            birth AS birthDate,
+            gender,
+            CONCAT(address1, ' ', address2) AS address,
+            sms_agree AS smsOptIn,
+            email_agree AS emailOptIn,
+            mem_grade AS grade
+        FROM member
+        WHERE username = #{username}
+    </select>
+
 </mapper>

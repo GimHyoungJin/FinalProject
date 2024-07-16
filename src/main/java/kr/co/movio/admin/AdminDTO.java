@@ -1,43 +1,28 @@
 package kr.co.movio.admin;
 
 public class AdminDTO {
-    private int id;
+    private String id;
     private String name;
     private String email;
     private String joinDate;
-    private String status;
+    private String password;
     private String phone;
-    private String birth;
+    private String birthDate;
     private String gender;
     private String address;
     private boolean smsOptIn;
     private boolean emailOptIn;
     private int grade;
-    private String password; // 추가된 속성
 
-    // 생성자
-    public AdminDTO(int id, String name, String email, String joinDate, String status, String phone, String birth, String gender, String address, boolean smsOptIn, boolean emailOptIn, int grade, String password) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.joinDate = joinDate;
-        this.status = status;
-        this.phone = phone;
-        this.birth = birth;
-        this.gender = gender;
-        this.address = address;
-        this.smsOptIn = smsOptIn;
-        this.emailOptIn = emailOptIn;
-        this.grade = grade;
-        this.password = password;
-    }
+    // 기본 생성자
+    public AdminDTO() {}
 
     // Getter와 Setter
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -65,12 +50,12 @@ public class AdminDTO {
         this.joinDate = joinDate;
     }
 
-    public String getStatus() {
-        return status;
+    public String getPassword() {
+        return password;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getPhone() {
@@ -81,12 +66,12 @@ public class AdminDTO {
         this.phone = phone;
     }
 
-    public String getBirth() {
-        return birth;
+    public String getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirth(String birth) {
-        this.birth = birth;
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
     }
 
     public String getGender() {
@@ -129,11 +114,21 @@ public class AdminDTO {
         this.grade = grade;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    @Override
+    public String toString() {
+        return "AdminDTO{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", joinDate='" + joinDate + '\'' +
+                ", password='" + password + '\'' +
+                ", phone='" + phone + '\'' +
+                ", birthDate='" + birthDate + '\'' +
+                ", gender='" + gender + '\'' +
+                ", address='" + address + '\'' +
+                ", smsOptIn=" + smsOptIn +
+                ", emailOptIn=" + emailOptIn +
+                ", grade=" + grade +
+                '}';
     }
 }
