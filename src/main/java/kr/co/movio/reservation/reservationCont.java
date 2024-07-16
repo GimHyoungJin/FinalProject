@@ -59,6 +59,7 @@ public class reservationCont {
     	ModelAndView mav = new ModelAndView();    	
     	mav.setViewName("reservation/booking");
     	mav.addObject("regions", theaterDao.getAllRegions());
+    	mav.addObject("regionCounts", theaterDao.RegionsTheaterCounts() );
     	mav.addObject("movies", movieDao.getMovies());
         return mav;
     }//end

@@ -34,12 +34,20 @@
 		        <h5>극장</h5>
 		    </div>
 		    <div id="region-theater-lists">
-		        <ul id="region-theater-list">
-		        	<!-- 지역 부분이 이곳에 추가 -->
-		            <c:forEach var="region" items="${regions}">
-		                <li class="region-item" data-region="${region.region_id}">${region.region_name}</li>
-		            </c:forEach>
-		        </ul>
+		       <ul id="region-theater-list">
+                    <!-- 지역 부분이 이곳에 추가 -->
+                    <c:forEach var="region" items="${regions}">
+                        <c:set var="theaterCount" value="0" />
+                        <c:forEach var="count" items="${regionCounts}">
+                            <c:if test="${region.region_id == count.region_id}">
+                                <c:set var="theaterCount" value="${count.theater_count}" />
+                            </c:if>
+                        </c:forEach>
+                        <li class="region-item" data-region="${region.region_id}">
+                            ${region.region_name} (${theaterCount})
+                        </li>
+                    </c:forEach>
+                </ul>
 		        <ul id="theaters">
 		            <!-- 극장 리스트 항목이 이곳에 추가됨 -->
 		        </ul>

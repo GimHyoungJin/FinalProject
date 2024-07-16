@@ -32,9 +32,14 @@ public class TheaterDAO {
 		return sqlSession.selectList("kr.co.movio.theater.TheaterDAO.getAllRegions");
 	}//list end
 	
-	//극장 지역이름 가져오기
+	//지역에 맞는 극장 이름 가져오기
 	public List<Map<String, Object>> getTheaters(String region_id){
 		return sqlSession.selectList("kr.co.movio.theater.TheaterDAO.getTheaters", region_id);
 		
+	}//list end
+	
+	//각 지역별로 몇개의 지점이 있는지 카운팅하여 데이터를 가져옴
+	public List<Map<String, Object>> RegionsTheaterCounts(){
+		return sqlSession.selectList("kr.co.movio.theater.TheaterDAO.RegionsTheaterCounts");
 	}//list end
 }
