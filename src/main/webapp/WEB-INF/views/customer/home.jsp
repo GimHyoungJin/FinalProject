@@ -6,14 +6,14 @@
 <head>
   <title>고객센터 홈</title>
   <meta charset="utf-8">
-  <!-- 공통 자바스크립트와 CSS 파일들 포함 시작 -->
+  <!-- 공통 시작 -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="<c:url value='/css/header.css' />" rel="stylesheet" type="text/css">
   <link href="<c:url value='/css/footer.css' />" rel="stylesheet" type="text/css">
   <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"></script>
-  <!-- 공통 자바스크립트와 CSS 파일들 포함 끝 -->
+  <!-- 공통 끝 -->
   
   <!-- 고객센터 전용 CSS 파일들 포함 시작 -->
   <link href="<c:url value='/css/customer/home.css' />" rel="stylesheet" type="text/css">

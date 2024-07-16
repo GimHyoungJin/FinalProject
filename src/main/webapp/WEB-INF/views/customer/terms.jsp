@@ -21,19 +21,29 @@
 </head>
 <body>
 	<%@ include file="../../header.jsp"%>
-
+	<!-- 사이드바 포함 부분 -->
 	<div id="container">
-		<div class="row">
-			<div id="sidebar">
-				<%@ include file="customer_sidebar.jsp"%>
-			</div>
-			<div id="terms-content" class="col-md-9">
-				<div class="terms-wrapper">
-					<h1 class="text-center">이용약관</h1>
-
-					<div id="terms-list" class="terms-list mb-4 text-center">
-    <div class="column">
-        <ul class="nav flex-column">
+  <!-- row 클래스를 이용하여 행을 생성 -->
+  <div class="row">
+    <!-- 사이드바를 포함하는 div 요소 -->
+    <div id="sidebar">
+      <%@ include file="customer_sidebar.jsp"%>
+      <!-- customer_sidebar.jsp 파일을 포함하여 사이드바를 로드 -->
+    </div>
+    <!-- 이용약관 내용을 포함하는 div 요소 -->
+    <div id="terms-content" class="col-md-9">
+      <!-- col-md-9 클래스를 이용하여 Bootstrap 그리드 시스템에서 9개의 컬럼을 차지 -->
+      <!-- terms-wrapper 클래스의 div 요소로 약관 내용 감싸기 -->
+      <div class="terms-wrapper">
+        <!-- 중앙 정렬된 제목을 표시 -->
+        <h1 class="text-center">이용약관</h1>
+        <!-- 약관 항목 리스트를 포함하는 div 요소 -->
+        <div id="terms-list" class="terms-list mb-4 text-center">
+          <!-- mb-4 클래스를 이용하여 하단 마진을 추가, text-center 클래스를 이용하여 텍스트 중앙 정렬 -->
+          <!-- 첫 번째 컬럼을 포함하는 div 요소 -->
+          <div class="column">
+            <!-- nav flex-column 클래스를 이용하여 세로 방향 네비게이션 메뉴 생성 -->
+            <ul class="nav flex-column">
             <li class="nav-item"><a class="nav-link" href="#article1">제1조. 목적</a></li>
             <li class="nav-item"><a class="nav-link" href="#article2">제2조. 약관의 효력 및 변경</a></li>
             <li class="nav-item"><a class="nav-link" href="#article3">제3조. 약관의 준수</a></li>

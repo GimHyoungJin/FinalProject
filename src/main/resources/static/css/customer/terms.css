@@ -1,10 +1,17 @@
+@import url('customer_sidebar.css');
+
+/* 전체 컨테이너 스타일 */
+#container {
+    display: flex;
+    flex-direction: row;
+}
+
 /* 이용약관 페이지의 컨테이너 스타일 */
 .terms-container {
-    max-width: 750px; /* 최대 너비를 750px로 설정 */
-    margin: 50px auto; /* 상하 50px 마진, 좌우 중앙 정렬 */
-    padding: 10px; /* 내부 패딩 10px 설정 */
+    margin-left: 220px;
+    width: calc(100% - 240px); /* 최대 너비를 750px로 설정 */
+    padding: 20px; /* 내부 패딩 20px 설정 */
     background-color: #c0c0c0; /* 배경색 설정 */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 연한 그림자 효과 */
 }
 
 /* 이용약관 목록의 스타일 */
@@ -55,95 +62,24 @@
     margin: 8px 0; /* 상하 마진 8px 설정 */
 }
 
-/* 이용약관 내용의 스타일 */
-.terms-content {
-    margin-top: 5px; /* 상단 마진 5px 설정 */
-    max-height: 400px; /* 최대 높이 400px 설정 */
+/* 이용약관 내용을 감싸는 박스 스타일 */
+.article-box {
+    border: 1px solid #000; /* 박스의 테두리를 검은색(#000)으로 1픽셀 두께로 설정합니다. */
+    padding: 20px; /* 박스 안의 내용물과 테두리 사이에 20픽셀의 여백을 줍니다. */
+    background-color: #ffffff; /* 박스의 배경색을 흰색(#ffffff)으로 설정합니다. */
+    border-radius: 5px; /* 박스의 모서리를 둥글게 만들어서 반지름을 5픽셀로 설정합니다. */
+    max-height: 600px; /* 최대 높이 600px */
     overflow-y: auto; /* 세로 스크롤바 추가 */
-    padding: 5px; /* 내부 패딩 5px 설정 */
-    border: 1px solid #ccc; /* 연한 회색 테두리 설정 */
-    border-radius: 5px; /* 테두리 둥글게 설정 */
 }
 
 /* 이용약관 각 조항의 제목 스타일 */
 .terms-content h2 {
-    font-size: 13px; /* 글씨 크기 13px 설정 */
+    font-size: 1.2rem; /* 글씨 크기 13px 설정 */
     margin-top: 20px; /* 상단 마진 20px 설정 */
 }
 
 /* 이용약관 각 조항의 본문 스타일 */
-.terms-content p {
-    font-size: 14px; /* 글씨 크기 14px 설정 */
+.terms-content p, .terms-content ol {
+    font-size: 1rem; /* 글씨 크기 14px 설정 */
     line-height: 1.6; /* 줄 간격 1.6 설정 */
-}
-
-/* 사이드바 스타일 */
-#sidebar {
-    width: 200px; /* 사이드바 너비 200px 설정 */
-    font-family: Arial, sans-serif; /* 폰트 설정 */
-    background-color: #c0c0c0; /* 배경색 설정 */
-    padding: 0; /* 패딩 제거 */
-    border-radius: 10px; /* 테두리 둥글게 설정 */
-    position: fixed; /* 스크롤해도 고정 위치 유지 */
-    left: 10px; /* 왼쪽에서 10px 떨어지게 설정 */
-    top: 130px; /* 위에서 130px 떨어지게 설정 */
-    bottom: 130px; /* 아래에서 130px 떨어지게 설정 */
-    overflow-y: auto; /* 세로 스크롤바 추가 */
-}
-
-/* 사이드바 상단 영역 스타일 */
-#sidebar-top {
-    background-color: #6C3483; /* 상단 배경색 보라색 설정 */
-    padding: 20px; /* 내부 패딩 20px 설정 */
-    text-align: center; /* 텍스트 중앙 정렬 */
-    border-top-left-radius: 10px; /* 상단 좌측 테두리 둥글게 설정 */
-    border-top-right-radius: 10px; /* 상단 우측 테두리 둥글게 설정 */
-}
-
-/* 사이드바 상단 제목 스타일 */
-#sidebar-top h2 {
-    color: white; /* 글씨 색 흰색 설정 */
-    margin: 0; /* 기본 마진 제거 */
-    font-size: 20px; /* 글씨 크기 20px 설정 */
-}
-
-/* 사이드바 메뉴 스타일 */
-#sidebar-menu {
-    list-style: none; /* 리스트 스타일 제거 */
-    padding: 0; /* 기본 패딩 제거 */
-    margin: 0; /* 기본 마진 제거 */
-}
-
-/* 사이드바 메뉴 아이템 스타일 */
-#sidebar-menu .sidebar-item {
-    margin: 0; /* 기본 마진 제거 */
-}
-
-/* 사이드바 메뉴 링크 스타일 */
-#sidebar-menu .sidebar-item a {
-    color: black; /* 링크 색상을 검정색으로 설정 */
-    text-decoration: none; /* 링크 밑줄 제거 */
-    display: block; /* 블록 요소로 설정하여 전체 영역 클릭 가능 */
-    padding: 10px 20px; /* 내부 패딩 설정 */
-}
-
-/* 사이드바 메뉴 링크 호버 및 활성화 상태 스타일 */
-#sidebar-menu .sidebar-item a:hover, #sidebar-menu .sidebar-item a.active {
-    background-color: #ffffff; /* 배경색 흰색 설정 */
-}
-
-/* 사이드바 하단 정보 영역 스타일 */
-.center-info {
-    margin-top: 30px; /* 상단 마진 30px 설정 */
-    background-color: #6C3483; /* 배경색 보라색 설정 */
-    color: white; /* 글씨 색 흰색 설정 */
-    padding: 10px; /* 내부 패딩 10px 설정 */
-    border-bottom-left-radius: 10px; /* 하단 좌측 테두리 둥글게 설정 */
-    border-bottom-right-radius: 10px; /* 하단 우측 테두리 둥글게 설정 */
-    text-align: center; /* 텍스트 중앙 정렬 */
-}
-
-/* 사이드바 하단 정보 텍스트 스타일 */
-.center-info p {
-    margin: 5px 0; /* 상하 마진 5px 설정 */
 }

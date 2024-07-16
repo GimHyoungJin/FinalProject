@@ -13,7 +13,7 @@
   position: sticky; /* 스크롤 시 고정 위치를 유지하여 항상 화면에 표시되도록 함 */
   left: 0; /* 화면의 왼쪽에 고정 */
   top: 0; /* 화면의 상단에 고정 */
-  width: 250px; /* 너비를 250px로 설정 */
+  width: 200px; /* 너비를 200px로 설정 */
   height: 100vh; /* 높이를 화면 전체 높이로 설정 */
   background: #c0c0c0; /* 배경색을 회색으로 설정 */
   overflow-x: hidden; /* 수평 스크롤바를 숨김 */
