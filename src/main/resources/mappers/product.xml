@@ -81,4 +81,10 @@
     <select id="getProCodeByDetailCode" parameterType="String" resultType="String">
         SELECT pro_code FROM product WHERE pro_detail_code = #{pro_detail_code}
     </select>
+    
+    <update id="updateProductStock" parameterType="kr.co.movio.product.ProductDTO">
+        UPDATE product
+        SET pro_stock = #{pro_stock}
+        WHERE pro_detail_code = #{pro_detail_code}
+    </update>
 </mapper>

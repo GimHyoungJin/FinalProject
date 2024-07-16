@@ -1,15 +1,10 @@
 package kr.co.movio.order;
 
 public class OrderDTO {
-	
-    private String order_no;  
-    private String mem_id;    
-    private int order_total;  
-    private String payment;
-    private String deliverynm;
-    private String deliveryaddr;
-    private String deliverymsg;
-    private String order_state;
+    private String order_no;
+    private String mem_id;
+    private int order_total;
+    private String order_state; // 주문 상태
 
     // Getters and Setters
     public String getOrder_no() {
@@ -34,38 +29,6 @@ public class OrderDTO {
 
     public void setOrder_total(int order_total) {
         this.order_total = order_total;
-    }
-
-    public String getPayment() {
-        return payment;
-    }
-
-    public void setPayment(String payment) {
-        this.payment = payment;
-    }
-
-    public String getDeliverynm() {
-        return deliverynm;
-    }
-
-    public void setDeliverynm(String deliverynm) {
-        this.deliverynm = deliverynm;
-    }
-
-    public String getDeliveryaddr() {
-        return deliveryaddr;
-    }
-
-    public void setDeliveryaddr(String deliveryaddr) {
-        this.deliveryaddr = deliveryaddr;
-    }
-
-    public String getDeliverymsg() {
-        return deliverymsg;
-    }
-
-    public void setDeliverymsg(String deliverymsg) {
-        this.deliverymsg = deliverymsg;
     }
 
     public String getOrder_state() {

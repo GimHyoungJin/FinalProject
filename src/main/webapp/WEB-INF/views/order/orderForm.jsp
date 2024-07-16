@@ -77,7 +77,7 @@
 			</tr>
 			<tr>
 				<th>받는번호</th>
-				<td><input type="text" name="deliveryaddr" id="deliveryaddr" class="form-control" required></td>
+				<td><input type="text" name="deliverypnum" id="deliverypnum" class="form-control" required></td>
 			</tr>
 			<tr>
 				<th>결제구분</th>

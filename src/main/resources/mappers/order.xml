@@ -4,22 +4,22 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.movio.order.OrderMapper">
 
-	<select id="totalamount" parameterType="string" resultType="int">
-	    SELECT SUM(order_amount) FROM orders WHERE s_id = #{s_id}
-	</select>
+    <select id="totalamount" resultType="java.lang.Integer">
+        SELECT SUM(order_total) FROM orders WHERE mem_id = #{mem_id}
+    </select>
 
     <insert id="orderInsert" parameterType="kr.co.movio.order.OrderDTO">
-        INSERT INTO orders (order_no, s_id, order_date, total_amount)
-        VALUES (#{order_no}, #{s_id}, #{order_date}, #{total_amount})
+        INSERT INTO orders (order_no, mem_id, order_total, order_state, order_date)
+        VALUES (#{order_no}, #{mem_id}, #{order_total}, #{order_state}, CURRENT_TIMESTAMP)
     </insert>
 
     <insert id="orderdetailInsert" parameterType="map">
-        INSERT INTO orderdetail (order_no, pro_detail_code, order_detail_amount)
-        VALUES (#{order_no}, #{pro_detail_code}, #{order_detail_amount})
+        INSERT INTO orderdetail (order_no, pro_detail_code, order_detail_amount, order_detail_price)
+        VALUES (#{order_no}, #{pro_detail_code}, #{order_detail_amount}, #{order_detail_price})
     </insert>
 
     <delete id="cartDelete" parameterType="string">
-        DELETE FROM cart WHERE s_id = #{s_id}
+        DELETE FROM cart WHERE mem_id = #{mem_id}
     </delete>
 
     <select id="orderDesc" resultType="hashmap" parameterType="string">
