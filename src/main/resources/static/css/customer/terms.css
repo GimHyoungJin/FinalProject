@@ -14,18 +14,20 @@
     justify-content: space-between; /* 열 사이의 공간을 균등하게 배분 */
 }
 
-/* 새로운 컬럼 스타일 */
+/* 이용약관 목록의 컬럼 스타일 */
 .terms-list .column {
     flex: 1; /* 동일한 비율로 공간을 차지 */
     padding: 0 10px; /* 좌우 패딩 설정 */
 }
 
+/* 이용약관 목록의 리스트 스타일 */
 .terms-list ul {
     list-style-type: none; /* 리스트 아이템 앞에 기본 마커 제거 */
     padding: 0; /* 기본 패딩 제거 */
     margin: 0; /* 기본 마진 제거 */
 }
 
+/* 이용약관 목록의 리스트 아이템 스타일 */
 .terms-list li {
     margin: 8px 0; /* 상하 마진 8px 설정 */
 }
@@ -42,12 +44,13 @@
     text-decoration: underline; /* 링크에 마우스를 올리면 밑줄 표시 */
 }
 
-/* 초록색 박스를 줄이고 텍스트만 클릭해서 이동하도록 설정 */
+/* 링크 클릭 가능 영역을 줄이기 위해 인라인 요소로 설정 */
 .terms-list a.nav-link {
     padding: 0; /* 링크의 내부 패딩 제거 */
     display: inline; /* 인라인 요소로 설정하여 텍스트만 클릭 가능하게 함 */
 }
 
+/* 이용약관 목록의 리스트 아이템 스타일 */
 .terms-list li.nav-item {
     margin: 8px 0; /* 상하 마진 8px 설정 */
 }
