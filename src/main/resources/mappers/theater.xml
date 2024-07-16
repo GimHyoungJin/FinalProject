@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.movio.theater.TheaterDAO">
+
+    <!-- 모든 극장 정보를 가져오는 쿼리 -->
+    <select id="getAllTheaters" resultType="kr.co.movio.theater.TheaterDTO">
+        SELECT * FROM theater
+    </select>
+
+    <!-- 특정 극장 정보를 가져오는 쿼리 -->
+    <select id="getTheaterById" parameterType="String" resultType="kr.co.movio.theater.TheaterDTO">
+        SELECT * FROM theater WHERE theater_id = #{theater_id}
+    </select>
+
+    <!-- 특정 극장의 상세 정보를 가져오는 쿼리 -->
+    <select id="getTheaterInfoByTheaterId" parameterType="String" resultType="kr.co.movio.theater.TheaterInfoDTO">
+        SELECT theater_id AS theaterId, info_type AS infoType, info_content AS infoContent 
+        FROM theater_info 
+        WHERE theater_id = #{theater_id}
+    </select>
+
+</mapper>
+

@@ -53,7 +53,7 @@
                   <tr>
                     <c:forEach var="theater" items="${theaterList}">
                       <c:if test="${theater.region_id == 'seoul'}">
-                        <td><a href="<c:url value='/theater/detail?no=${theater.theater_id}' />">${theater.theater_name}</a></td>
+                        <td><a href="<c:url value='/theater/detail?id=${theater.theater_id}' />">${theater.theater_name}</a></td> <!-- 여기서 no를 id로 변경 -->
                         <c:set var="columnCount" value="${columnCount + 1}" />
                         <c:if test="${columnCount % 4 == 0}">
                           </tr><tr>
@@ -79,7 +79,7 @@
                   <tr>
                     <c:forEach var="theater" items="${theaterList}">
                       <c:if test="${theater.region_id == 'gyeonggi'}">
-                        <td><a href="<c:url value='/theater/detail?no=${theater.theater_id}' />">${theater.theater_name}</a></td>
+                        <td><a href="<c:url value='/theater/detail?id=${theater.theater_id}' />">${theater.theater_name}</a></td> <!-- 여기서 no를 id로 변경 -->
                         <c:set var="columnCount" value="${columnCount + 1}" />
                         <c:if test="${columnCount % 4 == 0}">
                           </tr><tr>
@@ -105,7 +105,7 @@
                   <tr>
                     <c:forEach var="theater" items="${theaterList}">
                       <c:if test="${theater.region_id == 'incheon'}">
-                        <td><a href="<c:url value='/theater/detail?no=${theater.theater_id}' />">${theater.theater_name}</a></td>
+                        <td><a href="<c:url value='/theater/detail?id=${theater.theater_id}' />">${theater.theater_name}</a></td> <!-- 여기서 no를 id로 변경 -->
                         <c:set var="columnCount" value="${columnCount + 1}" />
                         <c:if test="${columnCount % 4 == 0}">
                           </tr><tr>
@@ -131,7 +131,7 @@
                   <tr>
                     <c:forEach var="theater" items="${theaterList}">
                       <c:if test="${theater.region_id == 'gangwon'}">
-                        <td><a href="<c:url value='/theater/detail?no=${theater.theater_id}' />">${theater.theater_name}</a></td>
+                        <td><a href="<c:url value='/theater/detail?id=${theater.theater_id}' />">${theater.theater_name}</a></td> <!-- 여기서 no를 id로 변경 -->
                         <c:set var="columnCount" value="${columnCount + 1}" />
                         <c:if test="${columnCount % 4 == 0}">
                           </tr><tr>
@@ -157,7 +157,7 @@
                   <tr>
                     <c:forEach var="theater" items="${theaterList}">
                       <c:if test="${theater.region_id == 'daejeon_chungcheong'}">
-                        <td><a href="<c:url value='/theater/detail?no=${theater.theater_id}' />">${theater.theater_name}</a></td>
+                        <td><a href="<c:url value='/theater/detail?id=${theater.theater_id}' />">${theater.theater_name}</a></td> <!-- 여기서 no를 id로 변경 -->
                         <c:set var="columnCount" value="${columnCount + 1}" />
                         <c:if test="${columnCount % 4 == 0}">
                           </tr><tr>
@@ -183,7 +183,7 @@
                   <tr>
                     <c:forEach var="theater" items="${theaterList}">
                       <c:if test="${theater.region_id == 'busan_daegu'}">
-                        <td><a href="<c:url value='/theater/detail?no=${theater.theater_id}' />">${theater.theater_name}</a></td>
+                        <td><a href="<c:url value='/theater/detail?id=${theater.theater_id}' />">${theater.theater_name}</a></td> <!-- 여기서 no를 id로 변경 -->
                         <c:set var="columnCount" value="${columnCount + 1}" />
                         <c:if test="${columnCount % 4 == 0}">
                           </tr><tr>
@@ -209,7 +209,7 @@
                   <tr>
                     <c:forEach var="theater" items="${theaterList}">
                       <c:if test="${theater.region_id == 'gwangju_jeolla'}">
-                        <td><a href="<c:url value='/theater/detail?no=${theater.theater_id}' />">${theater.theater_name}</a></td>
+                        <td><a href="<c:url value='/theater/detail?id=${theater.theater_id}' />">${theater.theater_name}</a></td> <!-- 여기서 no를 id로 변경 -->
                         <c:set var="columnCount" value="${columnCount + 1}" />
                         <c:if test="${columnCount % 4 == 0}">
                           </tr><tr>
@@ -232,8 +232,7 @@
 
   <br><br><br><br><br>
   <div class="container mt-4">
-  <h5>극장 공지사항</h5>
-  <h7>공지사항은 준용님 공지사항 완성되면 소스코드 받아서 할교</h7>
+
   </div>
   
   <%@ include file="/WEB-INF/footer.jsp" %>

@@ -1,16 +1,16 @@
 package kr.co.movio.theater;
 
 public class TheaterInfoDTO {
-    private int theaterId;
+    private String theaterId;
     private String infoType;
     private String infoContent;
 
-    // Getters and Setters
-    public int getTheaterId() {
+    // getters and setters
+    public String getTheaterId() {
         return theaterId;
     }
 
-    public void setTheaterId(int theaterId) {
+    public void setTheaterId(String theaterId) {
         this.theaterId = theaterId;
     }
 

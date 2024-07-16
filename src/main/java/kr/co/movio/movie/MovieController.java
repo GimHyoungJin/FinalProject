@@ -42,20 +42,14 @@ public class MovieController {
     public String movieList(Model model) {
         try {
             List<MovieDTO> movies = movieDao.getMovies();
-            LocalDate today = LocalDate.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-            List<MovieDTO> boxOffice = movies.stream()
-                    .filter(movie -> LocalDate.parse(movie.getRelease_date(), formatter).isBefore(today) || 
-                                      LocalDate.parse(movie.getRelease_date(), formatter).isEqual(today))
-                    .collect(Collectors.toList());
-
-            model.addAttribute("movies", boxOffice);
+            // 모든 영화를 모델에 추가합니다.
+            model.addAttribute("movies", movies);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return "movie/movielist";
     }
+
 
     @GetMapping("/comingsoon")
     public String comingSoon(Model model) {
