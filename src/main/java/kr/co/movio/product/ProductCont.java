@@ -90,6 +90,11 @@ public class ProductCont {
             map.put("pro_stock", Integer.parseInt((String) map.get("pro_stock")));
         }
 
+        // original_price가 없으면 pro_price로 설정
+        if (map.get("original_price") == null || map.get("original_price").equals("")) {
+            map.put("original_price", Integer.parseInt((String) map.get("pro_price")));
+        }
+
         productService.insert(map);
 
         return "redirect:/product/listByProCode?pro_code=" + proCode;
@@ -143,6 +148,12 @@ public class ProductCont {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // original_price가 없으면 pro_price로 설정
+        if (params.get("original_price") == null || params.get("original_price").equals("")) {
+            params.put("original_price", params.get("pro_price"));
+        }
+
         productDao.update(params);
 
         String proCode = (String) params.get("pro_code");

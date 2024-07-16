@@ -27,13 +27,19 @@
       }
     }
 
-    function product_cart() {
-      if (mem_id == null || mem_id === '') {
-        alert("로그인이 필요합니다.");
-      } else {
-        document.productfrm.action = "/cart/insert";
-        document.productfrm.submit();
-      }
+    $(document).ready(function() {
+        // 모달 창을 열기 위한 코드
+        $('#editReviewModal').modal('show');
+    });
+
+    // 로그인 확인 후 폼 제출 함수
+    function checkLoginAndSubmit() {
+        var mem_id = '${sessionScope.mem_id}';
+        if (!mem_id) {
+            $('#loginModal').modal('show'); // 로그인 모달 표시
+        } else {
+            document.getElementById('productfrm').submit(); // 폼 제출
+        }
     }
   </script>
 </head>
@@ -57,9 +63,9 @@
 <div class="container text-center">
   <div class="row">
     <div class="col-sm-12">
-      <p><h3>상품 상세보기 / 상품수정 / 상품삭제</h3></p>
+      <p></p>
       <p>
-        <button type="button" onclick="location.href='/product/listByProCode?pro_code=${product.pro_code}'" class="btn btn-primary">상품전체목록</button>
+        <button type="button" onclick="location.href='/product/listByProCode?pro_code=${product.pro_code}'" class="btn btn-dark">상품전체목록</button>
       </p>
     </div>
   </div>
@@ -112,20 +118,27 @@
 	          </select>
 	        </td>
           </tr>
-          <tr>
-            <td colspan="2" align="center">
-              <input type="submit" value="상품수정" onclick="product_update()" class="btn btn-success">
-              <input type="button" value="상품삭제" onclick="product_delete()" class="btn btn-danger">
-              <input type="button" value="장바구니담기" onclick="product_cart()" class="btn btn-info">
-            </td>
-          </tr>
+				<tr>
+				    <td colspan="2" align="center">
+				        <!-- 관리자일 경우에만 상품수정 버튼 표시 -->
+				        <div id="admin-button-container" style="display: none; margin-bottom: 10px;">
+				            <input type="submit" value="상품수정" onclick="product_update()" class="btn btn-dark">
+				            <input type="button" value="상품삭제" onclick="product_delete()" class="btn btn-dark">
+				        </div>
+				
+				        <!-- 모든 사용자가 장바구니 담기 버튼을 볼 수 있음 -->
+				        <div>
+				            <input type="button" value="장바구니담기" onclick="checkLoginAndSubmit()" class="btn btn-dark">
+				        </div>
+				    </td>
+				</tr>
           </tbody>
         </table>
         <input type="hidden" name="cart_price" value="${product.pro_price}">
       </form>
+     </div>
     </div>
   </div>
-</div>
 
 <%@ include file="../../footer.jsp"%>
 </body>

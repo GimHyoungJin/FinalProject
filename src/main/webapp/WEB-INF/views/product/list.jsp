@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -44,50 +43,54 @@
 <div class="container text-center">
   <div class="row">
     <div class="col-sm-12">
-        <p><h3>상품목록</h3></p>
         <p>
-            <button type="button" class="btn btn-dark" onclick="location.href='write'">상품등록</button>
-            <button type="button" class="btn btn-dark" onclick="location.href='list'">상품전체목록</button>
+			<!-- 관리자일 경우에만 상품등록 버튼 표시 -->
+       		<div id="admin-button-container" style="display: none;">
+			<button type="button" class="btn btn-dark" onclick="location.href='write'">상품등록</button>
         </p>
     </div>
   </div>
-  
-  <div class="row">
-    <div class="col-sm-12">
-        <form method="get" action="search">
-            상품명 : <input type="text" name="product_name" value="${product_name}">
-                   <input type="submit" value="검색" class="btn btn-secondary">
-        </form>
-        <hr>
-    </div>
-  </div>
 </div>
 
-<!-- 상품 목록 출력 -->
 <div class="container mt-3">
     <div class="row">
-		<c:forEach var="product" items="${products}">
-		    <div class="col-sm-4 mb-3">
-		        <c:choose>
-		            <c:when test="${product.pro_photo != null && product.pro_photo != '-'}">
-		                <a href="detail?pro_detail_code=${product.pro_detail_code}">
-		                    <img src="${pageContext.request.contextPath}/storage/${product.pro_photo}" class="img-responsive margin" style="width:100%">
-		                </a>
-		            </c:when>
-		            <c:otherwise>
-		                등록된 사진 없음!!<br>
-		            </c:otherwise>
-		        </c:choose>
-		        <br>상품명 : 
-		        <a href="detail?pro_detail_code=${product.pro_detail_code}">${product.pro_name}</a>
-		        <br>상품가격 : ${product.pro_price}원
-		    </div>
-		</c:forEach>
-
+        <c:forEach var="product" items="${products}">
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                <div class="product-item">
+                    <c:choose>
+                        <c:when test="${product.pro_photo != null && product.pro_photo != '-'}">
+                            <a href="detail?pro_detail_code=${product.pro_detail_code}">
+                                <img src="${pageContext.request.contextPath}/storage/${product.pro_photo}" class="img-responsive margin" style="width:100%">
+                            </a>
+                        </c:when>
+                        <c:otherwise>
+                            등록된 사진 없음!!<br>
+                        </c:otherwise>
+                    </c:choose>
+					<div class="product-info">
+					    <div class="product-name">
+					        ${product.pro_name}
+					    </div>
+					    <div class="product-price">
+					        <c:choose>
+					            <c:when test="${product.original_price != product.pro_price}">
+					                <span style="text-decoration: line-through; color: grey;">${product.original_price}원</span> 
+					                <span style="color: red;">${product.pro_price}원</span>
+					            </c:when>
+					            <c:otherwise>
+					                ${product.pro_price}원
+					            </c:otherwise>
+					        </c:choose>
+					    </div>
+					</div>
+					<div class="product-stock">
+					    ${product.pro_stock}개 남음
+					</div>
+                </div>
+            </div>
+        </c:forEach>
     </div>
 </div>
-
- 
 <!-- 푸터 포함 -->
 <%@ include file="../../footer.jsp" %>
 </body>

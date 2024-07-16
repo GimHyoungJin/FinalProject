@@ -7,6 +7,7 @@ public class ProductDTO {
     private String pro_name;
     private String pro_detail;
     private int pro_price;
+    private int original_price; // 원래 가격 필드 추가
     private String pro_photo;  // 파일 이름 필드
     private long filesize;
     private String category;   // 카테고리 필드 추가
@@ -57,6 +58,14 @@ public class ProductDTO {
         this.pro_price = pro_price;
     }
 
+    public int getOriginal_price() {
+        return original_price;
+    }
+
+    public void setOriginal_price(int original_price) {
+        this.original_price = original_price;
+    }
+
     public String getPro_photo() {
         return pro_photo;
     }
@@ -97,6 +106,7 @@ public class ProductDTO {
                 ", pro_name='" + pro_name + '\'' +
                 ", pro_detail='" + pro_detail + '\'' +
                 ", pro_price=" + pro_price +
+                ", original_price=" + original_price +
                 ", pro_photo='" + pro_photo + '\'' +
                 ", filesize=" + filesize +
                 ", category='" + category + '\'' +

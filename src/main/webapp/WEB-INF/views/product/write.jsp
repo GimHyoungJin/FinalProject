@@ -79,6 +79,10 @@
 						<td>상품가격</td>
 						<td> <input type="number" name="pro_price" class="form-control" required> </td>
 				    </tr>
+				    <tr>
+			            <td>원래 가격</td>
+			            <td> <input type="number" name="original_price" class="form-control"> </td>
+		            </tr>
 					<tr>
 						<td>상품설명</td>
 						<td> 
