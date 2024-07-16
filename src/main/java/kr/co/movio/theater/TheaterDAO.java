@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.Map;
 
 @Repository // 이 클래스가 Spring의 Repository로 인식되도록 표시
 public class TheaterDAO {
@@ -25,4 +26,15 @@ public class TheaterDAO {
     public List<TheaterInfoDTO> getTheaterInfoByTheaterId(String theater_id) {
         return sqlSession.selectList("kr.co.movio.theater.TheaterDAO.getTheaterInfoByTheaterId", theater_id);
     }
+    
+    //지역이름 가져오는 거
+	public List<Map<String, Object>> getAllRegions(){
+		return sqlSession.selectList("kr.co.movio.theater.TheaterDAO.getAllRegions");
+	}//list end
+	
+	//극장 지역이름 가져오기
+	public List<Map<String, Object>> getTheaters(String region_id){
+		return sqlSession.selectList("kr.co.movio.theater.TheaterDAO.getTheaters", region_id);
+		
+	}//list end
 }

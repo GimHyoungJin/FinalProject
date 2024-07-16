@@ -3,6 +3,7 @@ package kr.co.movio.reservation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.movio.movie.MovieDAO;
 import kr.co.movio.movie.MovieDTO;
@@ -27,7 +28,7 @@ public class reservationCont {
 	private TheaterDAO theaterDao;
 	
 	
-    private final Map<String, Boolean> seatStatus = Collections.synchronizedMap(new HashMap<>());
+    private Map<String, Boolean> seatStatus = Collections.synchronizedMap(new HashMap<>());
 
     // 초기 좌석 상태 설정 (예제용)
     public reservationCont() {
@@ -39,16 +40,37 @@ public class reservationCont {
         }
     }
 
+    //region_id Map 형태로 
     // 영화 리스트
+    /*
     @GetMapping("/booking")
     public String reservation(Model model) {
     	List<MovieDTO> movieList = movieDao.getMovies();
-    	//List<TheaterDTO> theaterList = theaterDao.getAllTheaters();
+    	List<TheaterDTO> theaterList = theaterDao.getAllTheaters();
     	
     	model.addAttribute("movies", movieList);
-    	//model.addAttribute("theaters", theaterList);
+    	model.addAttribute("theaters", theaterList);
         return "reservation/booking";
     }
+    */
+    
+    @GetMapping("/booking")
+    public ModelAndView regionlist() {
+    	ModelAndView mav = new ModelAndView();    	
+    	mav.setViewName("reservation/booking");
+    	mav.addObject("regions", theaterDao.getAllRegions());
+    	mav.addObject("movies", movieDao.getMovies());
+        return mav;
+    }//end
+    
+    //각 지역별 지점 영화관 목록 가져오기
+    @GetMapping("/booking/theater")
+    @ResponseBody 
+    public List<Map<String, Object>> theaterlist(@RequestParam("region_id") String region_id) {
+    	//System.out.println("------" + region_id);
+    	return theaterDao.getTheaters(region_id);
+    }//end
+    
     
     // 좌석 예매 페이지
     @GetMapping("/moviebooking")

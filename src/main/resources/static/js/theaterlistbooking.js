@@ -31,4 +31,27 @@ $(document).ready(function() {
             $('#movie-select-message').hide(); // 메시지 숨기기
         }
     });
+    
 });
+
+ function getTheaters(region_id) {
+	    $.ajax({
+	        url: '/reservation/booking/theater',
+	        type: 'get',
+	        data: {region_id: region_id},
+	        error: function(error) {
+	            alert(error);
+	        },
+	        success: function(result) {
+	        	//console.log(result);
+                let a='<ul class="theater-list" id="theater-list-' + region_id + '">';
+                $.each(result, function(key, value){
+                	a += '<li>' + value.theater_name + '</li>';
+                });
+            	a += '</ul>';	  
+            	//alert(a);
+	            $("#theaters").empty();
+	            $("#theaters").html(a);
+	        }
+	    }); // ajax end   
+    }

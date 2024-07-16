@@ -33,10 +33,21 @@
                 <h5>극장</h5>
             </div>
             <ul id="region-theater-list">
-                <c:forEach var="region" items="${regions}">
-                    <li class="region-item" data-region="${region.region_id}" onclick="getTheaters('${region.region_id}')">${region.region_name}</li>
-                </c:forEach> 
-                <div id="theaters"></div>              
+                <%--<c:forEach var="region" items="${regions}">
+                    <li class="region-item" data-region="${region.region_id}">${region.region_name} (${region.theater_count})</li>
+                    <ul class="theater-list" id="theater-list-${region.region_id}" style="display: none;">
+                        <c:forEach var="theater" items="${theaters}">
+                            <c:if test="${theater.region_id == region.region_id}">
+                                <li>${theater.theater_name}</li>
+                            </c:if>
+                        </c:forEach> 
+                    </ul>
+                </c:forEach> --%>
+                <%-- 
+                <c:forEach var="theater" items="${theaters}">
+                    <li>${theater.theater_name}</li>
+                </c:forEach>
+                --%>
             </ul>
         </div>
         <div id="date-list-container">
@@ -74,6 +85,7 @@
         </div>
     </div>
 </div>
+
 <%@ include file="../../footer.jsp" %>
 
 </body>

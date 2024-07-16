@@ -8,8 +8,8 @@
     display: flex; /* 플렉스 박스를 사용하여 자식 요소들을 배치 */
     flex-direction: column; /* 플렉스 방향을 세로로 설정 */
     align-items: center; /* 자식 요소들을 수평 중앙 정렬 */
-    margin-top: 50px; /* 상단에 50px 여백 추가 */
-    margin-bottom: 50px; /* 하단에 50px 여백 추가 */
+    margin-top: 150px; /* 상단에 50px 여백 추가 */
+    margin-bottom: 150px; /* 하단에 50px 여백 추가 */
     background-color: #F7F6EF;
 }
 
