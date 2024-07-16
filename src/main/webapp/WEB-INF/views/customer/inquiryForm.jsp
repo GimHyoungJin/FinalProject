@@ -15,7 +15,7 @@
   <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"></script>
   <!-- 공통 시작 끝 -->
   <link href="<c:url value='/css/inquiry.css' />" rel="stylesheet" type="text/css">
-  <link href="<c:url value='/css/sidebar.css' />" rel="stylesheet" type="text/css">
+  <link href="<c:url value='/css/customer/customer_sidebar.css' />" rel="stylesheet" type="text/css">
   <script src="<c:url value='/js/inquiry.js' />"></script>
 
 </head>

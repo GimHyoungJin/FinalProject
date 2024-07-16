@@ -16,7 +16,7 @@
   <!-- 공통 끝 -->
   
   <link href="<c:url value='/css/customer/home.css' />" rel="stylesheet" type="text/css">
-  <link href="<c:url value='/css/sidebar.css' />" rel="stylesheet" type="text/css">
+  <link href="<c:url value='/css/customer/customer_sidebar.css' />" rel="stylesheet" type="text/css">
     
 </head>
 <body>
