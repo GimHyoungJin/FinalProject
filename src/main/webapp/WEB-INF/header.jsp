@@ -6,6 +6,11 @@
     <div class="container-fluid d-flex justify-content-end">
         <nav class="navbar navbar-expand">
             <ul class="navbar-nav">
+            	<div id="admin-button-container" style="display: none;">
+            	<li class="nav-item">
+                    <a id="admin-link" href="<c:url value='/admin/members' />" class="nav-link small custom-small-font">관리자페이지</a>
+                </li>
+                </div>
                 <li class="nav-item">
                     <a id="login-link" class="nav-link small custom-small-font" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">로그인</a>
                 </li>
@@ -106,7 +111,7 @@
                                 <!-- 관리자 페이지 링크 (관리자 등급 사용자만) -->
                                 <div id="admin-button-container" style="display: none;">
                                     <li class="nav-item">
-                                        <a id="admin-link" href="<c:url value='/admin/members' />" class="nav-link small custom-small-font" onclick="checkLogin(event)">관리자 페이지</a>
+                                        <a id="admin-link" href="<c:url value='/admin/members' />" class="nav-link small custom-small-font">관리자 페이지</a>
                                     </li>
                                	</div>
                             </ul>
