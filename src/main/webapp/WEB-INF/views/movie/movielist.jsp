@@ -11,18 +11,39 @@
     <link href="<c:url value='/css/header.css' />" rel="stylesheet" type="text/css">
     <link href="<c:url value='/css/footer.css' />" rel="stylesheet" type="text/css">
     <link href="<c:url value='/css/movie/movie.css' />" rel="stylesheet" type="text/css">
+    <style>
+        .card-title {
+            white-space: nowrap;
+            overflow: hidden;
+            display: block;
+            max-width: 100%;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const titles = document.querySelectorAll('.card-title span');
+            titles.forEach(title => {
+                const maxWidth = title.parentElement.clientWidth - 1; // 부모 요소의 너비 가져오기 (더 작은 여유 공간)
+                let text = title.textContent;
+                while (title.scrollWidth > maxWidth && text.length > 0) {
+                    text = text.slice(0, -1); // 텍스트 한 글자씩 줄이기
+                    title.textContent = text + '····'; // 생략 기호 추가
+                }
+            });
+        });
+    </script>
 </head>
 <body>
     <%@ include file="../../header.jsp" %>
     
     <!-- 영화 페이지 메인 콘텐츠 -->
-	<div class="container mt-4 d-flex justify-content-between align-items-center">
-	    <h1>박스오피스</h1>
-	    <!-- 관리자만 해당 버튼 보임 -->
-	    <div class="admin-button-container" style="display: none;">
-	        <a href="<c:url value='/movie/write' />" class="btn btn-primary">영화등록</a>
-	    </div>
-	</div>
+    <div class="container mt-4 d-flex justify-content-between align-items-center">
+        <h1>박스오피스</h1>
+        <!-- 관리자만 해당 버튼 보임 -->
+        <div class="admin-button-container" style="display: none;">
+            <a href="<c:url value='/movie/write' />" class="btn btn-primary">영화등록</a>
+        </div>
+    </div>
 
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
         <div class="container-fluid">
@@ -68,7 +89,7 @@
                                         <span>연령 등급 정보 없음</span>
                                     </c:otherwise>
                                 </c:choose>
-                                ${movie.movie_title}
+                                <span>${movie.movie_title}</span>
                             </h5>
                             <p class="card-text">개봉일 ${movie.release_date}</p>
                             <a href="<c:url value='/reservation/movieBooking?id=${movie.movie_id}' />" class="btn btn-primary btn-block mb-4">예매</a>
