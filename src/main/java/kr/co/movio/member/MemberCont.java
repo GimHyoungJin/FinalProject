@@ -413,7 +413,7 @@ public class MemberCont {
         String mem_id = (String) session.getAttribute("mem_id");
         // 로그인 상태 확인
         // 브라우저에서 "/member/status"로 GET 요청을 보내면,
-        // JSON 형태로 {"loggedIn": true, "mem_id": "회원 아이디"} 응답을 받음
+        // JSON 형태로 {"loggedIn": true, "mem_id": "회원 아이디", "isAdmin": true/false} 응답을 받음
         if (mem_id != null) {
             // 관리자 여부 확인
             // "isAdmin" 필드를 추가하여 관리자 여부를 클라이언트에 전달

@@ -16,13 +16,13 @@
     <%@ include file="../../header.jsp" %>
     
     <!-- 영화 페이지 메인 콘텐츠 -->
-    <div class="container mt-4 d-flex justify-content-between align-items-center">
-       <h1>박스오피스</h1>
-       <!-- 관리자만 볼 수 있게 하는 것 해당 로직은 header.js에 들어가 있습니다. -->
-       <div id="admin-button-container" style="display: none;">
-       <a href="<c:url value='/movie/write' />" class="btn btn-primary">영화등록</a>
-       </div>
-    </div>
+	<div class="container mt-4 d-flex justify-content-between align-items-center">
+	    <h1>박스오피스</h1>
+	    <!-- 관리자만 해당 버튼 보임 -->
+	    <div class="admin-button-container" style="display: none;">
+	        <a href="<c:url value='/movie/write' />" class="btn btn-primary">영화등록</a>
+	    </div>
+	</div>
 
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
         <div class="container-fluid">

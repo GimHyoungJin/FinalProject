@@ -121,7 +121,7 @@
 				<tr>
 				    <td colspan="2" align="center">
 				        <!-- 관리자일 경우에만 상품수정 버튼 표시 -->
-				        <div id="admin-button-container" style="display: none; margin-bottom: 10px;">
+				        <div class="admin-button-container" style="display: none; margin-bottom: 10px;">
 				            <input type="submit" value="상품수정" onclick="product_update()" class="btn btn-dark">
 				            <input type="button" value="상품삭제" onclick="product_delete()" class="btn btn-dark">
 				        </div>

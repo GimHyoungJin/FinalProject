@@ -45,7 +45,7 @@
     <div class="col-sm-12">
         <p>
 			<!-- 관리자일 경우에만 상품등록 버튼 표시 -->
-       		<div id="admin-button-container" style="display: none;">
+       		<div class="admin-button-container" style="display: none;">
 			<button type="button" class="btn btn-dark" onclick="location.href='write'">상품등록</button>
         </p>
     </div>

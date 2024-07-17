@@ -99,37 +99,39 @@ $(document).ready(function() {
         }
     }
 
-    // 로그인 상태 업데이트 함수
-    function loginStatus(refresh) {
-        $.ajax({
-            url: '/member/status',
-            type: 'GET',
-            success: function(response) {
-                const loginText = response.loggedIn ? '로그아웃' : '로그인'; // 로그인 상태에 따라 버튼의 텍스트가 변경됨
-                const loginAction = response.loggedIn ? logout : showLoginModal; // 로그인 상태에 따른 버튼 동작을 설정함
-                
-                // 로그인, 로그아웃의 버튼 텍스트와 동작을 설정한다.
-                $('#login-link, #modal-login-button').text(loginText).off('click').on('click', function(event) {
-                    event.preventDefault();
-                    loginAction();
-                });
-
-                // 관리자 여부 확인 및 버튼 표시
-                if (response.loggedIn && response.isAdmin) {
-                    $('#admin-button-container').show();//어드민인 경우 보여주고
-                } else {
-                    $('#admin-button-container').hide();//어드민이 아닌 경우 버튼을 숨김 
-                }
-
-                if (refresh) {
-                    location.reload(); // 로그인 상태에 변화가 있으면 페이지 새로고침
-                }
-            },
-            error: function(error) {
-                console.error('로그인 상태 확인 실패: ', error);
-            }
-        });
-    }
+	// 로그인 상태 업데이트 함수
+	function loginStatus(refresh) {
+	    $.ajax({
+	        url: '/member/status',
+	        type: 'GET',
+	        success: function(response) {
+	            const loginText = response.loggedIn ? '로그아웃' : '로그인'; // 로그인 상태에 따라 버튼의 텍스트가 변경됨
+	            const loginAction = response.loggedIn ? logout : showLoginModal; // 로그인 상태에 따른 버튼 동작을 설정함
+	            
+	            // 로그인, 로그아웃의 버튼 텍스트와 동작을 설정한다.
+	            $('#login-link, #modal-login-button').text(loginText).off('click').on('click', function(event) {
+	                event.preventDefault();
+	                loginAction();
+	            });
+	
+	            // 관리자 여부 확인 및 버튼 표시
+	            $('.admin-button-container').each(function() {
+	                if (response.loggedIn && response.isAdmin) {
+	                    $(this).show();
+	                } else {
+	                    $(this).hide();
+	                }
+	            });
+	
+	            if (refresh) {
+	                location.reload(); // 로그인 상태에 변화가 있으면 페이지 새로고침
+	            }
+	        },
+	        error: function(error) {
+	            console.error('로그인 상태 확인 실패: ', error);
+	        }
+	    });
+	}
 
     // 페이지 로드 시 로그인 상태 확인
     loginStatus();
