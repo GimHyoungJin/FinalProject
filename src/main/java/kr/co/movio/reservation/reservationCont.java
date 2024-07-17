@@ -27,19 +27,6 @@ public class reservationCont {
 	@Autowired 
 	private TheaterDAO theaterDao;
 	
-	
-    private Map<String, Boolean> seatStatus = Collections.synchronizedMap(new HashMap<>());
-
-    // 초기 좌석 상태 설정 (예제용)
-    public reservationCont() {
-        System.out.println("----- reservationCont 객체 생성완료");
-        for (char row = 'A'; row <= 'F'; row++) {
-            for (int col = 1; col <= 10; col++) {
-                seatStatus.put(row + String.valueOf(col), false); // 모든 좌석을 사용 가능으로 설정
-            }
-        }
-    }
-
     //region_id Map 형태로 
     // 영화 리스트
     /*
@@ -64,6 +51,7 @@ public class reservationCont {
         return mav;
     }//end
     
+    
     //각 지역별 지점 영화관 목록 가져오기
     @GetMapping("/booking/theater")
     @ResponseBody 
@@ -72,6 +60,21 @@ public class reservationCont {
     	return theaterDao.getTheaters(region_id);
     }//end
     
+    // 특정 극장의 상영 날짜 조회
+    @GetMapping("/booking/dates")
+    @ResponseBody
+    public List<Map<String, Object>> getDates(@RequestParam("theater_id") String theater_id) {
+        return theaterDao.getDistinctDatesByTheater(theater_id);
+    }
+
+    // 특정 날짜의 상영 영화 조회
+    @GetMapping("/booking/times")
+    @ResponseBody
+    public List<Map<String, Object>> getTimes(@RequestParam("theater_id") String theater_id, @RequestParam("date") String date) {
+        Map<String, Object> params = Map.of("theater_id", theater_id, "date", date);
+        return theaterDao.getMoviesByTheaterAndDate(params);
+    }
+    
     
     // 좌석 예매 페이지
     @GetMapping("/moviebooking")
@@ -79,6 +82,19 @@ public class reservationCont {
         return "reservation/movieBooking";
     }
 
+    private Map<String, Boolean> seatStatus = Collections.synchronizedMap(new HashMap<>());
+
+    // 초기 좌석 상태 설정 (예제용)
+    public reservationCont() {
+        System.out.println("----- reservationCont 객체 생성완료");
+        for (char row = 'A'; row <= 'F'; row++) {
+            for (int col = 1; col <= 10; col++) {
+                seatStatus.put(row + String.valueOf(col), false); // 모든 좌석을 사용 가능으로 설정
+            }
+        }
+    }
+
+    
     // 좌석 상태 업데이트
     @PostMapping("/updateSeatStatus")
     public ResponseEntity<?> updateSeatStatus(@RequestBody Map<String, Object> request) {

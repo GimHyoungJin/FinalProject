@@ -21,7 +21,15 @@
         WHERE theater_id = #{theater_id}
     </select>
     
-    <!-- 지역 데이터를 가져오는 쿼리 -->
+    
+    <!-- 각 지역별로 몇개의 지점을 가지고 있는지 카운트하는 쿼리 -->
+	 <select id="RegionsTheaterCounts" resultType="java.util.Map">
+        SELECT region_id, COUNT(theater_id) AS theater_count
+        FROM theater
+        GROUP BY region_id
+    </select>
+    
+     <!-- 지역 데이터를 가져오는 쿼리 -->
     <select id="getAllRegions"  resultType="java.util.Map">
     	select region_id, region_name
     	from region
@@ -29,16 +37,33 @@
     
     <!-- 지역 id와 맞는 극장 지점 데이터를 가져오는 쿼리 -->
     <select id="getTheaters" resultType="java.util.Map" parameterType="String">
-    	select theater_name
+    	select theater_name, theater_id
     	from theater 
     	where region_id = #{region_id}
     </select>
-	
-	<!-- 각 지역별로 몇개의 지점을 가지고 있는지 카운트하는 쿼리 -->
-	 <select id="RegionsTheaterCounts" resultType="java.util.Map">
-        SELECT region_id, COUNT(theater_id) AS theater_count
-        FROM theater
-        GROUP BY region_id
+
+     <!-- 특정 극장의 상영 날짜 조회 -->
+    <select id="getDistinctDatesByTheater" parameterType="String" resultType="java.util.Map">
+        SELECT DISTINCT scmovie_play AS play_date
+        FROM screenmovie
+        WHERE screen_id IN (SELECT screen_id FROM screen WHERE theater_id = #{theater_id})
+        ORDER BY scmovie_play
+    </select>
+
+    <!-- 특정 날짜의 상영 영화 조회 -->
+    <select id="getMoviesByTheaterAndDate" parameterType="MAP" resultType="java.util.Map">
+           SELECT 
+	        sm.scmovie_start AS start_time, 
+	        sm.scmovie_end AS end_time, 
+	        m.movie_title, 
+	        st.type_name,
+	        s.screen_num -- 상영관 번호 추가
+		    FROM screenmovie sm
+		    JOIN movie m ON sm.movie_id = m.movie_id
+		    JOIN screen s ON sm.screen_id = s.screen_id
+		    JOIN screen_type st ON s.type_id = st.type_id
+		    WHERE s.theater_id = #{theater_id} AND sm.scmovie_play = #{date}
+		    ORDER BY sm.scmovie_start;
     </select>
 	
 </mapper>

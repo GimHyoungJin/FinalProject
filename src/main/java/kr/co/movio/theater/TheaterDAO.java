@@ -42,4 +42,14 @@ public class TheaterDAO {
 	public List<Map<String, Object>> RegionsTheaterCounts(){
 		return sqlSession.selectList("kr.co.movio.theater.TheaterDAO.RegionsTheaterCounts");
 	}//list end
+	
+	//특정 극장의 상영 날짜 조회 
+	public List<Map<String, Object>> getDistinctDatesByTheater(String theater_id){
+		return sqlSession.selectList("kr.co.movio.theater.TheaterDAO.getDistinctDatesByTheater", theater_id);
+	}//list end
+		
+	//특정 날짜의 상영 영화 조회
+	public List<Map<String, Object>> getMoviesByTheaterAndDate(Map<String, Object> params){
+		return sqlSession.selectList("kr.co.movio.theater.TheaterDAO.getMoviesByTheaterAndDate", params);
+	}//list end
 }
