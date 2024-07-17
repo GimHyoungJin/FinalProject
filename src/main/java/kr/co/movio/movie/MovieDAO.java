@@ -28,7 +28,7 @@ public class MovieDAO {
         return sqlSession.update("movie.updateMovie", movie);
     }
 
-    public int deleteMovie(String movie_id) {
+    public int deleteMovie(int movie_id) {
         return sqlSession.delete("movie.deleteMovie", movie_id);
     }
 

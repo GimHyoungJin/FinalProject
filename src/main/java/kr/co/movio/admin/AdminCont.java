@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
+import kr.co.movio.member.MemberDTO;
 import kr.co.movio.member.MemberDAO;
 
 @Controller
@@ -23,6 +24,9 @@ public class AdminCont {
         model.addAttribute("members", memberDAO.getAllMembers());
         return "admin/members"; // 회원 목록 페이지로 이동
     }
+    
+  
+
     
     
     

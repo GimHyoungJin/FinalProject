@@ -257,7 +257,8 @@ public class MovieController {
     @PostMapping("/delete")
     public String deleteMovie(@RequestParam("id") String movieId) {
         try {
-            movieDao.deleteMovie(movieId);
+        	int movie_Id = Integer.parseInt(movieId); // String movieId를 int로 변환
+            movieDao.deleteMovie(movie_Id);
             return "redirect:/movie/movielist";
         } catch (Exception e) {
             e.printStackTrace();

@@ -43,6 +43,7 @@
                   <tr>
                     <th>ID</th>
                     <th>이름</th>
+                    <th>비밀번호</th>
                     <th>이메일</th>
                     <th>등록일</th>
                     <th>전화번호</th>
@@ -75,6 +76,7 @@
                             <option value="1" <c:if test="${member.mem_grade == 1}">selected</c:if>>일반 회원</option>
                             <option value="2" <c:if test="${member.mem_grade == 2}">selected</c:if>>우수 회원</option>
                             <option value="0" <c:if test="${member.mem_grade == 0}">selected</c:if>>관리자</option>
+                       
                           </select>
                         </form>
                       </td>
