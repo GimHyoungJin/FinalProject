@@ -104,11 +104,11 @@
                                 <li><a id="inquiry-link" href="<c:url value='/customer/inquiryForm' />">1:1문의</a></li>
                                 <li><a id="inquiry-link" href="<c:url value='/customer/terms' />">이용약관</a></li>
                                 <!-- 관리자 페이지 링크 (관리자 등급 사용자만) -->
-                                <c:if test="${not empty sessionScope.member && sessionScope.member.mem_grade == 0}">
+                                <div id="admin-button-container" style="display: none;">
                                     <li class="nav-item">
                                         <a id="admin-link" href="<c:url value='/admin/members' />" class="nav-link small custom-small-font" onclick="checkLogin(event)">관리자 페이지</a>
                                     </li>
-                                </c:if>
+                               	</div>
                             </ul>
                         </div>
                         <div id="mypage-column" class="col-md-3">
