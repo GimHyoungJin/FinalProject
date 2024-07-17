@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -24,8 +23,8 @@
     </select>
     
     <insert id="save" parameterType="kr.co.movio.member.MemberDTO">
-        INSERT INTO member (mem_id, username, passwd, email, phone, birth, gender, zipcode, address1, address2, sms_agree, email_agree)
-        VALUES (#{mem_id}, #{username}, #{passwd}, #{email}, #{phone}, #{birth}, #{gender}, #{zipcode}, #{address1}, #{address2}, #{sms_agree}, #{email_agree})
+        INSERT INTO member (mem_id, username, passwd, email, phone, birth, gender, zipcode, address1, address2, sms_agree, email_agree, mem_grade)
+        VALUES (#{mem_id}, #{username}, #{passwd}, #{email}, #{phone}, #{birth}, #{gender}, #{zipcode}, #{address1}, #{address2}, #{sms_agree}, #{email_agree}, #{mem_grade})
     </insert>
     
     <select id="findUserByUsernameAndPhone" parameterType="kr.co.movio.member.MemberDTO" resultType="kr.co.movio.member.MemberDTO">
@@ -34,24 +33,37 @@
         WHERE username = #{username} AND phone = #{phone}
     </select>
       
-     <select id="findUserByIdEmailAndPhone" parameterType="kr.co.movio.member.MemberDTO" resultType="kr.co.movio.member.MemberDTO">
+    <select id="findUserByIdEmailAndPhone" parameterType="kr.co.movio.member.MemberDTO" resultType="kr.co.movio.member.MemberDTO">
         SELECT mem_id, email
         FROM member
         WHERE mem_id = #{mem_id} AND email = #{email} AND phone = #{phone}
     </select>
       
-     <update id="updatePassword" parameterType="kr.co.movio.member.MemberDTO">
+    <update id="updatePassword" parameterType="kr.co.movio.member.MemberDTO">
         UPDATE member
         SET passwd = #{passwd}
         WHERE mem_id = #{mem_id}
-     </update>
+    </update>
      
-     <select id="getMemberGrade" parameterType="String" resultType="String">
+    <select id="getMemberGrade" parameterType="String" resultType="String">
         SELECT mem_grade FROM member WHERE mem_id = #{mem_id}
     </select>
     
-     <select id="getAllMembers" resultType="java.util.Map">
-    	SELECT mem_id, username, email, regdate, passwd , phone, birth , gender, CONCAT(address1, ' ', address2) AS address, sms_agree , email_agree , mem_grade FROM member
-  	</select>
-     
+    <select id="getAllMembers" resultType="java.util.Map">
+        SELECT mem_id, username, email, regdate, passwd , phone, birth , gender, CONCAT(address1, ' ', address2) AS address, sms_agree , email_agree , mem_grade 
+        FROM member
+    </select>
+
+    <!-- 새로운 업데이트 및 삭제 쿼리 추가 -->
+    <update id="updateMember" parameterType="kr.co.movio.member.MemberDTO">
+        UPDATE member
+        SET username = #{username}, passwd = #{passwd}, email = #{email}, phone = #{phone}, birth = #{birth},
+            gender = #{gender}, zipcode = #{zipcode}, address1 = #{address1}, address2 = #{address2}, 
+            sms_agree = #{sms_agree}, email_agree = #{email_agree}, mem_grade = #{mem_grade}
+        WHERE mem_id = #{mem_id}
+    </update>
+    
+    <delete id="deleteMember" parameterType="String">
+        DELETE FROM member WHERE mem_id = #{mem_id}
+    </delete>
 </mapper>

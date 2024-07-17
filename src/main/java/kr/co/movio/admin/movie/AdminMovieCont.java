@@ -32,13 +32,13 @@ public class AdminMovieCont {
     }
 
     @PostMapping("/add")
-    public String addMovie(@RequestParam("movieTitle") String movieTitle,
-                           @RequestParam("releaseDate") String releaseDate,
-                           @RequestParam("ageRating") String ageRating,
+    public String addMovie(@RequestParam("movie_title") String movieTitle,
+                           @RequestParam("release_date") String releaseDate,
+                           @RequestParam("age_rating") String ageRating,
                            @RequestParam("genre") String genre,
                            @RequestParam("description") String description,
-                           @RequestParam("posterUrl") MultipartFile posterUrl,
-                           @RequestParam("trailerUrl") String trailerUrl,
+                           @RequestParam("poster_url") MultipartFile posterUrl,
+                           @RequestParam("trailer_url") String trailerUrl,
                            RedirectAttributes redirectAttributes,
                            HttpServletRequest req) {
         ServletContext application = req.getServletContext();

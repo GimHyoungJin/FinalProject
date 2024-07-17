@@ -56,4 +56,14 @@ public class MemberDAO {
     public List<Map<String, Object>> getAllMembers() {
     	return sqlSession.selectList("member.getAllMembers");
     }
+    
+    // 멤버 정보 업데이트
+    public int updateMember(MemberDTO member) {
+        return sqlSession.update("member.updateMember", member);
+    }
+
+    // 멤버 삭제
+    public int deleteMember(String mem_id) {
+        return sqlSession.delete("member.deleteMember", mem_id);
+    }
 }
