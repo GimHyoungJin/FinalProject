@@ -56,7 +56,9 @@ public class ProductDAO {
         return sqlSession.selectOne("kr.co.movio.product.ProductDAO.getProCodeByDetailCode", proDetailCode);
     }
 
-    public void updateProductStock(ProductDTO product) {
-        sqlSession.update("kr.co.movio.product.ProductMapper.updateProductStock", product);
+    public int updateProductStock(ProductDTO product) {
+        int result = sqlSession.update("kr.co.movio.product.ProductDAO.updateProductStock", product);
+        System.out.println("updateProductStock result: " + result); // 디버깅 로그 추가
+        return result;
     }
 }

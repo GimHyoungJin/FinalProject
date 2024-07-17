@@ -38,7 +38,10 @@
         if (!mem_id) {
             $('#loginModal').modal('show'); // 로그인 모달 표시
         } else {
-            document.getElementById('productfrm').submit(); // 폼 제출
+            // 장바구니에 담을 때 pro_price 값을 cart_price로 설정
+            document.getElementById('cart_price').value = document.getElementsByName('pro_price')[0].value;
+            document.productfrm.action = "/cart/insert"; // 장바구니 추가 URL로 설정
+            document.productfrm.submit();
         }
     }
   </script>
@@ -72,7 +75,7 @@
 
   <div class="row">
     <div class="col-sm-12">
-      <form name="productfrm" id="productfrm" method="post" action="/product/update" enctype="multipart/form-data">
+      <form name="productfrm" id="productfrm" method="post" action="/cart/insert" enctype="multipart/form-data">
         <input type="hidden" name="pro_detail_code" value="${product.pro_detail_code}">
         <input type="hidden" name="pro_code" value="${product.pro_code}">
         <table class="table table-hover">
@@ -84,6 +87,13 @@
           <tr>
             <td>상품가격</td>
             <td><input type="number" name="pro_price" value="${product.pro_price}" class="form-control" required></td>
+          </tr>
+          <tr>
+             <td>원래가격</td>
+             <td>
+	             <input type="number" name="original_price" value="${product.original_price}" class="form-control" readonly>
+	             <input type="hidden" name="original_price_hidden" value="${product.original_price}">
+            </td>
           </tr>
           <tr>
             <td>상품설명</td>
@@ -134,7 +144,7 @@
 				</tr>
           </tbody>
         </table>
-        <input type="hidden" name="cart_price" value="${product.pro_price}">
+        <input type="hidden" name="cart_price" id="cart_price" value="${product.pro_price}">
       </form>
      </div>
     </div>

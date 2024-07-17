@@ -19,6 +19,7 @@
 <!-- 헤더 포함 -->
 <%@ include file="../../header.jsp" %>
 
+
 <!-- 네비게이션 바 -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div id="custom-tabs" class="container mt-3 d-flex justify-content-center">
@@ -39,7 +40,6 @@
     </div>
 </nav>
 
-<!-- 상품 목록 및 검색 영역 -->
 <div class="container text-center">
   <div class="row">
     <div class="col-sm-12">

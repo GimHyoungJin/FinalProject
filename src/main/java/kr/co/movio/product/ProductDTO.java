@@ -8,16 +8,16 @@ public class ProductDTO {
     private String pro_detail;
     private int pro_price;
     private int original_price; // 원래 가격 필드 추가
-    private String pro_photo;  // 파일 이름 필드
+    private String pro_photo;   // 파일 이름 필드
     private long filesize;
-    private String category;   // 카테고리 필드 추가
-    private int proStock;
-    
+    private String category;    // 카테고리 필드 추가
+    private int pro_stock;      // 재고 수량 필드 추가
+
     // 기본 생성자
     public ProductDTO() {
     }
 
-    // Getter 메서드
+    // Getter 및 Setter 메서드
     public String getPro_detail_code() {
         return pro_detail_code;
     }
@@ -91,13 +91,13 @@ public class ProductDTO {
     }
 
     public int getPro_stock() {
-        return proStock;
+        return pro_stock;
     }
     
-    public void setPro_stock(int proStock) {
-        this.proStock = proStock;
+    public void setPro_stock(int pro_stock) {
+        this.pro_stock = pro_stock;
     }
-    
+
     @Override
     public String toString() {
         return "ProductDTO{" +
@@ -110,6 +110,7 @@ public class ProductDTO {
                 ", pro_photo='" + pro_photo + '\'' +
                 ", filesize=" + filesize +
                 ", category='" + category + '\'' +
+                ", pro_stock=" + pro_stock +
                 '}';
     }
 }

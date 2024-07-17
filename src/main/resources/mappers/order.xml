@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.movio.order.OrderMapper">
 
-    <select id="totalamount" resultType="java.lang.Integer">
-        SELECT SUM(order_total) FROM orders WHERE mem_id = #{mem_id}
+    <!-- 총 주문 금액 계산 -->
+    <select id="totalamount" parameterType="String" resultType="int">
+        SELECT SUM(cart_price * cart_amount) FROM cart WHERE mem_id = #{mem_id}
     </select>
-
+    
+    <!-- 주문 삽입 -->
     <insert id="orderInsert" parameterType="kr.co.movio.order.OrderDTO">
         INSERT INTO orders (order_no, mem_id, order_total, order_state, order_date)
         VALUES (#{order_no}, #{mem_id}, #{order_total}, #{order_state}, CURRENT_TIMESTAMP)
     </insert>
 
+    <!-- 주문 상세 정보 삽입 -->
     <insert id="orderdetailInsert" parameterType="map">
         INSERT INTO orderdetail (order_no, pro_detail_code, order_detail_amount, order_detail_price)
         VALUES (#{order_no}, #{pro_detail_code}, #{order_detail_amount}, #{order_detail_price})
     </insert>
 
-    <delete id="cartDelete" parameterType="string">
+    <!-- 장바구니 삭제 -->
+    <delete id="cartDelete" parameterType="String">
         DELETE FROM cart WHERE mem_id = #{mem_id}
     </delete>
 
-    <select id="orderDesc" resultType="hashmap" parameterType="string">
-        SELECT pro_detail_code, order_detail_amount AS quantity
-        FROM orderdetail
-        WHERE order_no = #{orderNo}
+    <!-- 주문 상세 정보 조회 -->
+    <select id="orderDesc" parameterType="String" resultType="map">
+        SELECT pro_detail_code, cart_amount AS quantity FROM cart WHERE mem_id = (SELECT mem_id FROM orders WHERE order_no = #{order_no})
     </select>
-
 </mapper>
