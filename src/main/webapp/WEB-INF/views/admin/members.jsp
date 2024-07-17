@@ -57,23 +57,24 @@
                 <tbody>
                   <c:forEach var="member" items="${members}">
                     <tr>
-                      <td>${member.id}</td>
-                      <td>${member.name}</td>
+                      <td>${member.mem_id}</td>
+                      <td>${member.username}</td>
+                      <td>${member.passwd}
                       <td>${member.email}</td>
-                      <td>${member.joinDate}</td>
+                      <td>${member.regdate}</td>
                       <td>${member.phone}</td>
-                      <td>${member.birthDate}</td>
+                      <td>${member.birth}</td>
                       <td>${member.gender}</td>
                       <td>${member.address}</td>
-                      <td>${member.smsOptIn}</td>
-                      <td>${member.emailOptIn}</td>
+                      <td>${member.sms_agree}</td>
+                      <td>${member.email_agree}</td>
                       <td>
                         <form action="<c:url value='/admin/members/updateGrade' />" method="post" class="d-inline">
                           <input type="hidden" name="memberId" value="${member.id}">
                           <select name="grade" class="form-select" onchange="this.form.submit()">
-                            <option value="1" <c:if test="${member.grade == 1}">selected</c:if>>일반 회원</option>
-                            <option value="2" <c:if test="${member.grade == 2}">selected</c:if>>우수 회원</option>
-                            <option value="0" <c:if test="${member.grade == 0}">selected</c:if>>관리자</option>
+                            <option value="1" <c:if test="${member.mem_grade == 1}">selected</c:if>>일반 회원</option>
+                            <option value="2" <c:if test="${member.mem_grade == 2}">selected</c:if>>우수 회원</option>
+                            <option value="0" <c:if test="${member.mem_grade == 0}">selected</c:if>>관리자</option>
                           </select>
                         </form>
                       </td>

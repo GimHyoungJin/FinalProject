@@ -1,5 +1,8 @@
 package kr.co.movio.member;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -47,5 +50,10 @@ public class MemberDAO {
     // 회원 등급 조회
     public String getMemberGrade(String mem_id) {
         return sqlSession.selectOne("member.getMemberGrade", mem_id);
+    }
+    
+    //모든 멤버를 조회하는 메서드 
+    public List<Map<String, Object>> getAllMembers() {
+    	return sqlSession.selectList("member.getAllMembers");
     }
 }
