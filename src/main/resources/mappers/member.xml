@@ -49,5 +49,9 @@
      <select id="getMemberGrade" parameterType="String" resultType="String">
         SELECT mem_grade FROM member WHERE mem_id = #{mem_id}
     </select>
+    
+     <select id="getAllMembers" resultType="java.util.Map">
+    	SELECT mem_id, username, email, regdate, passwd , phone, birth , gender, CONCAT(address1, ' ', address2) AS address, sms_agree , email_agree , mem_grade FROM member
+  	</select>
      
 </mapper>
