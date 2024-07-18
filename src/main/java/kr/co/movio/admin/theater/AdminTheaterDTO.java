@@ -87,10 +87,10 @@ public class AdminTheaterDTO {
         this.longitude = longitude;
     }
 
-	@Override
-	public String toString() {
-		return "AdminTheaterDTO [theaterId=" + theaterId + ", regionId=" + regionId + ", theaterName=" + theaterName
-				+ ", address=" + address + ", screenCount=" + screenCount + ", totalSeats=" + totalSeats + ", latitude="
-				+ latitude + ", longitude=" + longitude + "]";
-	}
+   @Override
+   public String toString() {
+      return "AdminTheaterDTO [theaterId=" + theaterId + ", regionId=" + regionId + ", theaterName=" + theaterName
+            + ", address=" + address + ", screenCount=" + screenCount + ", totalSeats=" + totalSeats + ", latitude="
+            + latitude + ", longitude=" + longitude + "]";
+   }
 }
