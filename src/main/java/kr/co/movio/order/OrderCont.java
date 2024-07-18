@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import jakarta.servlet.http.HttpSession;
 
@@ -51,7 +52,7 @@ public class OrderCont {
             mav.addObject("msg3", "<p><a href='/product/list'> [계속쇼핑하기] </a></p>");
         } catch (RuntimeException e) {
             mav.addObject("msg1", "<img src='../images/fail.png' width='50'>");
-            mav.addObject("msg2", "<p>" + e.getMessage() + "</p>");
+            mav.addObject("msg2", "<p>주문 처리 중 오류가 발생했습니다. 다시 시도해주세요.</p>");
             mav.addObject("msg3", "<p><a href='/product/list'> [다시 시도하기] </a></p>");
             e.printStackTrace();  // 전체 스택 추적을 출력
         }
@@ -59,5 +60,12 @@ public class OrderCont {
         System.out.println("mav: " + mav.getModel());
 
         return mav;
+    }
+
+    @GetMapping("/checkLogin")
+    @ResponseBody
+    public boolean checkLogin(HttpSession session) {
+        String s_id = (String) session.getAttribute("mem_id");
+        return s_id != null;
     }
 }
