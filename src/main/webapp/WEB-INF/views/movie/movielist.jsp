@@ -23,7 +23,7 @@
         document.addEventListener("DOMContentLoaded", function() {
             const titles = document.querySelectorAll('.card-title span');
             titles.forEach(title => {
-                const maxWidth = title.parentElement.clientWidth - 1; // 부모 요소의 너비 가져오기 (더 작은 여유 공간)
+                const maxWidth = title.parentElement.clientWidth - 2; // 부모 요소의 너비 가져오기 (더 작은 여유 공간)
                 let text = title.textContent;
                 while (title.scrollWidth > maxWidth && text.length > 0) {
                     text = text.slice(0, -1); // 텍스트 한 글자씩 줄이기
