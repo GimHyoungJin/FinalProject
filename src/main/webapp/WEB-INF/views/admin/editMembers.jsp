@@ -11,7 +11,7 @@
   <link href="<c:url value='/css/header.css' />" rel="stylesheet" type="text/css">
   <link href="<c:url value='/css/footer.css' />" rel="stylesheet" type="text/css">
   <link href="<c:url value='/css/member/modal.css' />" rel="stylesheet" type="text/css">
-  <script src="<c:url value='/js/memberForm.js' />"></script> <!-- 자바스크립트 파일 포함 -->
+
 </head>
 <body>
   <%@ include file="/WEB-INF/header.jsp" %>
@@ -19,6 +19,7 @@
   <div class="container mt-4">
     <!-- 회원수정 폼 -->
     <h1>회원 수정</h1>
+    <h3>유효성검사만 넣으면 수정데이터가 사라져서 일단 보류</h3>
     <form name="admin_memupdate" id="admin_memupdate" action="<c:url value='/admin/members/update' />" method="post">
       <div class="mb-4" style="margin-bottom: 20px;">
         <input type="hidden" name="mem_id" value="${member.mem_id}">
