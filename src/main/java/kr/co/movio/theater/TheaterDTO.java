@@ -75,3 +75,4 @@ public class TheaterDTO {
         this.longitude = longitude;
     }
 }
+

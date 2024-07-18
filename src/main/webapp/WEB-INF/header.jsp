@@ -121,8 +121,6 @@
                           <ul class="list-unstyled">
                               <li><a id="mypage-home-link" href="<c:url value='/mypage/mypage' />" onclick="checkLogin(event)">나의 무비오</a></li>
                               <li><a id="bookinglist-link" href="<c:url value='/mypage/bookinglist' />" onclick="checkLogin(event)">예매/구매내역</a></li>
-                              <li><a id="vouchers-link" href="<c:url value='/mypage/vouchers' />" onclick="checkLogin(event)">영화관람권</a></li>
-                              <li><a id="store-vouchers-link" href="<c:url value='/mypage/store_vouchers' />" onclick="checkLogin(event)">스토어교환권</a></li>
                               <li><a id="my-inquiries-link" href="<c:url value='/mypage/inquiry' />" onclick="checkLogin(event)">나의문의내역</a></li>
                               <li><a id="profile-link" href="<c:url value='/mypage/profile' />" onclick="checkLogin(event)">회원정보</a></li>
                           </ul>

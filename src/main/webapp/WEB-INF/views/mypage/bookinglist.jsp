@@ -23,9 +23,7 @@
           <a href="<c:url value='/mypage/mypage' />" class="list-group-item header" aria-current="true">
             나의 무비오
           </a>
-          <a href="<c:url value='/mypage/bookinglist' />" class="list-group-item list-group-item-action">예매 내역</a>
-          <a href="<c:url value='/mypage/vouchers' />" class="list-group-item list-group-item-action">영화 관람권</a>
-          <a href="<c:url value='/mypage/store_vouchers' />" class="list-group-item list-group-item-action">스토어 교환권</a>
+        <a href="<c:url value='/mypage/bookinglist' />" class="list-group-item list-group-item-action">예매/구매 내역</a>
           <a href="<c:url value='/mypage/inquiry' />" class="list-group-item list-group-item-action">나의 문의내역</a>
           <a href="<c:url value='/mypage/profile' />" class="list-group-item list-group-item-action">회원정보</a>
         </div>
