@@ -11,6 +11,7 @@
   <script src="/js/jquery-3.7.1.min.js"></script>
   <link href="<c:url value='/css/header.css' />" rel="stylesheet" type="text/css">
   <link href="<c:url value='/css/footer.css' />" rel="stylesheet" type="text/css">
+  <link href="<c:url value='/css/detail.css' />" rel="stylesheet" type="text/css"> <!-- detail.css 추가 -->
 
   <script>
     var mem_id = '<%= session.getAttribute("mem_id") %>';
@@ -28,6 +29,19 @@
     }
 
     $(document).ready(function() {
+        // 관리자인 경우 readonly 속성을 제거
+        if (mem_id === 'master1004') { // 관리자 ID 확인
+            $('input[readonly], textarea[readonly]').removeAttr('readonly').css({
+                'pointer-events': 'auto',
+                'background-color': '#ffffff',
+                'border': '1px solid #ced4da'
+            });
+            $('.admin-button-container').show(); // 관리자 버튼 표시
+        } else {
+            // 관리자가 아닌 경우 원래가격과 상품사진 숨김
+            $('.non-admin').hide();
+        }
+
         // 모달 창을 열기 위한 코드
         $('#editReviewModal').modal('show');
     });
@@ -63,18 +77,14 @@
   </div>
 </nav>
 
-<div class="container text-center">
+<div class="container mt-5">
   <div class="row">
-    <div class="col-sm-12">
-      <p></p>
-      <p>
-        <button type="button" onclick="location.href='/product/listByProCode?pro_code=${product.pro_code}'" class="btn btn-dark">상품전체목록</button>
-      </p>
+    <div class="col-md-6 text-center product-image">
+      <c:if test="${product.pro_photo != null}">
+        <img src="/storage/${product.pro_photo}" alt="${product.pro_name}" class="img-fluid">
+      </c:if>
     </div>
-  </div>
-
-  <div class="row">
-    <div class="col-sm-12">
+    <div class="col-md-6">
       <form name="productfrm" id="productfrm" method="post" action="/cart/insert" enctype="multipart/form-data">
         <input type="hidden" name="pro_detail_code" value="${product.pro_detail_code}">
         <input type="hidden" name="pro_code" value="${product.pro_code}">
@@ -82,38 +92,39 @@
           <tbody style="text-align: left;">
           <tr>
             <td>상품명</td>
-            <td><input type="text" name="pro_name" value="${product.pro_name}" class="form-control" required></td>
+            <td><input type="text" name="pro_name" value="${product.pro_name}" class="form-control" required readonly></td>
           </tr>
-          <tr>
-            <td>상품가격</td>
-            <td><input type="number" name="pro_price" value="${product.pro_price}" class="form-control" required></td>
-          </tr>
-          <tr>
+          <c:if test="${sessionScope.mem_id == 'master1004'}">
+          <tr class="non-admin">
              <td>원래가격</td>
              <td>
 	             <input type="number" name="original_price" value="${product.original_price}" class="form-control" readonly>
 	             <input type="hidden" name="original_price_hidden" value="${product.original_price}">
-            </td>
+             </td>          
+          </tr>
+          </c:if>
+          <tr>
+            <td>상품가격</td>
+            <td><input type="number" name="pro_price" value="${product.pro_price}" class="form-control" required readonly></td>
           </tr>
           <tr>
             <td>상품설명</td>
             <td>
-              <textarea rows="5" name="pro_detail" class="form-control" required>${product.pro_detail}</textarea>
+              <textarea rows="5" name="pro_detail" class="form-control" required readonly>${product.pro_detail}</textarea>
             </td>
           </tr>
-          <tr>
+          <c:if test="${sessionScope.mem_id == 'master1004'}">
+          <tr class="non-admin">
             <td>상품사진</td>
             <td>
-              <c:if test="${product.pro_photo != null}">
-                <img src="/storage/${product.pro_photo}" width="100px">
-              </c:if>
-              <input type="file" name="pro_photo" class="form-control">
+              <input type="file" name="pro_photo" class="form-control" readonly>
             </td>
           </tr>
+          </c:if>
           <tr>
             <td>재고 수량</td>
             <td>
-              <input type="number" name="pro_stock" value="${product.pro_stock}" class="form-control" required>
+              <input type="number" name="pro_stock" value="${product.pro_stock}" class="form-control" required readonly>
             </td>
           </tr>
           <tr>
@@ -149,6 +160,7 @@
      </div>
     </div>
   </div>
+</div>
 
 <%@ include file="../../footer.jsp"%>
 </body>
