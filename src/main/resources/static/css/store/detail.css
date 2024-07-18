@@ -1,8 +1,0 @@
-/* 읽기 전용 필드 스타일 */
-.input[readonly], textarea[readonly] {
-  pointer-events: none;
-  background-color: #ffffff; /* 비활성화된 것처럼 보이도록 배경색 변경 */
-  border: none;
-}
-
- 

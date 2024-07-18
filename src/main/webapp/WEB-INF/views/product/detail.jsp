@@ -11,7 +11,6 @@
   <script src="/js/jquery-3.7.1.min.js"></script>
   <link href="<c:url value='/css/header.css' />" rel="stylesheet" type="text/css">
   <link href="<c:url value='/css/footer.css' />" rel="stylesheet" type="text/css">
-  <link href="<c:url value='/css/detail.css' />" rel="stylesheet" type="text/css"> <!-- detail.css 추가 -->
 
   <script>
     var mem_id = '<%= session.getAttribute("mem_id") %>';
