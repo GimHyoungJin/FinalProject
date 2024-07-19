@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+
   <title>이용약관</title>
   <meta charset="utf-8">
   <!-- 공통 시작 -->
@@ -21,28 +22,23 @@
 </head>
 <body>
 	<%@ include file="../../header.jsp"%>
-	<!-- 사이드바 포함 부분 -->
+
 	<div id="container">
-  <!-- row 클래스를 이용하여 행을 생성 -->
   <div class="row">
-    <!-- 사이드바를 포함하는 div 요소 -->
-    <div id="sidebar">
+		<!-- 사이드바 -->
+    <div id="sidebar" class="col-md-3">
       <%@ include file="customer_sidebar.jsp"%>
-      <!-- customer_sidebar.jsp 파일을 포함하여 사이드바를 로드 -->
     </div>
-    <!-- 이용약관 내용을 포함하는 div 요소 -->
-    <div id="terms-content" class="col-md-9">
-      <!-- col-md-9 클래스를 이용하여 Bootstrap 그리드 시스템에서 9개의 컬럼을 차지 -->
-      <!-- terms-wrapper 클래스의 div 요소로 약관 내용 감싸기 -->
-      <div class="terms-wrapper">
-        <!-- 중앙 정렬된 제목을 표시 -->
-        <h1 class="text-center">이용약관</h1>
-        <!-- 약관 항목 리스트를 포함하는 div 요소 -->
+    
+    <!-- 이용약관 내용 -->
+<div id="terms-content" class="col-md-9">
+  <div class="terms-wrapper">
+    <h1 id="terms-title" class="text-center">이용약관</h1>
+
+
         <div id="terms-list" class="terms-list mb-4 text-center">
-          <!-- mb-4 클래스를 이용하여 하단 마진을 추가, text-center 클래스를 이용하여 텍스트 중앙 정렬 -->
-          <!-- 첫 번째 컬럼을 포함하는 div 요소 -->
-          <div class="column">
-            <!-- nav flex-column 클래스를 이용하여 세로 방향 네비게이션 메뉴 생성 -->
+        <div class="row">
+          <div class="col-md-6">
             <ul class="nav flex-column">
             <li class="nav-item"><a class="nav-link" href="#article1">제1조. 목적</a></li>
             <li class="nav-item"><a class="nav-link" href="#article2">제2조. 약관의 효력 및 변경</a></li>
@@ -58,8 +54,8 @@
             <li class="nav-item"><a class="nav-link" href="#article12">제12조. 회원의 의무</a></li>
             <li class="nav-item"><a class="nav-link" href="#article13">제13조. 회원의 특전</a></li>
         </ul>
-    </div>
-    <div class="column">
+       </div>
+       <div class="col-md-6">
         <ul class="nav flex-column">
             <li class="nav-item"><a class="nav-link" href="#article14">제14조. 정보의 제공</a></li>
             <li class="nav-item"><a class="nav-link" href="#article15">제15조. 자격 상실 및 회원 서비스 혜택 제한</a></li>
@@ -76,14 +72,16 @@
             <li class="nav-item"><a class="nav-link" href="#article26">제26조. 관할법원</a></li>
             <li class="nav-item"><a class="nav-link" href="#article27">기타. 부칙</a></li>
         </ul>
-    </div>
+      </div>
+   </div> 
 </div>
 
+				<!-- 약관 내용 -->
 					<div id="terms-article" class="terms-content">
 						<div class="article-box">
 							<h2 id="article1" class="terms-article-title">제1조. 목적</h2>
-							<p class="terms-article-text">본 약관은 무비오(주)(이하 "회사"라 합니다)가
-								제공하는 온라인, 오프라인 서비스(이하 "서비스"라 합니다) 이용과 관련하여 회사와 이용자의 권리, 의무 및
+							<p class="terms-article-text">
+							본 약관은 무비오(주)(이하 "회사"라 합니다)가 제공하는 온라인, 오프라인 서비스(이하 "서비스"라 합니다) 이용과 관련하여 회사와 이용자의 권리, 의무 및
 								책임사항을 규정함을 목적으로 합니다.</p>
 
 							<h2 id="article2" class="terms-article-title">제2조. 약관의 효력 및

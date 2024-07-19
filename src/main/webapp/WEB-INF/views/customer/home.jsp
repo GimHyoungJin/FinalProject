@@ -55,7 +55,7 @@
 							<a href="<c:url value='/customer/lostItemList' />"> 
 								<img src="<c:url value='/images/logo/분실물.png' />" alt="분실물 문의">
 								<p>분실물 문의</p>
-								<p class="description">잃어버린 물건을 접수해 주시면 신속히 찾아드리겠습니다.</p>
+						<p class="description">잃어버린 물건을 접수해 주시면 신속히 찾아드리겠습니다.</p>
 							</a>
 						</div>
 						<!-- 분실물 문의 끝 -->
