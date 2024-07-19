@@ -42,7 +42,6 @@
           <div id="inquiry-sections">
             <!-- 1:1 문의 시작 -->
             <div class="section">
-<<<<<<< Updated upstream
               <a href="<c:url value='/customer/inquiryList' />"> 
 
                 <img src="<c:url value='/images/logo/문의.png' />" alt="1:1 문의">
