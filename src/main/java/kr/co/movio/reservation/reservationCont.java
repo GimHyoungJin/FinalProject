@@ -27,32 +27,19 @@ public class reservationCont {
 	@Autowired 
 	private TheaterDAO theaterDao;
 	
-    //region_id Map 형태로 
-    // 영화 리스트
-    /*
-    @GetMapping("/booking")
-    public String reservation(Model model) {
-    	List<MovieDTO> movieList = movieDao.getMovies();
-    	List<TheaterDTO> theaterList = theaterDao.getAllTheaters();
-    	
-    	model.addAttribute("movies", movieList);
-    	model.addAttribute("theaters", theaterList);
-        return "reservation/booking";
-    }
-    */
-    
+	//booking.jsp 페이지를 보여주는 엔드포인트
     @GetMapping("/booking")
     public ModelAndView regionlist() {
     	ModelAndView mav = new ModelAndView();    	
     	mav.setViewName("reservation/booking");
-    	mav.addObject("regions", theaterDao.getAllRegions());
-    	mav.addObject("regionCounts", theaterDao.RegionsTheaterCounts() );
-    	mav.addObject("movies", movieDao.getMovies());
+    	mav.addObject("regions", theaterDao.getAllRegions());//모든 지역 데이터를 가져옴
+    	mav.addObject("regionCounts", theaterDao.RegionsTheaterCounts() );//지역별 극장수가 몇개인지
+    	mav.addObject("movies", movieDao.getMovies());//모든 영화 데이터를 가져옴
         return mav;
     }//end
     
     
-    //각 지역별 지점 영화관 목록 가져오기
+    //각 지역별 지점 영화관 목록 가져오는 엔드포인트
     @GetMapping("/booking/theater")
     @ResponseBody 
     public List<Map<String, Object>> theaterlist(@RequestParam("region_id") String region_id) {
@@ -60,14 +47,15 @@ public class reservationCont {
     	return theaterDao.getTheaters(region_id);
     }//end
     
-    // 특정 극장의 상영 날짜 조회
+    // 특정 극장의 상영 날짜 조회하는 엔드포인트
     @GetMapping("/booking/dates")
     @ResponseBody
     public List<Map<String, Object>> getDates(@RequestParam("theater_id") String theater_id) {
         return theaterDao.getDistinctDatesByTheater(theater_id);
     }
-
-    // 특정 날짜의 상영 영화 조회
+    
+    
+    //특정 날짜의 상영 영화 조회하는 엔드포인트
     @GetMapping("/booking/times")
     @ResponseBody
     public List<Map<String, Object>> getTimes(@RequestParam("theater_id") String theater_id, @RequestParam("date") String date) {
@@ -75,7 +63,7 @@ public class reservationCont {
         return theaterDao.getMoviesByTheaterAndDate(params);
     }
     
-    
+	
     // 좌석 예매 페이지
     @GetMapping("/moviebooking")
     public String MovieBooking() {
