@@ -47,7 +47,7 @@ $(document).ready(function() {
     }
 
     // MyPage 링크들에 각각 클릭 이벤트 추가함과 동시에 checkLogin 함수를 호출해 로그인 상태를 확인
-    $('#mypage-home-link, #bookinglist-link, #vouchers-link, #store-vouchers-link, #coupons-link, #my-inquiries-link, #profile-link, #reserve-link, #quick-reserve-link, #admin-link').on('click', checkLogin);
+    $('#mypage-home-link, #bookinglist-link, #vouchers-link, #store-vouchers-link, #coupons-link, #my-inquiries-link, #profile-link, #reserve-link, #quick-reserve-link, #admin-link, #reservation-logo-link').on('click', checkLogin);
 
     // 로그인 폼 제출 함수로 사용자의 로그인 정보를 서버로 전송하고 성공시 로그인 모달을 숨기고 상태를 업데이트 한다.
     window.submitLoginForm = function() {

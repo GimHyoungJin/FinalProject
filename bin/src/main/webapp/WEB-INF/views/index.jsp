@@ -47,7 +47,9 @@
 	  <!-- 추가 -->
 	  <div id="icon"> 
 	    <div class="icon-item">
+	    	<a id="reservation-logo-link" href="<c:url value='/reservation/booking' />" onclick="checkLogin(event)">
           	<img src="<c:url value='/images/logo/티켓로고.png' />" alt="1번 아이콘">
+          	</a>
 	      	<p>빠른 예매</p>
 	    </div>
 	    <div class="icon-item">

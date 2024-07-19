@@ -34,14 +34,7 @@
     	select region_id, region_name
     	from region
     </select>
-   
-    <!-- 지역 id와 맞는 극장 지점 데이터를 가져오는 쿼리 
-    <select id="getTheaters" resultType="java.util.Map" parameterType="String">
-    	select theater_name, theater_id
-    	from theater 
-    	where region_id = #{region_id}
-    </select>
-    -->
+
     
    	<!-- 지역 id와 맞는 극장 지점 데이터를 가져오는 쿼리 -->
 	<select id="getTheaters" resultType="java.util.Map" parameterType="Map">
@@ -81,6 +74,14 @@
 		  AND m.movie_id = #{movie_id} 
 		ORDER BY sm.scmovie_start;
     </select>
+    
+     <!-- 지역 id와 맞는 극장 지점 데이터를 가져오는 쿼리 
+    <select id="getTheaters" resultType="java.util.Map" parameterType="String">
+    	select theater_name, theater_id
+    	from theater 
+    	where region_id = #{region_id}
+    </select>
+    -->
     
 </mapper>
 

@@ -32,12 +32,6 @@ public class TheaterDAO {
 		return sqlSession.selectList("kr.co.movio.theater.TheaterDAO.getAllRegions");
 	}//list end
 	
-	/*지역에 맞는 극장 이름 가져오기
-	public List<Map<String, Object>> getTheaters(String region_id){
-		return sqlSession.selectList("kr.co.movio.theater.TheaterDAO.getTheaters", region_id);
-	}//list end
-	
-	*/
 	
 	// 특정 지역의 극장 목록 조회 
 	public List<Map<String, Object>> getTheaters(Map<String, Object> params) {
@@ -59,5 +53,12 @@ public class TheaterDAO {
 	public List<Map<String, Object>> getMoviesByTheaterAndDate(Map<String, Object> params){
 		return sqlSession.selectList("kr.co.movio.theater.TheaterDAO.getMoviesByTheaterAndDate", params);
 	}//list end
+	
+	/*지역에 맞는 극장 이름 가져오기
+	public List<Map<String, Object>> getTheaters(String region_id){
+		return sqlSession.selectList("kr.co.movio.theater.TheaterDAO.getTheaters", region_id);
+	}//list end
+	
+	*/
 	
 }

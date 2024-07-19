@@ -42,7 +42,7 @@
                                 <span>연령 등급 정보 없음</span>
                             </c:otherwise>
                         </c:choose>
-                        ${movie.movie_title} <!-- 영화 제목을 출력 -->
+                        <span>${movie.movie_title}</span>
                     </li>
                 </c:forEach>
             </ul>
@@ -108,7 +108,7 @@
             </div>
         </div>
         <div class="seat-button"> <!-- 좌석 선택 버튼을 담는 div -->
-            <button id="seatButton" type="button"> <!-- 좌석 선택 버튼 -->
+            <button id="seatButton" type="button" disabled> <!-- 좌석 선택 버튼을 비활성화 상태로 초기화 -->
                 <div class="button-content"> <!-- 버튼 내용을 담는 div -->
                     <span class="button-icon">➜</span> <!-- 버튼 아이콘 -->
                     <span class="button-text">좌석선택</span> <!-- 버튼 텍스트 -->
@@ -119,87 +119,104 @@
 </div>
 
 <script>
-var selectedMovieId = null; // 선택한 영화의 ID를 저장할 전역 변수
-var selectedTheaterId = null; // 선택한 극장의 ID를 저장할 전역 변수
+var selectedMovieId = ''; // 선택한 영화의 ID를 저장할 전역 변수
+var selectedTheaterId = ''; // 선택한 극장의 ID를 저장할 전역 변수
+var selectedDate = ''; // 선택한 날짜를 저장할 전역 변수
+var selectedTime = ''; // 선택한 시간을 저장할 전역 변수
+var selectedPosterUrl = ''; // 선택한 영화의 포스터 URL을 저장할 전역 변수
+var selectedMovieTitle = ''; // 선택한 영화의 제목을 저장할 전역 변수
+var selectedTheaterName = ''; // 선택한 극장의 이름을 저장할 전역 변수
+var selectedScreenNum = ''; // 선택한 상영관 번호를 저장할 전역 변수
 
 $(document).ready(function() {
     // 초기 상태에서는 영화 정보 숨기기
     $('#movie-poster').hide();
     $('#movie-title-container').hide();
+    updateSeatButtonState(); // 초기 상태에서는 좌석 선택 버튼 비활성화
+
+ // 좌석 선택 버튼 클릭 이벤트 처리
+    $('#seatButton').on('click', function() {
+        if (selectedMovieId && selectedTheaterId && selectedDate && selectedTime) {
+            const bookingData = {
+                movieId: selectedMovieId.toString(),
+                theaterId: selectedTheaterId.toString(),
+                date: selectedDate.toString(),
+                time: selectedTime.toString(),
+                posterUrl: $('#movie-poster').attr('src'),
+                movieTitle: $('#movie-title').text(),
+                theaterName: $('#theater-name').text(),
+                screenNum: $('#screen-num').text()
+            };
+
+            $.ajax({
+                url: '/reservation/moviebooking',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(bookingData),
+                success: function(response) {
+                    // 서버 응답에 따른 페이지 이동 등 처리
+                    window.location.href = '/reservation/moviebooking';
+                },
+                error: function(xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        }
+    });
+
 
     // 영화 목록 항목 클릭 이벤트 처리
     $('#movie-list').on('click', 'li', function() {
         if ($(this).hasClass('selected')) {
             // 이미 선택된 항목을 다시 클릭한 경우
-            $(this).removeClass('selected');
-            $('#movie-title').text('');
-            $('#movie-poster').hide();
-            $('#movie-title-container').hide();
-            $('#movie-select-message').show(); // 메시지 다시 표시
-            selectedMovieId = null; // 선택한 영화 ID 초기화
-            // 날짜, 시간 목록 초기화
-            $('#date-list').empty();
-            $('#time-list').empty();
+            resetSelections(true, false, true, true);
         } else {
-            // 이전 선택된 요소의 선택 상태를 제거
-            $('#movie-list li').removeClass('selected');
-
+            resetSelections(true, false, true, true);
             // 현재 선택된 요소에 선택 상태 추가
             $(this).addClass('selected');
-
-            var movieTitle = $(this).data('title');
-            var posterUrl = $(this).data('poster'); // data-poster 속성에서 포스터 URL 가져오기
             selectedMovieId = $(this).data('movie-id'); // data-movie-id 속성에서 영화 ID 가져오기
-            console.log('Selected Movie ID:', selectedMovieId); // 디버그용 로그 추가
+            selectedPosterUrl = $(this).data('poster'); // data-poster 속성에서 포스터 URL 가져오기
+            selectedMovieTitle = $(this).data('title'); // data-title 속성에서 영화 제목 가져오기
 
             // 영화 제목과 포스터 업데이트
-            $('#movie-title').text(movieTitle);
-            $('#movie-poster').attr('src', posterUrl).show();
+            $('#movie-title').text(selectedMovieTitle);
+            $('#movie-poster').attr('src', selectedPosterUrl).show();
 
             // 숨겨진 요소들 표시
             $('#movie-title-container').show();
             $('#movie-select-message').hide(); // 메시지 숨기기
 
-            // 날짜, 시간 목록 초기화
-            $('#date-list').empty();
-            $('#time-list').empty();
-
-            // 새로 선택된 영화에 맞는 날짜 목록 불러오기
             if (selectedTheaterId) {
-                getDates(selectedTheaterId, selectedMovieId);
+                getDates(selectedTheaterId, selectedMovieId); // 새로 선택된 영화에 맞는 날짜 목록 불러오기
             }
         }
+        updateSeatButtonState(); // 좌석 선택 버튼 상태 업데이트
     });
 
     // 지역 항목을 클릭했을 때 이벤트 핸들러
     $('#region-theater-list').on('click', '.region-item', function() {
-        // 모든 지역 항목에서 selected 클래스를 제거
-        $('.region-item').removeClass('selected');
+        resetSelections(false, true, true, true);
         // 클릭된 항목에 selected 클래스 추가
         $(this).addClass('selected');
 
         // 선택된 지역의 ID를 가져오기
         const regionId = $(this).data('region');
-        console.log('Region ID:', regionId); // 디버그용 로그
-        // 선택된 지역의 극장 목록 가져오기
-        getTheaters(regionId, selectedMovieId); // 선택된 영화 ID도 전달
+        getTheaters(regionId, selectedMovieId); // 선택된 지역의 극장 목록 가져오기
     });
 
     // 동적으로 생성된 극장 항목을 클릭했을 때 이벤트 핸들러
     $(document).on('click', '.theater-item', function() {
-        // 모든 극장 항목에서 selected 클래스를 제거
-        $('.theater-item').removeClass('selected');
+        resetSelections(false, true, true, true);
         // 클릭된 항목에 selected 클래스 추가
         $(this).addClass('selected');
+        selectedTheaterId = $(this).data('theater-id'); // 선택한 극장의 ID 저장
+        selectedTheaterName = $(this).text(); // 선택한 극장의 이름 저장
+        $('#theater-name').text(selectedTheaterName); // 선택된 극장의 이름 업데이트
 
-        // 선택된 극장의 이름과 ID를 가져오기
-        const theaterName = $(this).text();
-        const theaterId = $(this).data('theater-id');
-        selectedTheaterId = theaterId; // 선택한 극장의 ID 저장
-        $('#theater-name').text(theaterName); // 선택된 극장의 이름 업데이트
-        console.log('Theater ID:', theaterId); // 디버그용 로그
-        // 선택된 극장의 상영 날짜 목록 가져오기
-        getDates(theaterId, selectedMovieId); // 선택된 영화 ID도 전달
+        if (selectedMovieId) {
+            getDates(selectedTheaterId, selectedMovieId); // 선택된 극장의 상영 날짜 목록 가져오기
+        }
+        updateSeatButtonState(); // 좌석 선택 버튼 상태 업데이트
     });
 
     // 동적으로 생성된 상영 날짜 항목을 클릭했을 때 이벤트 핸들러
@@ -208,13 +225,13 @@ $(document).ready(function() {
         $('.date-item').removeClass('selected');
         // 클릭된 항목에 selected 클래스 추가
         $(this).addClass('selected');
+        selectedDate = $(this).data('date'); // 선택한 날짜 저장
 
-        // 선택된 날짜와 현재 선택된 극장의 ID를 가져오기
-        const date = $(this).data('date');
         const theaterId = $('#theaters .theater-item.selected').data('theater-id');
-        console.log('Selected Date:', date); // 디버그용 로그
-        // 선택된 날짜와 극장의 상영 시간 목록 가져오기
-        getTimes(theaterId, date, selectedMovieId); // 선택한 영화 ID도 전달
+        if (theaterId && selectedMovieId) {
+            getTimes(theaterId, selectedDate, selectedMovieId); // 선택된 날짜와 극장의 상영 시간 목록 가져오기
+        }
+        updateSeatButtonState(); // 좌석 선택 버튼 상태 업데이트
     });
 
     // 동적으로 생성된 상영 시간 항목을 클릭했을 때 이벤트 핸들러
@@ -224,35 +241,22 @@ $(document).ready(function() {
         // 클릭된 항목에 selected 클래스 추가
         $(this).addClass('selected');
 
-        // 선택된 상영 시간의 데이터를 가져오기
-        const movieTitle = $(this).data('movie-title');
-        const typeName = $(this).data('type-name');
-        const startTime = $(this).data('start-time');
-        const endTime = $(this).data('end-time');
-        const playDate = $(this).data('play-date'); // 선택된 상영 날짜
-        const screenNum = $(this).data('screen-num'); // 상영관 번호 추가
+        selectedTime = $(this).data('start-time') + ' - ' + $(this).data('end-time'); // 선택된 상영 시간 저장
+        selectedScreenNum = $(this).data('screen-num'); // 선택한 상영관 번호 저장
 
         // HTML 요소 업데이트
-        $('#movie-title').text(movieTitle);
+        $('#movie-title').text($(this).data('movie-title'));
         $('#theater-name').text($('#theaters .theater-item.selected').text());
-        $('#play-date').text(playDate + ' ' + startTime + ' - ' + endTime);
-        $('#screen-num').text(screenNum);
+        $('#play-date').text($(this).data('play-date') + ' ' + $(this).data('start-time') + ' - ' + $(this).data('end-time'));
+        $('#screen-num').text(selectedScreenNum);
 
         // 선택된 영화의 포스터를 가져와서 업데이트
-        const posterUrl = $(this).data('poster');
-        $('#movie-poster').attr('src', posterUrl).show(); // 영화 포스터 업데이트 및 표시
+        $('#movie-poster').attr('src', $(this).data('poster')).show();
 
-        console.log('Movie Title:', movieTitle);
-        console.log('Type Name:', typeName);
-        console.log('Start Time:', startTime);
-        console.log('End Time:', endTime);
-        console.log('Play Date:', playDate);
-        console.log('Screen Num:', screenNum);
-        console.log('Poster URL:', posterUrl); // 디버그용 로그
+        updateSeatButtonState(); // 좌석 선택 버튼 상태 업데이트
     });
 });
 
-// 선택된 지역의 극장 목록을 가져오는 함수
 function getTheaters(region_id, movie_id) { // movie_id 파라미터 추가
     $.ajax({
         url: '/reservation/booking/theater', // 서버의 극장 목록 엔드포인트
@@ -260,24 +264,20 @@ function getTheaters(region_id, movie_id) { // movie_id 파라미터 추가
         data: { region_id: region_id, movie_id: movie_id }, // 요청에 지역 ID와 영화 ID를 포함
         error: function(error) {
             alert("!"+error); // 오류 발생 시 경고창 표시
-            alert("movie_id:" + movie_id);
             console.error('Error:', error); // 디버그용 로그
         },
         success: function(result) {
-            console.log('Result:', result); // 디버그용 로그
             let a = '';
             // 서버로부터 받은 극장 목록을 반복하여 HTML 요소 생성
             $.each(result, function(key, value) {
                 a += '<li class="theater-item" data-theater-id="' + value.theater_id + '">' + value.theater_name + '</li>';
             });
             // 극장 목록 업데이트
-            $("#theaters").empty();
-            $("#theaters").html(a);
+            $("#theaters").empty().html(a);
         }
     });
 }
 
-// 선택된 극장의 상영 날짜 목록을 가져오는 함수
 function getDates(theater_id, movie_id) { // movie_id 파라미터 추가
     $.ajax({
         url: '/reservation/booking/dates', // 서버의 상영 날짜 엔드포인트
@@ -288,20 +288,17 @@ function getDates(theater_id, movie_id) { // movie_id 파라미터 추가
             console.error('Error:', error); // 디버그용 로그
         },
         success: function(result) {
-            console.log('Result:', result); // 디버그용 로그
             let a = '';
             // 서버로부터 받은 상영 날짜 목록을 반복하여 HTML 요소 생성
             $.each(result, function(key, value) {
                 a += '<li class="date-item" data-date="' + value.play_date + '">' + value.play_date + '</li>';
             });
             // 상영 날짜 목록 업데이트
-            $("#date-list").empty();
-            $("#date-list").html(a);
+            $("#date-list").empty().html(a);
         }
     });
 }
 
-// 선택된 날짜와 극장의 상영 시간 목록을 가져오는 함수
 function getTimes(theater_id, date, movie_id) {
     $.ajax({
         url: '/reservation/booking/times', // 서버의 상영 시간 엔드포인트
@@ -312,18 +309,60 @@ function getTimes(theater_id, date, movie_id) {
             console.error('Error:', error); // 디버그용 로그
         },
         success: function(result) {
-            console.log('Result:', result); // 디버그용 로그
             let a = '';
             // 서버로부터 받은 상영 시간 목록을 반복하여 HTML 요소 생성
             $.each(result, function(key, value) {
                 a += '<li class="time-item" title="'+ value.movie_title + '" data-movie-title="' + value.movie_title + '" data-type-name="' + value.type_name + '" data-start-time="' + value.start_time + '" data-end-time="' + value.end_time + '" data-play-date="' + date + '" data-screen-num="' + value.screen_num + '" data-poster="' + value.poster_url + '">' + value.start_time + ' - ' + value.end_time + ' : ' + value.movie_title + ' (' + value.screen_num + ')</li>';
             });
             // 상영 시간 목록 업데이트
-            $("#time-list").empty();
-            $("#time-list").html(a);
+            $("#time-list").empty().html(a);
         }
     });
 }
+
+function updateSeatButtonState() {
+    const seatButton = $('#seatButton');
+    if (selectedMovieId && selectedTheaterId && selectedDate && selectedTime) {
+        seatButton.prop('disabled', false); // 버튼 활성화
+        seatButton.css('background-color', 'red'); // 버튼 배경색을 빨간색으로 변경
+    } else {
+        seatButton.prop('disabled', true); // 버튼 비활성화
+        seatButton.css('background-color', '#343433'); // 버튼 배경색을 원래대로 설정
+    }
+}
+
+function resetSelections(resetMovie, resetTheater, resetDate, resetTime) {
+    if (resetMovie) {
+        selectedMovieId = ''; // 선택한 영화 ID 초기화
+        selectedPosterUrl = ''; // 선택한 영화 포스터 URL 초기화
+        selectedMovieTitle = ''; // 선택한 영화 제목 초기화
+        $('#movie-title').text('');
+        $('#movie-poster').hide();
+        $('#movie-title-container').hide();
+        $('#movie-select-message').show(); // 메시지 다시 표시
+        $('#movie-list li').removeClass('selected');
+    }
+    if (resetTheater) {
+        selectedTheaterId = ''; // 선택한 극장 ID 초기화
+        selectedTheaterName = ''; // 선택한 극장 이름 초기화
+        $('#theater-name').text('');
+        $('#region-theater-list .region-item').removeClass('selected');
+        $('#theaters .theater-item').removeClass('selected');
+    }
+    if (resetDate) {
+        selectedDate = ''; // 선택한 날짜 초기화
+        $('#date-list').empty();
+    }
+    if (resetTime) {
+        selectedTime = ''; // 선택한 시간 초기화
+        selectedScreenNum = ''; // 선택한 상영관 번호 초기화
+        $('#time-list').empty();
+        $('#play-date').text('');
+        $('#screen-num').text('');
+    }
+    updateSeatButtonState(); // 좌석 선택 버튼 상태 업데이트
+}
+
 </script>
 <%@ include file="../../footer.jsp" %>
 

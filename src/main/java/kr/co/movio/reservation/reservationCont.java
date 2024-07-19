@@ -4,7 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import kr.co.movio.movie.MovieDAO;
 import kr.co.movio.movie.MovieDTO;
 import kr.co.movio.theater.TheaterDAO;
@@ -14,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
+import java.io.IOException;
 import java.util.*;
 
 //좌석 예매 페이지에 대한 컨트롤러
@@ -81,12 +85,64 @@ public class reservationCont {
     }
     
 	
-    // 좌석 예매 페이지
     @GetMapping("/moviebooking")
-    public String MovieBooking() {
+    public String movieBooking(HttpSession session, Model model) {
+        String memId = (String) session.getAttribute("mem_id");
+
+        if (memId == null) {
+            return "redirect:/member/login"; // 로그인 페이지로 리다이렉트
+        }
+
+        // 세션에서 데이터를 가져와 모델에 추가
+        model.addAttribute("movieId", session.getAttribute(memId + "_movieId"));
+        model.addAttribute("theaterId", session.getAttribute(memId + "_theaterId"));
+        model.addAttribute("date", session.getAttribute(memId + "_date"));
+        model.addAttribute("time", session.getAttribute(memId + "_time"));
+        model.addAttribute("posterUrl", session.getAttribute(memId + "_posterUrl"));
+        model.addAttribute("movieTitle", session.getAttribute(memId + "_movieTitle"));
+        model.addAttribute("theaterName", session.getAttribute(memId + "_theaterName"));
+        model.addAttribute("screenNum", session.getAttribute(memId + "_screenNum"));
+
         return "reservation/movieBooking";
     }
 
+    @PostMapping("/moviebooking")
+    public String handleBooking(@RequestBody Map<String, String> bookingData, HttpSession session) {
+        String memId = (String) session.getAttribute("mem_id");
+        System.out.println("mem_id" + memId);
+
+        String movieId = bookingData.get("movieId");
+        String theaterId = bookingData.get("theaterId");
+        String date = bookingData.get("date");
+        String time = bookingData.get("time");
+        String posterUrl = bookingData.get("posterUrl");
+        String movieTitle = bookingData.get("movieTitle");
+        String theaterName = bookingData.get("theaterName");
+        String screenNum = bookingData.get("screenNum");
+
+        // sysout 로그 출력
+        System.out.println("movieId: " + movieId);
+        System.out.println("theaterId: " + theaterId);
+        System.out.println("date: " + date);
+        System.out.println("time: " + time);
+        System.out.println("posterUrl: " + posterUrl);
+        System.out.println("movieTitle: " + movieTitle);
+        System.out.println("theaterName: " + theaterName);
+        System.out.println("screenNum: " + screenNum);
+
+        // 데이터를 세션에 저장
+        session.setAttribute(memId + "_movieId", movieId);
+        session.setAttribute(memId + "_theaterId", theaterId);
+        session.setAttribute(memId + "_date", date);
+        session.setAttribute(memId + "_time", time);
+        session.setAttribute(memId + "_posterUrl", posterUrl);
+        session.setAttribute(memId + "_movieTitle", movieTitle);
+        session.setAttribute(memId + "_theaterName", theaterName);
+        session.setAttribute(memId + "_screenNum", screenNum);
+
+        return "redirect:/reservation/moviebooking";
+    }
+    
     private Map<String, Boolean> seatStatus = Collections.synchronizedMap(new HashMap<>());
 
     // 초기 좌석 상태 설정 (예제용)
