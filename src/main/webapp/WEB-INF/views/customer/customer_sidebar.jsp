@@ -39,7 +39,7 @@
         
         <!-- 1:1문의 메뉴 아이템 -->
         <li class="sidebar-item">
-            <a href="<c:url value='/customer/inquiryForm' />" class="${fn:endsWith(pageContext.request.requestURI, '/customer/inquiryForm') ? 'active' : ''}">
+            <a href="<c:url value='/customer/inquiryList' />" class="${fn:endsWith(pageContext.request.requestURI, '/customer/inquiryForm') ? 'active' : ''}">
                 <!-- 1:1문의 아이콘 이미지 -->
                 <div class="front">
                     <img src="<c:url value='/images/logo/inquiry.png' />" alt="1:1문의 아이콘">

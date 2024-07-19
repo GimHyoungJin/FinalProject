@@ -94,7 +94,7 @@
 	  </div>
 	 <div class="icons">
 	          <div class="icon">
-	              <a href="<c:url value='/customer/inquiryForm' />">
+	              <a href="<c:url value='/customer/inquiryList' />">
 	                  <img src="<c:url value='/images/logo/문의.png' />" alt="3번 아이콘">
 	                  <p>1:1 문의</p>
 	              </a>
