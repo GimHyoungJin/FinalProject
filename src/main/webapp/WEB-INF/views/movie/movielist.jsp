@@ -68,7 +68,7 @@
                 <div class="col-md-3">
                     <div class="card mb-4">
                         <a href="<c:url value='/movie/moviedetail?id=${movie.movie_id}' />">
-                            <img src="${movie.poster_url}" class="card-img-top" alt="${movie.movie_title}">
+                            <img src="${movie.poster_url}" title="${movie.movie_title}" class="card-img-top" alt="${movie.movie_title}">
                         </a>
                         <div class="card-body">
                             <h5 class="card-title d-flex align-items-center">
