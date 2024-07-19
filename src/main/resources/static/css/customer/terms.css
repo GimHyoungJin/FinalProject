@@ -9,16 +9,26 @@
 /* 이용약관 페이지의 컨테이너 스타일 */
 #terms-content {
     margin-left: 220px;
-    width: calc(100% - 240px); /* 최대 너비를 750px로 설정 */
+    width: 80%; /* 너비를 80%로 설정 */
+    max-width: 900px; /* 최대 너비 설정 */
     padding: 20px; /* 내부 패딩 20px 설정 */
-    background-color: #c0c0c0; /* 배경색 설정 */
+    background-color: #ffffff; /* 배경색 설정 */
+}
+
+/* 이용약관 제목 스타일 */
+#terms-title {
+    margin-top: 0; /* 상단 마진 0 설정 */
+    margin-bottom: 10px; /* 하단 마진 10px 설정 */
+    font-size: 2rem;
 }
 
 /* 이용약관 목록의 스타일 */
 .terms-list {
+    margin-top: 0; /* 상단 마진 0 설정 */
     margin-bottom: 20px; /* 하단 마진 20px 설정 */
     display: flex; /* 플렉스박스 설정으로 열을 나열 */
-    justify-content: space-between; /* 열 사이의 공간을 균등하게 배분 */
+    justify-content: center; /* 목록을 중앙에 배치 */
+    align-items: center; /* 목록을 수직 중앙에 배치 */
 }
 
 /* 이용약관 목록의 컬럼 스타일 */
@@ -63,34 +73,16 @@
 }
 
 /* 이용약관 내용을 감싸는 박스 스타일 */
-.article-box {
-    border: 1px solid #000; /* 박스의 테두리를 검은색(#000)으로 1픽셀 두께로 설정합니다. */
-    padding: 20px; /* 박스 안의 내용물과 테두리 사이에 20픽셀의 여백을 줍니다. */
-    background-color: #ffffff; /* 박스의 배경색을 흰색(#ffffff)으로 설정합니다. */
-    border-radius: 5px; /* 박스의 모서리를 둥글게 만들어서 반지름을 5픽셀로 설정합니다. */
-    max-height: 600px; /* 최대 높이 600px */
-    overflow-y: auto; /* 세로 스크롤바 추가 */
+.terms-content {
+    width: 100%; /* 이용약관 박스의 너비를 부모 요소에 맞춤 */
+    height: 500px; /* 고정 높이 설정 */
+    overflow-y: scroll; /* 세로 스크롤 설정 */
+    padding: 16px; /* 내부 패딩 16px 설정 */
+    border: 1px solid #ccc; /* 테두리 설정 */
+    border-radius: 4px; /* 테두리 반경 설정 */
+    box-sizing: border-box; /* 박스 사이징 설정 */
+    background-color: #fff; /* 배경색 설정 */
+    color: #333; /* 텍스트 색상 설정 */
+    font-size: 1rem; /* 글씨 크기 설정 */
+    margin-bottom: 20px; /* 하단 마진 설정 */
 }
-
-/* 이용약관 각 조항의 제목 스타일 */
-.terms-article-title {
-    font-size: 1.2rem; /* 글씨 크기 13px 설정 */
-    margin-top: 20px; /* 상단 마진 20px 설정 */
-}
-
-/* 이용약관 각 조항의 본문 스타일 */
-.terms-article-text, .terms-content ol {
-    font-size: 1rem; /* 글씨 크기 14px 설정 */
-    line-height: 1.6; /* 줄 간격 1.6 설정 */
-}
-
-/* 이용약관 제목 스타일 */
-#terms-title {
-    margin-top: 50px; /* 헤더와 제목 사이의 여백 설정 */
-    text-align: center; /* 텍스트 중앙 정렬 */
-    border: 2px solid #000; /* 검은색 테두리 설정 */
-    padding: 10px; /* 내부 패딩 설정 */
-    display: inline-block; /* 제목 크기에 맞는 박스 설정 */
-    background-color: #fff; /* 배경색 설정 (필요에 따라 추가) */
-}
-

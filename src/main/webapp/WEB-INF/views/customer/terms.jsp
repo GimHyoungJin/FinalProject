@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-
   <title>이용약관</title>
   <meta charset="utf-8">
   <!-- 공통 시작 -->
@@ -17,14 +16,13 @@
   <!-- 공통 끝 -->	
   
   <link href="<c:url value='/css/customer/customer_sidebar.css' />" rel="stylesheet" type="text/css">
-  <link href="<c:url value='/css/terms.css' />" rel="stylesheet" type="text/css">
+  <link href="<c:url value='/css/customer/terms.css' />" rel="stylesheet" type="text/css">
   <script src="<c:url value='/js/terms.js' />"></script>
 </head>
 <body>
 	<%@ include file="../../header.jsp"%>
 
-	<div id="container">
-  <div class="row">
+	<div id="container" class="row">
 		<!-- 사이드바 -->
     <div id="sidebar" class="col-md-3">
       <%@ include file="customer_sidebar.jsp"%>
@@ -34,7 +32,6 @@
 <div id="terms-content" class="col-md-9">
   <div class="terms-wrapper">
     <h1 id="terms-title" class="text-center">이용약관</h1>
-
 
         <div id="terms-list" class="terms-list mb-4 text-center">
         <div class="row">
@@ -62,7 +59,7 @@
             <li class="nav-item"><a class="nav-link" href="#article16">제16조. 회원의 게시물</a></li>
             <li class="nav-item"><a class="nav-link" href="#article17">제17조. 게시물의 저작원</a></li>
             <li class="nav-item"><a class="nav-link" href="#article18">제18조. 저작권의 보호</a></li>
-            <li class="nav-item"><a class="nav-link" href="#article19">제19조. 광고게재 및 광고주와의 거래</a></li>
+            <li class="nav-item"><a class="nav-link" href="#article19">제19조. 광고주와의 거래</a></li>
             <li class="nav-item"><a class="nav-link" href="#article20">제20조. 서비스 이용 책임</a></li>
             <li class="nav-item"><a class="nav-link" href="#article21">제21조. 서비스 제공의 중지 등</a></li>
             <li class="nav-item"><a class="nav-link" href="#article22">제22조. 계약 해지 및 이용 제한</a></li>
@@ -77,8 +74,7 @@
 </div>
 
 				<!-- 약관 내용 -->
-					<div id="terms-article" class="terms-content">
-						<div class="article-box">
+					<div id="terms-article" class="terms-content article-box">
 							<h2 id="article1" class="terms-article-title">제1조. 목적</h2>
 							<p class="terms-article-text">
 							본 약관은 무비오(주)(이하 "회사"라 합니다)가 제공하는 온라인, 오프라인 서비스(이하 "서비스"라 합니다) 이용과 관련하여 회사와 이용자의 권리, 의무 및
@@ -323,8 +319,6 @@
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
 
 	<%@ include file="../../footer.jsp"%>
 </body>
