@@ -162,12 +162,24 @@
     margin-right: 20px; /* 오른쪽에 20px 여백 추가 */
 }
 
-#seatCont .footer-panel .movie-info div {
+#seatCont .footer-panel .movie-info .details {
     display: flex; /* 플렉스 박스를 사용하여 자식 요소들을 배치 */
     flex-direction: column; /* 자식 요소들을 세로로 나열 */
 }
 
-#seatCont .footer-panel .movie-info div span {
+#seatCont .footer-panel .movie-info .details span {
+    margin-bottom: 10px; /* 하단에 10px 여백 추가 */
+}
+
+#seatCont .footer-panel .payment-info {
+    display: flex; /* 플렉스 박스를 사용하여 자식 요소들을 배치 */
+    flex-direction: column; /* 자식 요소들을 세로로 나열 */
+    justify-content: right; 
+	margin-top: 5px;
+	margin-left: 500px;
+}
+
+#seatCont .footer-panel .payment-info span {
     margin-bottom: 10px; /* 하단에 10px 여백 추가 */
 }
 

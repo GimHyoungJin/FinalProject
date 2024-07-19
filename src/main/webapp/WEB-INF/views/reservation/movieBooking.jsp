@@ -78,14 +78,16 @@
     <div class="footer-panel">
         <div class="movie-info">
             <img src="${posterUrl}" alt="영화 포스터">
-            <div>
+            <div class="details">
                 <span>영화: ${movieTitle}</span>
                 <span>극장: ${theaterName}</span>
                 <span>일시: ${date} ${time}</span>
                 <span>상영관: ${screenNum}</span>
-                <span>좌석: <span id="selectedSeatsDisplay">선택된 좌석 표시</span></span>
-                <span>총 금액: <span id="totalPrice">0원</span></span>
             </div>
+        </div>
+        <div class="payment-info">
+            <span>좌석: <span id="selectedSeatsDisplay">선택된 좌석 표시</span></span>
+            <span>총 금액: <span id="totalPrice">0원</span></span>
         </div>
         <div class="payment-button">
             <button id="paymentButton" type="button">
@@ -97,6 +99,7 @@
         </div>
     </div>
 </div>
+
 <%@ include file="../../footer.jsp" %>
 </body>
 </html>

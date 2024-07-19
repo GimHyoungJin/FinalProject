@@ -84,14 +84,11 @@ public class reservationCont {
         return theaterDao.getMoviesByTheaterAndDate(params);
     }
     
-	
+	//moviebooking.jsp 페이지로 이동하는 리다이렉트인데 session에 데이터를 담아서 넘어가기 때문에
+    //무조건 로그인해야 해당 페이지로 넘어갈 수 있다. 아니면 405 에러 뜸
     @GetMapping("/moviebooking")
     public String movieBooking(HttpSession session, Model model) {
         String memId = (String) session.getAttribute("mem_id");
-
-        if (memId == null) {
-            return "redirect:/member/login"; // 로그인 페이지로 리다이렉트
-        }
 
         // 세션에서 데이터를 가져와 모델에 추가
         model.addAttribute("movieId", session.getAttribute(memId + "_movieId"));
