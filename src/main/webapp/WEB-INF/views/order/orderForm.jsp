@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <title>detail</title>
+  <title>orderForm</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -60,8 +60,8 @@
                     </tr>
                     <tr>
                         <td colspan="2" align="center">
-                            <input type="button" value="카카오페이 간편결제" class="btn btn-warning" onclick="checkLoginAndPay('kakao', '${user_email}', '${username}')">
-                            <input type="button" value="결제하기" class="btn btn-dark" onclick="checkLoginAndPay('inicis', '${user_email}', '${username}')">
+							<input type="button" value="카카오페이 간편결제" class="btn btn-warning" onclick="checkLoginAndPay('kakao', '${useremail}', '${username}', '${phone}')">
+                            <input type="button" value="결제하기" class="btn btn-dark" onclick="checkLoginAndPay('inicis', '${useremail}', '${username}', '${phone}')">
                         </td>
                     </tr>
                     </tbody>
@@ -124,12 +124,22 @@ function orderCheck() {
 	}
 }
 
+//결제 처리 함수
+function processPayment(paymentMethod, email, username) {
+    // 결제 로직 처리
+    // 결제 완료 후 이동할 URL 설정
+    const redirectUrl = '/order/msgView';
+
+    // 결제 완료 후 페이지 이동
+    location.href = redirectUrl;
+}
+
 // 구매자 정보 전달
-const user_email = '${user_email}';
 const username = '${username}';
+const phone = '${phone}';
 
 const buyButton = document.getElementById('payment');
-buyButton.setAttribute('onclick', `checkLoginAndPay('${user_email}', '${username}')`);
+buyButton.setAttribute('onclick', `checkLoginAndPay('${username}', '${phone}')`);
 </script>
 
 </body>

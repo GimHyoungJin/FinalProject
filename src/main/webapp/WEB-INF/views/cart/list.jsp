@@ -20,12 +20,17 @@
 		}//if end
 	}//cartDelete() end  
 	
-	function order () {
-		if(confirm("주문할까요?")){
-			location.href='/order/orderform';
-		}//if end
-	}//order() end
-  </script>  
+	function checkLoginAndOrder() {
+        var mem_id = '<c:out value="${sessionScope.mem_id}" />';
+        if (!mem_id) {
+            $('#loginModal').modal('show'); // 로그인 모달 표시
+        } else {
+            if(confirm("주문할까요?")){
+			    location.href='/order/orderform';
+		    }//if end
+        }
+    }
+  </script> 
   
 </head>
 <body>
@@ -84,7 +89,7 @@
     	<p><h3>총 금액: ${totalPrice}원</h3></p>
   	    <br>
     	<input type="button" class="btn btn-dark" value="계속쇼핑하기" onclick="location.href='/product/list'">
-	    <input type="button" class="btn btn-dark" value="주문하기" onclick="order()"> 
+	    <input type="button" class="btn btn-dark" value="주문하기" onclick="checkLoginAndOrder()"> 
     	
   </div><!-- row end -->
   <!-- 본문 끝 -->

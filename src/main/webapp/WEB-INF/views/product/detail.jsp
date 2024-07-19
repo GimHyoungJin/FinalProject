@@ -57,6 +57,16 @@
             document.productfrm.submit();
         }
     }
+    
+ // 결제 처리 함수
+    function processPayment(paymentMethod, email, username) {
+        // 결제 로직 처리
+        // 결제 완료 후 이동할 URL 설정
+        const redirectUrl = '/order/msgView';
+
+        // 결제 완료 후 페이지 이동
+        location.href = redirectUrl;
+    }
   </script>
 </head>
 <body>
