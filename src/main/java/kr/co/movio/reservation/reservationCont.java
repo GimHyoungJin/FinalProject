@@ -39,27 +39,44 @@ public class reservationCont {
     }//end
     
     
-    //각 지역별 지점 영화관 목록 가져오는 엔드포인트
+    /*각 지역별 지점 영화관 목록 가져오는 엔드포인트
     @GetMapping("/booking/theater")
     @ResponseBody 
     public List<Map<String, Object>> theaterlist(@RequestParam("region_id") String region_id) {
     	//System.out.println("------" + region_id);
     	return theaterDao.getTheaters(region_id);
     }//end
+    */
     
+    @GetMapping("/booking/theater")
+    @ResponseBody
+    public List<Map<String, Object>> getTheaters(@RequestParam("region_id") String regionId, 
+                                                 @RequestParam("movie_id") String movieId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("region_id", regionId);
+        params.put("movie_id", movieId);
+        return theaterDao.getTheaters(params);
+    }
     // 특정 극장의 상영 날짜 조회하는 엔드포인트
     @GetMapping("/booking/dates")
     @ResponseBody
-    public List<Map<String, Object>> getDates(@RequestParam("theater_id") String theater_id) {
-        return theaterDao.getDistinctDatesByTheater(theater_id);
+    public List<Map<String, Object>> getDates(@RequestParam("theater_id") String theaterId, 
+                                              @RequestParam("movie_id") String movieId) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("theater_id", theaterId);
+        params.put("movie_id", movieId);
+        return theaterDao.getDistinctDatesByTheater(params);
     }
     
     
     //특정 날짜의 상영 영화 조회하는 엔드포인트
     @GetMapping("/booking/times")
     @ResponseBody
-    public List<Map<String, Object>> getTimes(@RequestParam("theater_id") String theater_id, @RequestParam("date") String date) {
-        Map<String, Object> params = Map.of("theater_id", theater_id, "date", date);
+    public List<Map<String, Object>> getTimes(@RequestParam("theater_id") String theater_id, @RequestParam("date") String date, @RequestParam("movie_id") String movie_id) {
+    	System.out.println("Theater ID: " + theater_id); // 디버그용 로그
+        System.out.println("Date: " + date); // 디버그용 로그
+        System.out.println("Movie ID: " + movie_id); // 디버그용 로그
+    	Map<String, Object> params = Map.of("theater_id", theater_id, "date", date, "movie_id", movie_id);
         return theaterDao.getMoviesByTheaterAndDate(params);
     }
     

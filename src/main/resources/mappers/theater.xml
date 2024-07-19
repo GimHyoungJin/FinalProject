@@ -35,56 +35,52 @@
     	from region
     </select>
    
-    <!-- 지역 id와 맞는 극장 지점 데이터를 가져오는 쿼리 -->
+    <!-- 지역 id와 맞는 극장 지점 데이터를 가져오는 쿼리 
     <select id="getTheaters" resultType="java.util.Map" parameterType="String">
     	select theater_name, theater_id
     	from theater 
     	where region_id = #{region_id}
     </select>
+    -->
     
-     <!-- 특정 극장의 상영 날짜 조회 -->
+   	<!-- 지역 id와 맞는 극장 지점 데이터를 가져오는 쿼리 -->
+	<select id="getTheaters" resultType="java.util.Map" parameterType="Map">
+	    SELECT DISTINCT t.theater_name, t.theater_id
+	    FROM theater t
+	    JOIN screen s ON t.theater_id = s.theater_id
+	    JOIN screenmovie sm ON s.screen_id = sm.screen_id
+	    WHERE t.region_id = #{region_id}
+	      AND sm.movie_id = #{movie_id}  <!-- 영화 ID 조건 추가 -->
+	</select>
+    
+    
+    <!-- 특정 극장의 상영 날짜 조회 -->
     <select id="getDistinctDatesByTheater" parameterType="String" resultType="java.util.Map">
-        SELECT DISTINCT scmovie_play AS play_date
-        FROM screenmovie
-        WHERE screen_id IN (SELECT screen_id FROM screen WHERE theater_id = #{theater_id})
-        ORDER BY scmovie_play
+	    SELECT DISTINCT scmovie_play AS play_date
+	    FROM screenmovie
+	    WHERE screen_id IN (SELECT screen_id FROM screen WHERE theater_id = #{theater_id})
+	      AND movie_id = #{movie_id}  <!-- 영화 ID 조건 추가 -->
+	    ORDER BY scmovie_play
     </select>
 	
     <!-- 특정 날짜의 상영 영화 조회 -->
     <select id="getMoviesByTheaterAndDate" parameterType="MAP" resultType="java.util.Map">
-           SELECT 
-	        sm.scmovie_start AS start_time, 
-	        sm.scmovie_end AS end_time, 
-	        m.movie_title, 
-	        st.type_name,
-	        s.screen_num
-		    FROM screenmovie sm
-		    JOIN movie m ON sm.movie_id = m.movie_id
-		    JOIN screen s ON sm.screen_id = s.screen_id
-		    JOIN screen_type st ON s.type_id = st.type_id
-		    WHERE s.theater_id = #{theater_id} AND sm.scmovie_play = #{date}
-		    ORDER BY sm.scmovie_start;
+		SELECT 
+		    sm.scmovie_start AS start_time, 
+		    sm.scmovie_end AS end_time, 
+		    m.movie_title, 
+		    m.poster_url,
+		    st.type_name, 
+		    s.screen_num
+		FROM screenmovie sm
+		JOIN movie m ON sm.movie_id = m.movie_id
+		JOIN screen s ON sm.screen_id = s.screen_id
+		JOIN screen_type st ON s.type_id = st.type_id
+		WHERE s.theater_id = #{theater_id} 
+		  AND sm.scmovie_play = #{date}
+		  AND m.movie_id = #{movie_id} 
+		ORDER BY sm.scmovie_start;
     </select>
-    
-    
-    <!-- 임시 추가 
-    <select id="getMoviesByTheaterAndDate" parameterType="MAP" resultType="java.util.Map">
-          SELECT 
-			    sm.scmovie_start AS start_time, 
-			    sm.scmovie_end AS end_time, 
-			    m.movie_title, 
-			    st.type_name,
-			    s.screen_num
-			FROM screenmovie sm
-			JOIN movie m ON sm.movie_id = m.movie_id
-			JOIN screen s ON sm.screen_id = s.screen_id
-			JOIN screen_type st ON s.type_id = st.type_id
-			WHERE s.theater_id = #{theater_id}
-			  AND sm.scmovie_play = #{scmovie_play}
-			  AND m.movie_title = #{movie_title}
-			ORDER BY sm.scmovie_start;
-    </select>
-    -->
     
 </mapper>
 
