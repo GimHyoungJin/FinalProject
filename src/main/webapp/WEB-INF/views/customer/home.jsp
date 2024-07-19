@@ -42,7 +42,9 @@
           <div id="inquiry-sections">
             <!-- 1:1 문의 시작 -->
             <div class="section">
+<<<<<<< Updated upstream
               <a href="<c:url value='/customer/inquiryList' />"> 
+
                 <img src="<c:url value='/images/logo/문의.png' />" alt="1:1 문의">
                 <p>1:1 문의</p>
                 <p class="description">해결되지 않은 문제가 있나요? 1:1문의로 문의주세요</p>
