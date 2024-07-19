@@ -176,7 +176,7 @@
     flex-direction: column; /* 자식 요소들을 세로로 나열 */
     justify-content: right; 
 	margin-top: 5px;
-	margin-left: 500px;
+	margin-left: 450px;
 }
 
 #seatCont .footer-panel .payment-info span {
