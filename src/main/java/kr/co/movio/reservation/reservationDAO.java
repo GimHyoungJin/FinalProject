@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Repository
 public class reservationDAO {
@@ -34,30 +35,22 @@ public class reservationDAO {
 		    return sqlSession.selectOne("ticketreservation.getReservationDetails", res_id);
 	 }
 	 
-	 //예약된 좌석 정보를 가져오는 쿼리
-	 public Map<String, Boolean> getReservedSeats(String screen_movie_id) {
-		    List<String> reservedSeats = sqlSession.selectList("ticketreservation.getReservedSeats", screen_movie_id);
-		    System.out.println("Reserved Seats: " + reservedSeats);
-		    Map<String, Boolean> seatStatus = new HashMap<>();
-		    for (String seat : reservedSeats) {
-		        seatStatus.put(seat, true);
+	 public Map<String, Boolean> getReservedSeats(String screenMovieId) {
+		    Map<String, Boolean> reservedSeats = sqlSession.selectOne("ticketreservation.getReservationDetails", screenMovieId);
+		    if (reservedSeats == null) {
+		        reservedSeats = new HashMap<>();
 		    }
-		    return seatStatus;
+		    return reservedSeats;
 		}
 	 
-	// screen_id로 총 좌석 수를 조회하는 메서드
-	 public Map<String, Object> getTotalSeats(String screen_movie_id) {
-	     // screenMovieId로 screen_id를 먼저 조회
-	     String screen_id = sqlSession.selectOne("ticketreservation.getScreenIdByScreenMovieId", screen_movie_id);
-	     System.out.println("Screen ID: " + screen_id);
-	     
-	     if (screen_id != null) {
-	         Map<String, Object> totalSeats = sqlSession.selectOne("ticketreservation.getTotalSeats", screen_id);
-	         System.out.println("Total Seats: " + totalSeats);
-	         return totalSeats;
-	     } else {
-	         System.out.println("No Screen ID found for Screen Movie ID: " + screen_movie_id);
-	         return null;
-	     }
-	 }
+	 	// screenMovieId로 screen_id를 조회하는 메서드
+	    public String getScreenIdByScreenMovieId(String screenMovieId) {
+	        Map<String, Object> result = sqlSession.selectOne("ticketreservation.getScreenIdByScreenMovieId", screenMovieId);
+	        return result != null ? (String) result.get("screen_id") : null;
+	    }
+
+	    // screen_id로 총 좌석 수를 조회하는 메서드
+	    public Map<String, Object> getTotalSeats(String screen_id) {
+	        return sqlSession.selectOne("ticketreservation.getTotalSeats", screen_id);
+	    }
 }

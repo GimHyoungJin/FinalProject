@@ -59,21 +59,21 @@
     <select id="getReservedSeats" parameterType="String" resultType="java.util.Map">
 	    SELECT res_seat_info
 	    FROM reservation
-	    WHERE screen_movie_id = #{screen_movie_id}
+	    WHERE screen_movie_id = #{screenMovieId}
     </select>
     
     <!-- 총 좌석 수를 가져오는 쿼리 -->
-    <select id="getTotalSeats" parameterType="String" resultType="java.util.Map">
-        SELECT screen_all_seat
-        FROM screen
-        WHERE screen_id = #{screen_id}
-    </select>
-    
-    <!-- screenMovieId로 screen_id를 조회하는 쿼리 -->
-	<select id="getScreenIdByScreenMovieId" parameterType="String" resultType="String">
-	    SELECT screen_id
-	    FROM screenmovie
-	    WHERE screen_movie_id = #{screen_movie_id}
+	<select id="getTotalSeats" parameterType="String" resultType="java.util.Map">
+		SELECT screen_all_seat
+		FROM screen
+		WHERE screen_id = #{screen_id}
+	</select>
+	
+	<!-- screenMovieId로 screen_id를 조회하는 쿼리 -->
+	<select id="getScreenIdByScreenMovieId" parameterType="String" resultType="java.util.Map">
+		SELECT screen_id
+		FROM screenmovie
+		WHERE screen_movie_id = #{screenMovieId}
 	</select>
 
 </mapper>

@@ -77,22 +77,52 @@ public class reservationCont {
     }
 
     
-    @GetMapping("/seatStatus")
-    public ResponseEntity<Map<String, Object>> getSeatStatus(@RequestParam("screen_movie_id") String screen_movie_id, @RequestParam("screen_id") String screen_id) {
-        Map<String, Boolean> currentSeatStatus = reservationDao.getReservedSeats(screen_movie_id);
-        Map<String, Object> totalSeatsMap = reservationDao.getTotalSeats(screen_id);
-        
-        int totalSeats = 0;
-        if (totalSeatsMap != null && totalSeatsMap.containsKey("screen_all_seat")) {
-            totalSeats = ((Number) totalSeatsMap.get("screen_all_seat")).intValue();
-        }
+	 @GetMapping("/seatStatus")
+	 public ResponseEntity<Map<String, Object>> getSeatStatus(@RequestParam String screenMovieId) {
+	     System.out.println("Received request for seatStatus with screenMovieId: " + screenMovieId);
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("seatStatus", currentSeatStatus);
-        response.put("totalSeats", totalSeats);
+	     Map<String, Boolean> currentSeatStatus = reservationDao.getReservedSeats(screenMovieId);
+	     System.out.println("Current seat status: " + currentSeatStatus);
+	     
+	     // screenMovieId로 screen_id를 먼저 조회
+	     String screenId = reservationDao.getScreenIdByScreenMovieId(screenMovieId);
+	     System.out.println("Fetched screenId: " + screenId + " for screenMovieId: " + screenMovieId);
+	     
+	     Map<String, Object> totalSeatsMap = null;
+	     if (screenId != null) {
+	         totalSeatsMap = reservationDao.getTotalSeats(screenId);
+	         System.out.println("Total seats map: " + totalSeatsMap);
+	     } else {
+	         System.out.println("No screenId found for screenMovieId: " + screenMovieId);
+	     }
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+	     // currentSeatStatus를 seatStatus에 추가
+	     synchronized (seatStatus) {
+	         seatStatus.putAll(currentSeatStatus);
+	     }
+
+	     // null 키가 포함되지 않도록 보장
+	     Map<String, Boolean> filteredSeatStatus = seatStatus.entrySet().stream()
+	         .filter(entry -> entry.getKey() != null)
+	         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+	     
+	     System.out.println("Filtered seat status: " + filteredSeatStatus);
+
+	     Map<String, Object> response = new HashMap<>();
+	     response.put("seatStatus", filteredSeatStatus);
+	     
+	     // totalSeats가 null이 아니고 screen_all_seat 키가 존재할 때만 추가
+	     if (totalSeatsMap != null && totalSeatsMap.containsKey("screen_all_seat")) {
+	         response.put("totalSeats", totalSeatsMap.get("screen_all_seat"));
+	         System.out.println("Total seats: " + totalSeatsMap.get("screen_all_seat"));
+	     } else {
+	         response.put("totalSeats", 0); // 또는 다른 기본값
+	         System.out.println("No valid total seats found, setting to 0");
+	     }
+
+	     System.out.println("Sending response: " + response);
+	     return new ResponseEntity<>(response, HttpStatus.OK);
+	 }
 
     // booking.jsp 페이지를 보여주는 엔드포인트
     @GetMapping("/booking")
