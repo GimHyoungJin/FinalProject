@@ -337,20 +337,20 @@ $(document).ready(function () {
         };
 
         $.ajax({
-            url: '/reservation/payment/save', // 결제 정보를 저장하는 엔드포인트
-            method: 'POST', // POST 요청
-            contentType: 'application/json', // 요청 데이터 타입 설정
-            data: JSON.stringify(paymentData), // 결제 데이터를 JSON 형식으로 변환하여 전송
-            success: function (response) {
-                console.log(response); // 성공 응답 로그 출력
-                alert('예약 및 결제가 성공적으로 완료되었습니다.'); // 성공 메시지 표시
-                window.location.href = '/payment/success'; // 결제 성공 페이지로 이동
-            },
-            error: function (error) {
-                console.error('Error saving payment:', error); // 결제 정보 저장 실패 시 오류 메시지 표시
-                alert('결제 처리 중 오류가 발생하였습니다.');
-            }
-        });
+		    url: '/reservation/payment/save', // 결제 정보를 저장하는 엔드포인트
+		    method: 'POST', // POST 요청
+		    contentType: 'application/json', // 요청 데이터 타입 설정
+		    data: JSON.stringify(paymentData), // 결제 데이터를 JSON 형식으로 변환하여 전송
+		    success: function (response) {
+		        console.log(response); // 성공 응답 로그 출력
+		        alert('예약 및 결제가 성공적으로 완료되었습니다.'); // 성공 메시지 표시
+		        window.location.href = 'payment/success'; // 결제 성공 페이지로 이동
+		    },
+		    error: function (error) {
+		        console.error('Error saving payment:', error); // 결제 정보 저장 실패 시 오류 메시지 표시
+		        alert('결제 처리 중 오류가 발생하였습니다.');
+		    }
+		});
     }
 
     // 페이지 로드 시 UUID 생성

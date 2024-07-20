@@ -219,8 +219,28 @@ public class reservationCont {
 
     // 결제 정보를 저장하는 엔드포인트
     @PostMapping("/payment/save")
-    public ResponseEntity<String> savePayment(@RequestBody TicketPaymentDTO paymentDTO) {
+    public ResponseEntity<String> savePayment(@RequestBody TicketPaymentDTO paymentDTO, HttpSession session) {
         reservationDao.savePayment(paymentDTO);
+        session.setAttribute("res_id", paymentDTO.getRes_id()); // res_id 세션에 저장
         return new ResponseEntity<>("Payment saved successfully", HttpStatus.OK);
     }
+    
+    // 결제 성공 페이지로 리다이렉트
+    @GetMapping("/payment/success")
+    public String paymentSuccess(HttpSession session, Model model) {
+        String resId = (String) session.getAttribute("res_id"); // 세션에서 res_id 가져오기
+        if (resId != null) {
+            Map<String, Object> reservationDetails = reservationDao.getReservationDetails(resId);
+            if (reservationDetails != null) {
+                model.addAttribute("reservation", reservationDetails);
+            } else {
+                //res_id가 null이면 해당 메세지 출력
+                System.out.println("No reservation details found for res_id: " + resId);
+            }
+        } else {
+            System.out.println("res_id not found in session.");
+        }
+        return "reservation/paymentSuccess"; // 결제 성공 JSP 페이지
+    }
+    
 }

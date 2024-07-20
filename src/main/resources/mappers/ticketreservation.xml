@@ -26,5 +26,33 @@
         SELECT * FROM payment WHERE pay_id = #{pay_id}
     </select>
 
+	<!-- 예매번호를 기반으로 예매한 영화, 좌석, 날짜 및 시간, 총금액을 받아오는 쿼리문 -->
+	<select id="getReservationDetails" parameterType="String" resultType="map">
+	    SELECT 
+	        r.res_id AS reservation_id,
+	        r.res_seat_info AS seats,
+	        sm.scmovie_play AS play_date,
+	        sm.scmovie_start AS start_time,
+	        sm.scmovie_end AS end_time,
+	        s.screen_num,
+	        m.movie_title,
+	        t.theater_name,
+	        p.tot_price AS total_amount
+	    FROM 
+	        reservation r
+	    JOIN 
+	        screenmovie sm ON r.screen_movie_id = sm.screen_movie_id
+	    JOIN 
+	        screen s ON sm.screen_id = s.screen_id
+	    JOIN 
+	        movie m ON sm.movie_id = m.movie_id
+	    JOIN 
+	        theater t ON s.theater_id = t.theater_id
+	    LEFT JOIN 
+	        payment p ON r.res_id = p.res_id
+	    WHERE 
+	        r.res_id = #{res_id}
+	</select>
+
 
 </mapper>
