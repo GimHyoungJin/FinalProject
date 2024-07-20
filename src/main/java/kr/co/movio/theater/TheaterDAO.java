@@ -3,6 +3,8 @@ package kr.co.movio.theater;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,6 +55,14 @@ public class TheaterDAO {
 	public List<Map<String, Object>> getMoviesByTheaterAndDate(Map<String, Object> params){
 		return sqlSession.selectList("kr.co.movio.theater.TheaterDAO.getMoviesByTheaterAndDate", params);
 	}//list end
+	
+	//스크린 테이블에서 극장id, 상영관을 통해 해당 좌석 데이터를 가져옴
+	public Map<String, Object> getScreenInfo(String theaterId, String screenNum) {
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("theaterId", theaterId);
+	    params.put("screenNum", screenNum);
+	    return sqlSession.selectOne("kr.co.movio.theater.TheaterDAO.getScreenInfo", params);
+	}
 	
 	/*지역에 맞는 극장 이름 가져오기
 	public List<Map<String, Object>> getTheaters(String region_id){

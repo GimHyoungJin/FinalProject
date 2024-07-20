@@ -59,21 +59,30 @@
     <!-- 특정 날짜의 상영 영화 조회 -->
     <select id="getMoviesByTheaterAndDate" parameterType="MAP" resultType="java.util.Map">
 		SELECT 
-		    sm.scmovie_start AS start_time, 
-		    sm.scmovie_end AS end_time, 
-		    m.movie_title, 
-		    m.poster_url,
-		    st.type_name, 
-		    s.screen_num
-		FROM screenmovie sm
-		JOIN movie m ON sm.movie_id = m.movie_id
-		JOIN screen s ON sm.screen_id = s.screen_id
-		JOIN screen_type st ON s.type_id = st.type_id
-		WHERE s.theater_id = #{theater_id} 
-		  AND sm.scmovie_play = #{date}
-		  AND m.movie_id = #{movie_id} 
-		ORDER BY sm.scmovie_start;
+	        sm.screen_movie_id,  <!-- screen_movie_id 추가 -->
+	        sm.scmovie_start AS start_time, 
+	        sm.scmovie_end AS end_time, 
+	        m.movie_title, 
+	        m.poster_url,
+	        st.type_name, 
+	        s.screen_num
+	    FROM screenmovie sm
+	    JOIN movie m ON sm.movie_id = m.movie_id
+	    JOIN screen s ON sm.screen_id = s.screen_id
+	    JOIN screen_type st ON s.type_id = st.type_id
+	    WHERE s.theater_id = #{theater_id} 
+	      AND sm.scmovie_play = #{date}
+	      AND m.movie_id = #{movie_id} 
+	    ORDER BY sm.scmovie_start;
     </select>
+	
+	<!-- 스크린 테이블에 저장된 좌석수를 가져오는 쿼리 -->
+	<select id="getScreenInfo" parameterType="Map" resultType="java.util.Map">
+	    SELECT screen_all_seat, screen_row, screen_col
+	    FROM screen
+	    WHERE theater_id = #{theaterId} AND screen_num = #{screenNum}
+	</select>
+    
     
      <!-- 지역 id와 맞는 극장 지점 데이터를 가져오는 쿼리 
     <select id="getTheaters" resultType="java.util.Map" parameterType="String">

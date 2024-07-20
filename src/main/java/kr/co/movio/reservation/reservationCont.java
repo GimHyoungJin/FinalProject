@@ -4,54 +4,54 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import kr.co.movio.member.MemberDAO;
+import kr.co.movio.member.MemberDTO;
 import kr.co.movio.movie.MovieDAO;
-import kr.co.movio.movie.MovieDTO;
+
 import kr.co.movio.theater.TheaterDAO;
-import kr.co.movio.theater.TheaterDTO;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-import java.io.IOException;
+
 import java.util.*;
 
-//좌석 예매 페이지에 대한 컨트롤러
+// 좌석 예매 페이지에 대한 컨트롤러
 @Controller
 @RequestMapping("/reservation")
 public class reservationCont {
 
-	@Autowired
-	private MovieDAO movieDao;
-	
-	@Autowired 
-	private TheaterDAO theaterDao;
-	
-	//booking.jsp 페이지를 보여주는 엔드포인트
+    @Autowired
+    private MovieDAO movieDao;
+
+    @Autowired 
+    private TheaterDAO theaterDao;
+
+    @Autowired
+    private MemberDAO memberDao;
+
+    @Autowired
+    private reservationDAO reservationDao;
+
+    public reservationCont() {
+        System.out.println("----- reservationCont 객체 생성완료");
+    }
+
+    // booking.jsp 페이지를 보여주는 엔드포인트
     @GetMapping("/booking")
     public ModelAndView regionlist() {
-    	ModelAndView mav = new ModelAndView();    	
-    	mav.setViewName("reservation/booking");
-    	mav.addObject("regions", theaterDao.getAllRegions());//모든 지역 데이터를 가져옴
-    	mav.addObject("regionCounts", theaterDao.RegionsTheaterCounts() );//지역별 극장수가 몇개인지
-    	mav.addObject("movies", movieDao.getMovies());//모든 영화 데이터를 가져옴
+        ModelAndView mav = new ModelAndView();  
+        mav.setViewName("reservation/booking");
+        mav.addObject("regions", theaterDao.getAllRegions()); // 모든 지역 데이터를 가져옴
+        mav.addObject("regionCounts", theaterDao.RegionsTheaterCounts()); // 지역별 극장수가 몇개인지
+        mav.addObject("movies", movieDao.getMovies()); // 모든 영화 데이터를 가져옴
         return mav;
-    }//end
-    
-    
-    /*각 지역별 지점 영화관 목록 가져오는 엔드포인트
-    @GetMapping("/booking/theater")
-    @ResponseBody 
-    public List<Map<String, Object>> theaterlist(@RequestParam("region_id") String region_id) {
-    	//System.out.println("------" + region_id);
-    	return theaterDao.getTheaters(region_id);
-    }//end
-    */
-    
+    }
+
+    // 특정 지역과 영화에 해당하는 극장을 조회하는 엔드포인트
     @GetMapping("/booking/theater")
     @ResponseBody
     public List<Map<String, Object>> getTheaters(@RequestParam("region_id") String regionId, 
@@ -59,9 +59,10 @@ public class reservationCont {
         Map<String, Object> params = new HashMap<>();
         params.put("region_id", regionId);
         params.put("movie_id", movieId);
-        return theaterDao.getTheaters(params);
+        return theaterDao.getTheaters(params); // 특정 지역과 영화에 해당하는 극장 목록을 반환
     }
-    // 특정 극장의 상영 날짜 조회하는 엔드포인트
+
+    // 특정 극장의 상영 날짜를 조회하는 엔드포인트
     @GetMapping("/booking/dates")
     @ResponseBody
     public List<Map<String, Object>> getDates(@RequestParam("theater_id") String theaterId, 
@@ -69,23 +70,25 @@ public class reservationCont {
         Map<String, Object> params = new HashMap<>();
         params.put("theater_id", theaterId);
         params.put("movie_id", movieId);
-        return theaterDao.getDistinctDatesByTheater(params);
+        return theaterDao.getDistinctDatesByTheater(params); // 특정 극장과 영화에 해당하는 상영 날짜 목록을 반환
     }
-    
-    
-    //특정 날짜의 상영 영화 조회하는 엔드포인트
+
+    // 특정 날짜의 상영 시간을 조회하는 엔드포인트
     @GetMapping("/booking/times")
     @ResponseBody
-    public List<Map<String, Object>> getTimes(@RequestParam("theater_id") String theater_id, @RequestParam("date") String date, @RequestParam("movie_id") String movie_id) {
-    	System.out.println("Theater ID: " + theater_id); // 디버그용 로그
+    public List<Map<String, Object>> getTimes(@RequestParam("theater_id") String theater_id, 
+                                              @RequestParam("date") String date, 
+                                              @RequestParam("movie_id") String movie_id) {
+        System.out.println("Theater ID: " + theater_id); // 디버그용 로그
         System.out.println("Date: " + date); // 디버그용 로그
         System.out.println("Movie ID: " + movie_id); // 디버그용 로그
-    	Map<String, Object> params = Map.of("theater_id", theater_id, "date", date, "movie_id", movie_id);
-        return theaterDao.getMoviesByTheaterAndDate(params);
+        Map<String, Object> params = Map.of("theater_id", theater_id, "date", date, "movie_id", movie_id);
+        return theaterDao.getMoviesByTheaterAndDate(params); // 특정 극장, 날짜, 영화에 해당하는 상영 시간 목록을 반환
     }
-    
-	//moviebooking.jsp 페이지로 이동하는 리다이렉트인데 session에 데이터를 담아서 넘어가기 때문에
-    //무조건 로그인해야 해당 페이지로 넘어갈 수 있다. 아니면 405 에러 뜸
+
+    // moviebooking.jsp 페이지로 이동하는 리다이렉트 엔드포인트
+    // 세션에 booking.jsp 페이지에서 선택한 데이터를 담아서 넘긴다.
+    // 무조건 로그인해야 해당 페이지로 넘어갈 수 있다. 아니면 405 에러가 뜸.
     @GetMapping("/moviebooking")
     public String movieBooking(HttpSession session, Model model) {
         String memId = (String) session.getAttribute("mem_id");
@@ -99,15 +102,29 @@ public class reservationCont {
         model.addAttribute("movieTitle", session.getAttribute(memId + "_movieTitle"));
         model.addAttribute("theaterName", session.getAttribute(memId + "_theaterName"));
         model.addAttribute("screenNum", session.getAttribute(memId + "_screenNum"));
+        model.addAttribute("screenMovieId", session.getAttribute(memId + "_screenMovieId"));
+
+        // 회원 정보를 가져와 모델에 추가
+        MemberDTO member = memberDao.findById(memId);
+        model.addAttribute("member", member);
+
+        String theaterId = (String) session.getAttribute(memId + "_theaterId");
+        String screenNum = (String) session.getAttribute(memId + "_screenNum");
+
+        // 극장과 상영관 정보를 가져와 모델에 추가
+        Map<String, Object> screenInfo = theaterDao.getScreenInfo(theaterId, screenNum);
+        model.addAttribute("screenInfo", screenInfo);
 
         return "reservation/movieBooking";
     }
 
+    // 예약 데이터를 처리하는 엔드포인트
     @PostMapping("/moviebooking")
     public String handleBooking(@RequestBody Map<String, String> bookingData, HttpSession session) {
         String memId = (String) session.getAttribute("mem_id");
         System.out.println("mem_id" + memId);
 
+        // 예약 데이터를 세션에 저장
         String movieId = bookingData.get("movieId");
         String theaterId = bookingData.get("theaterId");
         String date = bookingData.get("date");
@@ -116,8 +133,9 @@ public class reservationCont {
         String movieTitle = bookingData.get("movieTitle");
         String theaterName = bookingData.get("theaterName");
         String screenNum = bookingData.get("screenNum");
+        String screenMovieId = bookingData.get("screenMovieId");
 
-        // sysout 로그 출력
+        // 디버그용 로그 출력
         System.out.println("movieId: " + movieId);
         System.out.println("theaterId: " + theaterId);
         System.out.println("date: " + date);
@@ -126,6 +144,7 @@ public class reservationCont {
         System.out.println("movieTitle: " + movieTitle);
         System.out.println("theaterName: " + theaterName);
         System.out.println("screenNum: " + screenNum);
+        System.out.println("screenMovieId: " + screenMovieId);
 
         // 데이터를 세션에 저장
         session.setAttribute(memId + "_movieId", movieId);
@@ -136,24 +155,15 @@ public class reservationCont {
         session.setAttribute(memId + "_movieTitle", movieTitle);
         session.setAttribute(memId + "_theaterName", theaterName);
         session.setAttribute(memId + "_screenNum", screenNum);
+        session.setAttribute(memId + "_screenMovieId", screenMovieId);
 
         return "redirect:/reservation/moviebooking";
     }
-    
+
+    // 좌석 상태를 관리하기 위한 동기화된 Map
     private Map<String, Boolean> seatStatus = Collections.synchronizedMap(new HashMap<>());
 
-    // 초기 좌석 상태 설정 (예제용)
-    public reservationCont() {
-        System.out.println("----- reservationCont 객체 생성완료");
-        for (char row = 'A'; row <= 'F'; row++) {
-            for (int col = 1; col <= 10; col++) {
-                seatStatus.put(row + String.valueOf(col), false); // 모든 좌석을 사용 가능으로 설정
-            }
-        }
-    }
-
-    
-    // 좌석 상태 업데이트
+    // 좌석 상태 업데이트 엔드포인트
     @PostMapping("/updateSeatStatus")
     public ResponseEntity<?> updateSeatStatus(@RequestBody Map<String, Object> request) {
         @SuppressWarnings("unchecked")
@@ -180,9 +190,37 @@ public class reservationCont {
         return new ResponseEntity<>("Seat status updated successfully", HttpStatus.OK);
     }
 
-    // 좌석 상태 조회 (AJAX 요청용)
+    // 좌석 상태 조회 엔드포인트 (AJAX 요청용)
     @GetMapping("/seatStatus")
     public ResponseEntity<Map<String, Boolean>> getSeatStatus() {
         return new ResponseEntity<>(seatStatus, HttpStatus.OK);
+    }
+
+    // UUID 생성 엔드포인트
+    @GetMapping("/generateUUID")
+    public ResponseEntity<String> generateUUID() {
+        UUID uuid = UUID.randomUUID();
+        return new ResponseEntity<>(uuid.toString(), HttpStatus.OK);
+    }
+
+    // 예약 정보를 저장하는 엔드포인트
+    @PostMapping("/save")
+    public ResponseEntity<String> saveReservation(@RequestBody TicketReservationDTO reservationDTO, HttpSession session) {
+    	String memId = (String) session.getAttribute("mem_id");
+    	String screenMovieId = (String) session.getAttribute(memId + "_screenMovieId");
+    	
+    	// mem_id를 세션에서 가져와 설정
+        reservationDTO.setMem_id(memId);
+        reservationDTO.setScreen_movie_id(screenMovieId);
+    	
+    	reservationDao.saveReservation(reservationDTO);
+        return new ResponseEntity<>(reservationDTO.getRes_id(), HttpStatus.OK);
+    }
+
+    // 결제 정보를 저장하는 엔드포인트
+    @PostMapping("/payment/save")
+    public ResponseEntity<String> savePayment(@RequestBody TicketPaymentDTO paymentDTO) {
+        reservationDao.savePayment(paymentDTO);
+        return new ResponseEntity<>("Payment saved successfully", HttpStatus.OK);
     }
 }

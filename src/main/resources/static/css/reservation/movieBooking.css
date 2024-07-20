@@ -176,7 +176,7 @@
     flex-direction: column; /* 자식 요소들을 세로로 나열 */
     justify-content: right; 
 	margin-top: 5px;
-	margin-left: 450px;
+	margin-left: 420px;
 }
 
 #seatCont .footer-panel .payment-info span {
@@ -213,4 +213,9 @@
 
 #seatCont .footer-panel .payment-button .button-text {
     font-size: 1rem; /* 텍스트의 크기를 1rem로 설정 */
+}
+
+#seatCont .footer-panel .payment-button button.disabled {
+    background-color: #343433; /* 비활성화된 상태일 때의 배경색 */
+    cursor: not-allowed; /* 커서를 금지 아이콘으로 변경 */
 }

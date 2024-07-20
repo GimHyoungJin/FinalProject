@@ -23,8 +23,8 @@
     </select>
     
     <insert id="save" parameterType="kr.co.movio.member.MemberDTO">
-        INSERT INTO member (mem_id, username, passwd, email, phone, birth, gender, zipcode, address1, address2, sms_agree, email_agree, mem_grade)
-        VALUES (#{mem_id}, #{username}, #{passwd}, #{email}, #{phone}, #{birth}, #{gender}, #{zipcode}, #{address1}, #{address2}, #{sms_agree}, #{email_agree}, #{mem_grade})
+        INSERT INTO member (mem_id, username, passwd, email, phone, birth, gender, zipcode, address1, address2, sms_agree, email_agree)
+        VALUES (#{mem_id}, #{username}, #{passwd}, #{email}, #{phone}, #{birth}, #{gender}, #{zipcode}, #{address1}, #{address2}, #{sms_agree}, #{email_agree})
     </insert>
     
     <select id="findUserByUsernameAndPhone" parameterType="kr.co.movio.member.MemberDTO" resultType="kr.co.movio.member.MemberDTO">

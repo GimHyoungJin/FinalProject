@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.util.Map" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -7,11 +8,20 @@
     <meta charset="utf-8">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script> <!-- 아임포트 SDK 추가 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="<c:url value='/css/header.css' />" rel="stylesheet" type="text/css">
     <link href="<c:url value='/css/reservation/movieBooking.css' />" rel="stylesheet" type="text/css">
     <link href="<c:url value='/css/footer.css' />" rel="stylesheet" type="text/css">
     <script src="<c:url value='/js/movieBooking.js'/>"></script>
+    <script>
+    var memberInfo = {
+    		mem_id: '${member.mem_id}',
+            email: '${member.email}',
+            name: '${member.username}',
+            phone: '${member.phone}'
+        };
+    </script>
 </head>
 <body>
 <%@ include file="../../header.jsp" %>
@@ -62,13 +72,16 @@
     </div>
     <div class="screen">SCREEN</div>
     <div class="seating">
-        <% 
-            String[] rows = {"A", "B", "C", "D", "E", "F"};
-            int cols = 10;
-            for (String row : rows) {
+        <%
+            Map<String, Object> screenInfo = (Map<String, Object>) request.getAttribute("screenInfo");
+            int rows = (Integer) screenInfo.get("screen_row");
+            int cols = (Integer) screenInfo.get("screen_col");
+            char rowLabel = 'A';
+
+            for (int i = 0; i < rows; i++) {
                 out.println("<div class='row'>");
-                for (int col = 1; col <= cols; col++) {
-                    String seat = row + col;
+                for (int j = 1; j <= cols; j++) {
+                    String seat = String.valueOf((char)(rowLabel + i)) + j;
                     out.println("<div class='seat' data-seat='" + seat + "'>" + seat + "</div>");
                 }
                 out.println("</div>");

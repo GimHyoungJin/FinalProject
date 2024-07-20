@@ -127,6 +127,7 @@ var selectedPosterUrl = ''; // 선택한 영화의 포스터 URL을 저장할 �
 var selectedMovieTitle = ''; // 선택한 영화의 제목을 저장할 전역 변수
 var selectedTheaterName = ''; // 선택한 극장의 이름을 저장할 전역 변수
 var selectedScreenNum = ''; // 선택한 상영관 번호를 저장할 전역 변수
+var selectedScreenMovieId = '';
 
 $(document).ready(function() {
     // 초기 상태에서는 영화 정보 숨기기
@@ -134,18 +135,19 @@ $(document).ready(function() {
     $('#movie-title-container').hide();
     updateSeatButtonState(); // 초기 상태에서는 좌석 선택 버튼 비활성화
 
- // 좌석 선택 버튼 클릭 이벤트 처리
+    // 좌석 선택 버튼 클릭 이벤트 처리
     $('#seatButton').on('click', function() {
-        if (selectedMovieId && selectedTheaterId && selectedDate && selectedTime) {
+        if (selectedMovieId && selectedTheaterId && selectedDate && selectedTime && selectedScreenMovieId) {
             const bookingData = {
                 movieId: selectedMovieId.toString(),
                 theaterId: selectedTheaterId.toString(),
                 date: selectedDate.toString(),
                 time: selectedTime.toString(),
-                posterUrl: $('#movie-poster').attr('src'),
-                movieTitle: $('#movie-title').text(),
-                theaterName: $('#theater-name').text(),
-                screenNum: $('#screen-num').text()
+                posterUrl: selectedPosterUrl,
+                movieTitle: selectedMovieTitle,
+                theaterName: selectedTheaterName,
+                screenNum: selectedScreenNum,
+                screenMovieId: selectedScreenMovieId
             };
 
             $.ajax({
@@ -154,7 +156,6 @@ $(document).ready(function() {
                 contentType: 'application/json',
                 data: JSON.stringify(bookingData),
                 success: function(response) {
-                    // 서버 응답에 따른 페이지 이동 등 처리
                     window.location.href = '/reservation/moviebooking';
                 },
                 error: function(xhr, status, error) {
@@ -163,7 +164,6 @@ $(document).ready(function() {
             });
         }
     });
-
 
     // 영화 목록 항목 클릭 이벤트 처리
     $('#movie-list').on('click', 'li', function() {
@@ -243,6 +243,7 @@ $(document).ready(function() {
 
         selectedTime = $(this).data('start-time') + ' - ' + $(this).data('end-time'); // 선택된 상영 시간 저장
         selectedScreenNum = $(this).data('screen-num'); // 선택한 상영관 번호 저장
+        selectedScreenMovieId = $(this).data('screen-movie-id'); // 선택한 상영관 영화 ID 저장
 
         // HTML 요소 업데이트
         $('#movie-title').text($(this).data('movie-title'));
@@ -312,7 +313,7 @@ function getTimes(theater_id, date, movie_id) {
             let a = '';
             // 서버로부터 받은 상영 시간 목록을 반복하여 HTML 요소 생성
             $.each(result, function(key, value) {
-                a += '<li class="time-item" title="'+ value.movie_title + '" data-movie-title="' + value.movie_title + '" data-type-name="' + value.type_name + '" data-start-time="' + value.start_time + '" data-end-time="' + value.end_time + '" data-play-date="' + date + '" data-screen-num="' + value.screen_num + '" data-poster="' + value.poster_url + '">' + value.start_time + ' - ' + value.end_time + ' : ' + value.movie_title + ' (' + value.screen_num + ')</li>';
+                a += '<li class="time-item" title="'+ value.movie_title + '" data-movie-title="' + value.movie_title + '" data-type-name="' + value.type_name + '" data-start-time="' + value.start_time + '" data-end-time="' + value.end_time + '" data-play-date="' + date + '" data-screen-num="' + value.screen_num + '" data-screen-movie-id="' + value.screen_movie_id + '" data-poster="' + value.poster_url + '">' + value.start_time + ' - ' + value.end_time + ' : ' + value.movie_title + ' (' + value.screen_num + ')</li>';
             });
             // 상영 시간 목록 업데이트
             $("#time-list").empty().html(a);
@@ -322,7 +323,7 @@ function getTimes(theater_id, date, movie_id) {
 
 function updateSeatButtonState() {
     const seatButton = $('#seatButton');
-    if (selectedMovieId && selectedTheaterId && selectedDate && selectedTime) {
+    if (selectedMovieId && selectedTheaterId && selectedDate && selectedTime && selectedScreenMovieId) {
         seatButton.prop('disabled', false); // 버튼 활성화
         seatButton.css('background-color', 'red'); // 버튼 배경색을 빨간색으로 변경
     } else {
@@ -356,13 +357,13 @@ function resetSelections(resetMovie, resetTheater, resetDate, resetTime) {
     if (resetTime) {
         selectedTime = ''; // 선택한 시간 초기화
         selectedScreenNum = ''; // 선택한 상영관 번호 초기화
+        selectedScreenMovieId = ''; // 선택한 상영 영화 ID 초기화
         $('#time-list').empty();
         $('#play-date').text('');
         $('#screen-num').text('');
     }
     updateSeatButtonState(); // 좌석 선택 버튼 상태 업데이트
 }
-
 </script>
 <%@ include file="../../footer.jsp" %>
 
