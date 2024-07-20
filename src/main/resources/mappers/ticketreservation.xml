@@ -27,7 +27,7 @@
     </select>
 
 	<!-- 예매번호를 기반으로 예매한 영화, 좌석, 날짜 및 시간, 총금액을 받아오는 쿼리문 -->
-	<select id="getReservationDetails" parameterType="String" resultType="map">
+	<select id="getReservationDetails" parameterType="String" resultType="java.util.Map">
 	    SELECT 
 	        r.res_id AS reservation_id,
 	        r.res_seat_info AS seats,
@@ -54,5 +54,26 @@
 	        r.res_id = #{res_id}
 	</select>
 
+	
+    <!-- 예약된 좌석 정보를 가져오는 쿼리 -->
+    <select id="getReservedSeats" parameterType="String" resultType="java.util.Map">
+	    SELECT res_seat_info
+	    FROM reservation
+	    WHERE screen_movie_id = #{screen_movie_id}
+    </select>
+    
+    <!-- 총 좌석 수를 가져오는 쿼리 -->
+    <select id="getTotalSeats" parameterType="String" resultType="java.util.Map">
+        SELECT screen_all_seat
+        FROM screen
+        WHERE screen_id = #{screen_id}
+    </select>
+    
+    <!-- screenMovieId로 screen_id를 조회하는 쿼리 -->
+	<select id="getScreenIdByScreenMovieId" parameterType="String" resultType="String">
+	    SELECT screen_id
+	    FROM screenmovie
+	    WHERE screen_movie_id = #{screen_movie_id}
+	</select>
 
 </mapper>

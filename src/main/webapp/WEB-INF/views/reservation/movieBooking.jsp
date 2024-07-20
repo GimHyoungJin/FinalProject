@@ -16,11 +16,12 @@
     <script src="<c:url value='/js/movieBooking.js'/>"></script>
     <script>
     var memberInfo = {
-    		mem_id: '${member.mem_id}',
-            email: '${member.email}',
-            name: '${member.username}',
-            phone: '${member.phone}'
-        };
+        mem_id: '${member.mem_id}',
+        email: '${member.email}',
+        name: '${member.username}',
+        phone: '${member.phone}'
+    };
+    var screenMovieId = '${screenMovieId}'; // 스크린 영화 ID
     </script>
 </head>
 <body>
@@ -66,7 +67,7 @@
             <div>총 인원 <span id="totalPersons">0명</span></div>
         </div>
         <div class="info-panel">
-            <p>${theaterName} | ${screenNum} | 남은 좌석: 179/183</p>
+            <p>${theaterName} | ${screenNum} | 남은 좌석: <span id="remainingSeats">0</span>/<span id="totalSeats">0</span></p>
             <h3>${date} ${time}</h3>
         </div>
     </div>
