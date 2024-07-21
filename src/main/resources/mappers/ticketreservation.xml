@@ -56,7 +56,7 @@
 
 	
     <!-- 예약된 좌석 정보를 가져오는 쿼리 -->
-    <select id="getReservedSeats" parameterType="String" resultType="java.util.Map">
+    <select id="getReservedSeats" parameterType="String" resultType="String">
 	    SELECT res_seat_info
 	    FROM reservation
 	    WHERE screen_movie_id = #{screenMovieId}
@@ -74,6 +74,12 @@
 		SELECT screen_id
 		FROM screenmovie
 		WHERE screen_movie_id = #{screenMovieId}
+	</select>
+	
+	<select id="getActiveScreenMovieIds" resultType="String">
+    SELECT DISTINCT screen_movie_id
+    FROM screenmovie
+    WHERE scmovie_play >= CURDATE()
 	</select>
 
 </mapper>

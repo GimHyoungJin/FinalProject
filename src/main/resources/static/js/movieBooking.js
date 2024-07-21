@@ -118,13 +118,13 @@ $(document).ready(function () {
     }
 
     // 좌석 클릭 이벤트 핸들러
-    $('.seat').on('click', function () {
+   $('.seat').on('click', function () {
         if ($(this).hasClass('reserved') || $(this).hasClass('unavailable')) {
             return;
         }
 
         if (!selectedCategory) {
-            alert("인원 카테고리를 먼저 선택하세요.");
+            alert("인원을 먼저 선택하세요.");
             return;
         }
 
@@ -134,11 +134,14 @@ $(document).ready(function () {
         let categorySeats = selectedSeats[selectedCategory];
 
         if (categorySeats.includes(seatId)) {
-            selectedSeats[selectedCategory] = [];
-            socket.send(JSON.stringify({seatId: seatId, isReserved: false}));
+            selectedSeats[selectedCategory] = categorySeats.filter(seat => seat !== seatId);
+            $(this).removeClass('selected');
         } else {
             const adjacentSeats = getAdjacentSeats(seatId, totalPersons[selectedCategory], 10);
-            const invalidSeat = adjacentSeats.find(seat => $(`.seat[data-seat='${seat}']`).hasClass('reserved') || $(`.seat[data-seat='${seat}']`).hasClass('selected'));
+            const invalidSeat = adjacentSeats.find(seat => 
+                $(`.seat[data-seat='${seat}']`).hasClass('reserved') || 
+                $(`.seat[data-seat='${seat}']`).hasClass('selected')
+            );
 
             if (invalidSeat || adjacentSeats.length < totalPersons[selectedCategory]) {
                 alert(`${categoryNames[selectedCategory]} 인원 수만큼 좌석을 선택할 수 없습니다.`);
@@ -146,20 +149,24 @@ $(document).ready(function () {
                 return;
             }
 
-            const allSelectedSeatsCount = selectedSeats.adult.length + selectedSeats.teen.length + selectedSeats.child.length + adjacentSeats.length - categorySeats.length;
+            const allSelectedSeatsCount = Object.values(selectedSeats).flat().length + adjacentSeats.length - categorySeats.length;
             if (allSelectedSeatsCount > 6) {
                 alert("최대 인원은 6명까지입니다.");
                 return;
             }
 
             selectedSeats[selectedCategory] = adjacentSeats;
-            socket.send(JSON.stringify({seatId: seatId, isReserved: true}));
+            adjacentSeats.forEach(seat => {
+                $(`.seat[data-seat='${seat}']`).addClass('selected');
+            });
         }
 
         resetSeatSelection();
         updateSelectedSeatsDisplay();
         checkSelectionComplete();
     });
+
+	
 
     // 좌석에 마우스를 올렸을 때 인접 좌석을 표시하는 이벤트 핸들러
     $('.seat').on('mouseenter', function () {
@@ -298,7 +305,7 @@ $(document).ready(function () {
     }
 
     // 결제 버튼 클릭 이벤트 핸들러
-    $('#paymentButton').on('click', function () {
+ $('#paymentButton').on('click', function () {
         if ($(this).hasClass('disabled')) {
             return;
         }
@@ -320,14 +327,46 @@ $(document).ready(function () {
             buyer_tel: memberInfo.phone,
         }, function (rsp) {
             if (rsp.success) {
-                saveReservation(rsp);
+                onPaymentSuccess(rsp);
             } else {
                 alert('결제에 실패하였습니다. 에러 내용: ' + rsp.error_msg);
             }
         });
     });
+	
+	
+	 // 결제 성공 후 처리 함수 (새로 추가)
+    function onPaymentSuccess(paymentResponse) {
+        updateSeatStatusAfterPayment(selectedSeats);
+        saveReservation(paymentResponse);
+    }
+	
+	
+	 // 결제 성공 후 좌석 상태 업데이트 함수 (수정)
+    function updateSeatStatusAfterPayment(selectedSeats) {
+        $.ajax({
+            url: '/reservation/updateSeatStatus',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ selectedSeats: selectedSeats }),
+            success: function(response) {
+                if (response.status === 'success') {
+                    console.log('Seat status updated successfully');
+                    fetchSeatStatus(); // 좌석 상태 새로고침
+                } else {
+                    console.warn('Seat status update might have failed:', response.message);
+                    alert('좌석 상태 업데이트에 문제가 발생했습니다. 고객센터에 문의해주세요.');
+                }
+            },
+            error: function(error) {
+                console.error('Error updating seat status:', error);
+                alert('좌석 상태 업데이트 중 오류가 발생했습니다. 고객센터에 문의해주세요.');
+            }
+        });
+    }
 
-    // 예약 정보를 저장하는 함수
+	
+    // 예약 정보를 저장하는 함수 (수정)
     function saveReservation(paymentResponse) {
         const reservationData = {
             res_id: reservationId,
@@ -350,7 +389,7 @@ $(document).ready(function () {
             },
             error: function (error) {
                 console.error('Error saving reservation:', error);
-                alert('예약 처리 중 오류가 발생하였습니다.');
+                alert('예약 처리 중 오류가 발생하였습니다. 고객센터에 문의해주세요.');
             }
         });
     }

@@ -192,6 +192,24 @@
 		    <artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
 		
+		<!-- 웹소켓을 통해 실시간으로 좌석정보가 처리되고 있는지 로깅처리하는 의존성 추가 -->
+		<dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-api</artifactId>
+		    <version>1.7.30</version>
+		</dependency>
+		
+		<!-- 명시적으로 SLF4J API 추가 -->
+	    <dependency>
+	        <groupId>org.slf4j</groupId>
+	        <artifactId>slf4j-api</artifactId>
+	    </dependency>
+	
+	    <!-- Logback 명시적 추가 -->
+	    <dependency>
+	        <groupId>ch.qos.logback</groupId>
+	        <artifactId>logback-classic</artifactId>
+	    </dependency>
 	</dependencies>	
 	<build>
 		<plugins>

@@ -5,14 +5,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpSession;
 import kr.co.movio.member.MemberDAO;
 import kr.co.movio.member.MemberDTO;
 import kr.co.movio.movie.MovieDAO;
 import kr.co.movio.theater.TheaterDAO;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
@@ -43,23 +48,73 @@ public class reservationCont {
     public reservationCont() {
         System.out.println("----- reservationCont 객체 생성완료");
     }
-
+    
+    private static final Logger logger = LoggerFactory.getLogger(reservationCont.class);
+    
+    /*
+    @PostConstruct
+    public void initializeSeatStatus() {
+        logger.info("Initializing seat status...");
+        List<String> activeScreenMovieIds = reservationDao.getActiveScreenMovieIds();
+        for (String screenMovieId : activeScreenMovieIds) {
+            Map<String, Boolean> reservedSeats = reservationDao.getReservedSeats(screenMovieId);
+            synchronized (seatStatus) {
+                seatStatus.putAll(reservedSeats);
+            }
+        }
+        logger.info("Seat status initialization completed.");
+    }
+	*/
+    
+    @PostConstruct
+    public void initializeSeatStatus() {
+        logger.info("Initializing seat status...");
+        List<String> activeScreenMovieIds = reservationDao.getActiveScreenMovieIds();
+        for (String screenMovieId : activeScreenMovieIds) {
+            Map<String, Boolean> reservedSeats = reservationDao.getReservedSeats(screenMovieId);
+            synchronized (seatStatus) {
+                seatStatus.putAll(reservedSeats);
+            }
+        }
+        logger.info("Seat status initialization completed.");
+    }
+    
+    @Scheduled(fixedRate = 300000) // 5분마다 실행
+    public void updateSeatStatus() {
+        logger.info("Updating seat status...");
+        List<String> activeScreenMovieIds = reservationDao.getActiveScreenMovieIds();
+        for (String screenMovieId : activeScreenMovieIds) {
+            Map<String, Boolean> reservedSeats = reservationDao.getReservedSeats(screenMovieId);
+            synchronized (seatStatus) {
+                seatStatus.putAll(reservedSeats);
+            }
+        }
+        logger.info("Seat status update completed.");
+    }
+    
+    
     // 좌석 상태 업데이트 엔드포인트
     @PostMapping("/updateSeatStatus")
     public ResponseEntity<?> updateSeatStatus(@RequestBody Map<String, Object> request) {
         @SuppressWarnings("unchecked")
         Map<String, List<String>> selectedSeats = (Map<String, List<String>>) request.get("selectedSeats");
+        List<String> failedUpdates = new ArrayList<>();
 
         synchronized (seatStatus) {
-            // 좌석 상태 업데이트 로직
+            // 먼저 모든 선택된 좌석이 예약 가능한지 확인
             for (String category : selectedSeats.keySet()) {
                 List<String> seats = selectedSeats.get(category);
                 for (String seat : seats) {
-                    if (seatStatus.get(seat)) {
-                        return new ResponseEntity<>("Seat " + seat + " is already reserved", HttpStatus.CONFLICT);
+                    if (seatStatus.get(seat) != null && seatStatus.get(seat)) {
+                        Map<String, Object> response = new HashMap<>();
+                        response.put("status", "error");
+                        response.put("message", "Seat " + seat + " is already reserved");
+                        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
                     }
                 }
             }
+
+            // 모든 좌석이 예약 가능하다면, 상태 업데이트
             for (String category : selectedSeats.keySet()) {
                 List<String> seats = selectedSeats.get(category);
                 for (String seat : seats) {
@@ -67,16 +122,28 @@ public class reservationCont {
                     try {
                         seatWebSocketHandler.broadcastSeatUpdate(seat, true);
                     } catch (IOException e) {
+                        // 웹소켓 에러 처리
+                        failedUpdates.add(seat);
                         e.printStackTrace();
+                        logger.error("Failed to broadcast seat update for seat: " + seat, e);
                     }
                 }
             }
         }
 
-        return new ResponseEntity<>("Seat status updated successfully", HttpStatus.OK);
-    }
+        Map<String, Object> response = new HashMap<>();
+        if (failedUpdates.isEmpty()) {
+            response.put("status", "success");
+            response.put("message", "All seat statuses updated successfully");
+        } else {
+            response.put("status", "partial_success");
+            response.put("message", "Some seat updates failed to broadcast");
+            response.put("failedSeats", failedUpdates);
+        }
 
-    
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    	//Ajax 호출용 엔드포인트
 	 @GetMapping("/seatStatus")
 	 public ResponseEntity<Map<String, Object>> getSeatStatus(@RequestParam String screenMovieId) {
 	     System.out.println("Received request for seatStatus with screenMovieId: " + screenMovieId);

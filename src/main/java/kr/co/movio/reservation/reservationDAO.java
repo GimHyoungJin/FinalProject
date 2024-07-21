@@ -35,10 +35,21 @@ public class reservationDAO {
 		    return sqlSession.selectOne("ticketreservation.getReservationDetails", res_id);
 	 }
 	 
+	 /*
 	 public Map<String, Boolean> getReservedSeats(String screenMovieId) {
 		    Map<String, Boolean> reservedSeats = sqlSession.selectOne("ticketreservation.getReservationDetails", screenMovieId);
 		    if (reservedSeats == null) {
 		        reservedSeats = new HashMap<>();
+		    }
+		    return reservedSeats;
+		}
+	 */
+	 
+	 public Map<String, Boolean> getReservedSeats(String screenMovieId) {
+		    List<String> reservedSeatsList = sqlSession.selectList("ticketreservation.getReservedSeats", screenMovieId);
+		    Map<String, Boolean> reservedSeats = new HashMap<>();
+		    for (String seat : reservedSeatsList) {
+		        reservedSeats.put(seat, true);
 		    }
 		    return reservedSeats;
 		}
@@ -52,5 +63,9 @@ public class reservationDAO {
 	    // screen_id로 총 좌석 수를 조회하는 메서드
 	    public Map<String, Object> getTotalSeats(String screen_id) {
 	        return sqlSession.selectOne("ticketreservation.getTotalSeats", screen_id);
+	    }
+	    
+	    public List<String> getActiveScreenMovieIds() {
+	        return sqlSession.selectList("ticketreservation.getActiveScreenMovieIds");
 	    }
 }
