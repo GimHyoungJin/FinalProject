@@ -51,24 +51,9 @@ public class reservationCont {
     
     private static final Logger logger = LoggerFactory.getLogger(reservationCont.class);
     
-    /*
-    @PostConstruct
-    public void initializeSeatStatus() {
-        logger.info("Initializing seat status...");
-        List<String> activeScreenMovieIds = reservationDao.getActiveScreenMovieIds();
-        for (String screenMovieId : activeScreenMovieIds) {
-            Map<String, Boolean> reservedSeats = reservationDao.getReservedSeats(screenMovieId);
-            synchronized (seatStatus) {
-                seatStatus.putAll(reservedSeats);
-            }
-        }
-        logger.info("Seat status initialization completed.");
-    }
-	*/
-    
 
-
-    // booking.jsp 페이지를 보여주는 엔드포인트
+    // booking.jsp 페이지를 보여주는 
+    //ModelAndView 객체에 지역, 극장 수, 영화 목록을 추가하여 반환
     @GetMapping("/booking")
     public ModelAndView regionlist() {
         ModelAndView mav = new ModelAndView();  
@@ -78,8 +63,13 @@ public class reservationCont {
         mav.addObject("movies", movieDao.getMovies());
         return mav;
     }
-
-    // 특정 지역과 영화에 해당하는 극장을 조회하는 엔드포인트
+    
+    /**
+     * 특정 지역과 영화에 해당하는 극장을 조회하는 엔드포인트
+     * @param regionId 조회할 지역 ID
+     * @param movieId 조회할 영화 ID
+     * @return 해당 조건에 맞는 극장 목록
+     */
     @GetMapping("/booking/theater")
     @ResponseBody
     public List<Map<String, Object>> getTheaters(@RequestParam("region_id") String regionId, 
@@ -90,7 +80,12 @@ public class reservationCont {
         return theaterDao.getTheaters(params);
     }
 
-    // 특정 극장의 상영 날짜를 조회하는 엔드포인트
+    /**
+     * 특정 극장의 상영 날짜를 조회하는 엔드포인트
+     * @param theaterId 조회할 극장 ID
+     * @param movieId 조회할 영화 ID
+     * @return 해당 조건에 맞는 상영 날짜 목록
+     */
     @GetMapping("/booking/dates")
     @ResponseBody
     public List<Map<String, Object>> getDates(@RequestParam("theater_id") String theaterId, 
@@ -101,7 +96,13 @@ public class reservationCont {
         return theaterDao.getDistinctDatesByTheater(params);
     }
 
-    // 특정 날짜의 상영 시간을 조회하는 엔드포인트
+    /**
+     * 특정 날짜의 상영 시간을 조회하는 엔드포인트
+     * @param theater_id 조회할 극장 ID
+     * @param date 조회할 날짜
+     * @param movie_id 조회할 영화 ID
+     * @return 해당 조건에 맞는 상영 시간 목록
+     */
     @GetMapping("/booking/times")
     @ResponseBody
     public List<Map<String, Object>> getTimes(@RequestParam("theater_id") String theater_id, 
@@ -114,11 +115,14 @@ public class reservationCont {
         return theaterDao.getMoviesByTheaterAndDate(params);
     }
 
-    // moviebooking.jsp 페이지로 이동하는 리다이렉트 엔드포인트
+    /*
+     * moviebooking.jsp 페이지로 이동하는 리다이렉트 엔드포인트
+     */
     @GetMapping("/moviebooking")
     public String movieBooking(HttpSession session, Model model) {
         String memId = (String) session.getAttribute("mem_id");
-
+        
+        // 세션에 저장된 데이터를 모델에 추가 로그인 안하면 405 에러 뜸
         model.addAttribute("movieId", session.getAttribute(memId + "_movieId"));
         model.addAttribute("theaterId", session.getAttribute(memId + "_theaterId"));
         model.addAttribute("date", session.getAttribute(memId + "_date"));
@@ -128,10 +132,12 @@ public class reservationCont {
         model.addAttribute("theaterName", session.getAttribute(memId + "_theaterName"));
         model.addAttribute("screenNum", session.getAttribute(memId + "_screenNum"));
         model.addAttribute("screenMovieId", session.getAttribute(memId + "_screenMovieId"));
-
+        
+        //memberDAO에서 사용자 ID를 가져옴
         MemberDTO member = memberDao.findById(memId);
         model.addAttribute("member", member);
-
+        
+        // 극장 ID와 상영관 번호로 화면 정보를 가져와 모델에 추가
         String theaterId = (String) session.getAttribute(memId + "_theaterId");
         String screenNum = (String) session.getAttribute(memId + "_screenNum");
 
@@ -141,12 +147,19 @@ public class reservationCont {
         return "reservation/movieBooking";
     }
 
-    // 예약 데이터를 처리하는 엔드포인트
+    /**
+     * 예약 데이터를 처리하는 엔드포인트
+     * @param bookingData 예약 데이터
+     * @param session 현재 HTTP 세션
+     * @return moviebooking 페이지로 리다이렉트
+     */
     @PostMapping("/moviebooking")
     public String handleBooking(@RequestBody Map<String, String> bookingData, HttpSession session) {
         String memId = (String) session.getAttribute("mem_id");
         System.out.println("mem_id" + memId);
-
+        
+        // 예약 데이터에서 필요한 정보 추출 및 세션에 저장
+        //booking.jsp에서 선택한 영화, 극장, 날짜 및 시간, 영화의 포스터등을 넘김 
         String movieId = bookingData.get("movieId");
         String theaterId = bookingData.get("theaterId");
         String date = bookingData.get("date");
@@ -182,6 +195,10 @@ public class reservationCont {
 
     private final Map<String, Map<String, Boolean>> seatStatusMap = new ConcurrentHashMap<>();
     
+    /**
+     * 좌석 상태를 초기화하는 메서드
+     * 활성화된 상영 영화 ID 목록을 가져와 각 ID에 대한 예약 좌석 상태를 업데이트
+     */
     @PostConstruct
     public void initializeSeatStatus() {
         logger.info("Initializing seat status...");
@@ -192,7 +209,11 @@ public class reservationCont {
         }
         logger.info("Seat status initialization completed.");
     }
-
+    
+    /**
+     * 5분마다 좌석 상태를 업데이트하는 스케줄러
+     * 활성화된 상영 영화 ID 목록을 가져와 각 ID에 대한 예약 좌석 상태를 업데이트
+     */
     @Scheduled(fixedRate = 300000) // 5분마다 실행
     public void updateSeatStatus() {
         logger.info("Updating seat status...");
@@ -204,7 +225,11 @@ public class reservationCont {
         logger.info("Seat status update completed.");
     }
 
-    // 좌석 상태 맵 업데이트
+    /**
+     * 좌석 상태 맵을 업데이트하는 메서드
+     * @param screenMovieId 상영 영화 ID
+     * @param reservedSeats 예약된 좌석 상태 맵
+     */
     private void updateSeatStatusMap(String screenMovieId, Map<String, Boolean> reservedSeats) {
         seatStatusMap.put(screenMovieId, new ConcurrentHashMap<>(reservedSeats));
     }
@@ -272,7 +297,11 @@ public class reservationCont {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     
-    //좌석 상태 조회 엔드포인트
+    /**
+     * 좌석 상태를 조회하는 엔드포인트
+     * @param screenMovieId 조회할 상영 영화 ID
+     * @return 좌석 상태를 포함한 ResponseEntity 객체
+     */
     @GetMapping("/seatStatus")
     public ResponseEntity<Map<String, Object>> getSeatStatus(@RequestParam String screenMovieId) {
         System.out.println("Received request for seatStatus with screenMovieId: " + screenMovieId);

@@ -15,36 +15,32 @@ public class reservationDAO {
 	@Autowired
     private SqlSession sqlSession;
 	
+	 //예약 정보를 DB에 저장하는 메소드
 	 public void saveReservation(TicketReservationDTO reservation) {
 	        sqlSession.insert("ticketreservation.saveReservation", reservation);
 	  }
 	 
+	 //결제 정보를 DB에 저장하는 메소드
 	 public void savePayment(TicketPaymentDTO payment) {
 	        sqlSession.insert("ticketreservation.savePayment", payment);
 	 }
 	
+	 //사용자의 결제 정보로 예약 정보를 조회함
 	 public void getReservation(TicketPaymentDTO payment) {
 	        sqlSession.insert("ticketreservation.getReservation", payment);
 	 }
 	 
+	 //결제 정보 조회
 	 public void getPayment(TicketPaymentDTO payment) {
 	        sqlSession.insert("ticketreservation.getPayment", payment);
 	 }
 	 
+	 //예약 ID로 예약 세부 정보를 조회
 	 public Map<String, Object> getReservationDetails(String res_id) {
 		    return sqlSession.selectOne("ticketreservation.getReservationDetails", res_id);
 	 }
 	 
-	 /*
-	 public Map<String, Boolean> getReservedSeats(String screenMovieId) {
-		    Map<String, Boolean> reservedSeats = sqlSession.selectOne("ticketreservation.getReservationDetails", screenMovieId);
-		    if (reservedSeats == null) {
-		        reservedSeats = new HashMap<>();
-		    }
-		    return reservedSeats;
-		}
-	 */
-	 
+	 //상영 영화 ID로 예약된 좌석 목록을 조회하여 좌석 상태를 반환
 	 public Map<String, Boolean> getReservedSeats(String screenMovieId) {
 		    List<String> reservedSeatsList = sqlSession.selectList("ticketreservation.getReservedSeats", screenMovieId);
 		    Map<String, Boolean> reservedSeats = new HashMap<>();
@@ -54,13 +50,13 @@ public class reservationDAO {
 		    return reservedSeats;
 		}
 	 
-	 	// screenMovieId로 screen_id를 조회하는 메서드
+	 	//상영 영화 ID로 상영관 ID를 조회
 	    public String getScreenIdByScreenMovieId(String screenMovieId) {
 	        Map<String, Object> result = sqlSession.selectOne("ticketreservation.getScreenIdByScreenMovieId", screenMovieId);
 	        return result != null ? (String) result.get("screen_id") : null;
 	    }
 
-	    // screen_id로 총 좌석 수를 조회하는 메서드
+	    //상영관 ID로 총 좌석 수를 조회
 	    public Map<String, Object> getTotalSeats(String screen_id) {
 	        return sqlSession.selectOne("ticketreservation.getTotalSeats", screen_id);
 	    }
