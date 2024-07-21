@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 // 좌석 예매 페이지에 대한 컨트롤러
@@ -43,7 +44,6 @@ public class reservationCont {
     @Autowired
     private SeatWebSocketHandler seatWebSocketHandler;
 
-    private Map<String, Boolean> seatStatus = Collections.synchronizedMap(new HashMap<>());
 
     public reservationCont() {
         System.out.println("----- reservationCont 객체 생성완료");
@@ -66,130 +66,7 @@ public class reservationCont {
     }
 	*/
     
-    @PostConstruct
-    public void initializeSeatStatus() {
-        logger.info("Initializing seat status...");
-        List<String> activeScreenMovieIds = reservationDao.getActiveScreenMovieIds();
-        for (String screenMovieId : activeScreenMovieIds) {
-            Map<String, Boolean> reservedSeats = reservationDao.getReservedSeats(screenMovieId);
-            synchronized (seatStatus) {
-                seatStatus.putAll(reservedSeats);
-            }
-        }
-        logger.info("Seat status initialization completed.");
-    }
-    
-    @Scheduled(fixedRate = 300000) // 5분마다 실행
-    public void updateSeatStatus() {
-        logger.info("Updating seat status...");
-        List<String> activeScreenMovieIds = reservationDao.getActiveScreenMovieIds();
-        for (String screenMovieId : activeScreenMovieIds) {
-            Map<String, Boolean> reservedSeats = reservationDao.getReservedSeats(screenMovieId);
-            synchronized (seatStatus) {
-                seatStatus.putAll(reservedSeats);
-            }
-        }
-        logger.info("Seat status update completed.");
-    }
-    
-    
-    // 좌석 상태 업데이트 엔드포인트
-    @PostMapping("/updateSeatStatus")
-    public ResponseEntity<?> updateSeatStatus(@RequestBody Map<String, Object> request) {
-        @SuppressWarnings("unchecked")
-        Map<String, List<String>> selectedSeats = (Map<String, List<String>>) request.get("selectedSeats");
-        List<String> failedUpdates = new ArrayList<>();
 
-        synchronized (seatStatus) {
-            // 먼저 모든 선택된 좌석이 예약 가능한지 확인
-            for (String category : selectedSeats.keySet()) {
-                List<String> seats = selectedSeats.get(category);
-                for (String seat : seats) {
-                    if (seatStatus.get(seat) != null && seatStatus.get(seat)) {
-                        Map<String, Object> response = new HashMap<>();
-                        response.put("status", "error");
-                        response.put("message", "Seat " + seat + " is already reserved");
-                        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
-                    }
-                }
-            }
-
-            // 모든 좌석이 예약 가능하다면, 상태 업데이트
-            for (String category : selectedSeats.keySet()) {
-                List<String> seats = selectedSeats.get(category);
-                for (String seat : seats) {
-                    seatStatus.put(seat, true); // 해당 좌석을 사용 중으로 설정
-                    try {
-                        seatWebSocketHandler.broadcastSeatUpdate(seat, true);
-                    } catch (IOException e) {
-                        // 웹소켓 에러 처리
-                        failedUpdates.add(seat);
-                        e.printStackTrace();
-                        logger.error("Failed to broadcast seat update for seat: " + seat, e);
-                    }
-                }
-            }
-        }
-
-        Map<String, Object> response = new HashMap<>();
-        if (failedUpdates.isEmpty()) {
-            response.put("status", "success");
-            response.put("message", "All seat statuses updated successfully");
-        } else {
-            response.put("status", "partial_success");
-            response.put("message", "Some seat updates failed to broadcast");
-            response.put("failedSeats", failedUpdates);
-        }
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-    	//Ajax 호출용 엔드포인트
-	 @GetMapping("/seatStatus")
-	 public ResponseEntity<Map<String, Object>> getSeatStatus(@RequestParam String screenMovieId) {
-	     System.out.println("Received request for seatStatus with screenMovieId: " + screenMovieId);
-
-	     Map<String, Boolean> currentSeatStatus = reservationDao.getReservedSeats(screenMovieId);
-	     System.out.println("Current seat status: " + currentSeatStatus);
-	     
-	     // screenMovieId로 screen_id를 먼저 조회
-	     String screenId = reservationDao.getScreenIdByScreenMovieId(screenMovieId);
-	     System.out.println("Fetched screenId: " + screenId + " for screenMovieId: " + screenMovieId);
-	     
-	     Map<String, Object> totalSeatsMap = null;
-	     if (screenId != null) {
-	         totalSeatsMap = reservationDao.getTotalSeats(screenId);
-	         System.out.println("Total seats map: " + totalSeatsMap);
-	     } else {
-	         System.out.println("No screenId found for screenMovieId: " + screenMovieId);
-	     }
-
-	     // currentSeatStatus를 seatStatus에 추가
-	     synchronized (seatStatus) {
-	         seatStatus.putAll(currentSeatStatus);
-	     }
-
-	     // null 키가 포함되지 않도록 보장
-	     Map<String, Boolean> filteredSeatStatus = seatStatus.entrySet().stream()
-	         .filter(entry -> entry.getKey() != null)
-	         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-	     
-	     System.out.println("Filtered seat status: " + filteredSeatStatus);
-
-	     Map<String, Object> response = new HashMap<>();
-	     response.put("seatStatus", filteredSeatStatus);
-	     
-	     // totalSeats가 null이 아니고 screen_all_seat 키가 존재할 때만 추가
-	     if (totalSeatsMap != null && totalSeatsMap.containsKey("screen_all_seat")) {
-	         response.put("totalSeats", totalSeatsMap.get("screen_all_seat"));
-	         System.out.println("Total seats: " + totalSeatsMap.get("screen_all_seat"));
-	     } else {
-	         response.put("totalSeats", 0); // 또는 다른 기본값
-	         System.out.println("No valid total seats found, setting to 0");
-	     }
-
-	     System.out.println("Sending response: " + response);
-	     return new ResponseEntity<>(response, HttpStatus.OK);
-	 }
 
     // booking.jsp 페이지를 보여주는 엔드포인트
     @GetMapping("/booking")
@@ -303,6 +180,145 @@ public class reservationCont {
         return "redirect:/reservation/moviebooking";
     }
 
+    private final Map<String, Map<String, Boolean>> seatStatusMap = new ConcurrentHashMap<>();
+    
+    @PostConstruct
+    public void initializeSeatStatus() {
+        logger.info("Initializing seat status...");
+        List<String> activeScreenMovieIds = reservationDao.getActiveScreenMovieIds();
+        for (String screenMovieId : activeScreenMovieIds) {
+            Map<String, Boolean> reservedSeats = reservationDao.getReservedSeats(screenMovieId);
+            updateSeatStatusMap(screenMovieId, reservedSeats);
+        }
+        logger.info("Seat status initialization completed.");
+    }
+
+    @Scheduled(fixedRate = 300000) // 5분마다 실행
+    public void updateSeatStatus() {
+        logger.info("Updating seat status...");
+        List<String> activeScreenMovieIds = reservationDao.getActiveScreenMovieIds();
+        for (String screenMovieId : activeScreenMovieIds) {
+            Map<String, Boolean> reservedSeats = reservationDao.getReservedSeats(screenMovieId);
+            updateSeatStatusMap(screenMovieId, reservedSeats);
+        }
+        logger.info("Seat status update completed.");
+    }
+
+    // 좌석 상태 맵 업데이트
+    private void updateSeatStatusMap(String screenMovieId, Map<String, Boolean> reservedSeats) {
+        seatStatusMap.put(screenMovieId, new ConcurrentHashMap<>(reservedSeats));
+    }
+    
+    //좌석 상태 업데이트 엔드포인트
+    @PostMapping("/updateSeatStatus")
+    public ResponseEntity<?> updateSeatStatus(@RequestBody Map<String, Object> request) {
+        logger.debug("Received updateSeatStatus request: {}", request);
+
+        @SuppressWarnings("unchecked")
+        Map<String, List<String>> selectedSeats = (Map<String, List<String>>) request.get("selectedSeats");
+        String screenMovieId = (String) request.get("screenMovieId");
+
+        if (screenMovieId == null) {
+            logger.error("ScreenMovieId is null");
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "error");
+            response.put("message", "ScreenMovieId is null");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+
+        List<String> failedUpdates = new ArrayList<>();
+        Map<String, Boolean> seatStatus = seatStatusMap.getOrDefault(screenMovieId, new ConcurrentHashMap<>());
+
+        synchronized (seatStatus) {
+            for (String category : selectedSeats.keySet()) {
+                List<String> seats = selectedSeats.get(category);
+                for (String seat : seats) {
+                    if (seatStatus.get(seat) != null && seatStatus.get(seat)) {
+                        logger.warn("Seat {} is already reserved", seat);
+                        Map<String, Object> response = new HashMap<>();
+                        response.put("status", "error");
+                        response.put("message", "Seat " + seat + " is already reserved");
+                        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+                    }
+                }
+            }
+
+            for (String category : selectedSeats.keySet()) {
+                List<String> seats = selectedSeats.get(category);
+                for (String seat : seats) {
+                    seatStatus.put(seat, true); // 해당 좌석을 사용 중으로 설정
+                    try {
+                        seatWebSocketHandler.broadcastSeatUpdate(seat, true);
+                    } catch (IOException e) {
+                        failedUpdates.add(seat);
+                        logger.error("Failed to broadcast seat update for seat: {}", seat, e);
+                    }
+                }
+            }
+
+            seatStatusMap.put(screenMovieId, seatStatus);
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        if (failedUpdates.isEmpty()) {
+            response.put("status", "success");
+            response.put("message", "All seat statuses updated successfully");
+        } else {
+            response.put("status", "partial_success");
+            response.put("message", "Some seat updates failed to broadcast");
+            response.put("failedSeats", failedUpdates);
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    
+    //좌석 상태 조회 엔드포인트
+    @GetMapping("/seatStatus")
+    public ResponseEntity<Map<String, Object>> getSeatStatus(@RequestParam String screenMovieId) {
+        System.out.println("Received request for seatStatus with screenMovieId: " + screenMovieId);
+
+        Map<String, Boolean> currentSeatStatus = reservationDao.getReservedSeats(screenMovieId);
+        System.out.println("Current seat status: " + currentSeatStatus);
+
+        // screenMovieId로 screen_id를 먼저 조회
+        String screenId = reservationDao.getScreenIdByScreenMovieId(screenMovieId);
+        System.out.println("Fetched screenId: " + screenId + " for screenMovieId: " + screenMovieId);
+
+        Map<String, Object> totalSeatsMap = null;
+        if (screenId != null) {
+            totalSeatsMap = reservationDao.getTotalSeats(screenId);
+            System.out.println("Total seats map: " + totalSeatsMap);
+        } else {
+            System.out.println("No screenId found for screenMovieId: " + screenMovieId);
+        }
+
+        // 새로운 좌석 상태 맵 생성
+        Map<String, Boolean> seatStatus = seatStatusMap.getOrDefault(screenMovieId, new ConcurrentHashMap<>(currentSeatStatus));
+
+        // null 키가 포함되지 않도록 필터링
+        Map<String, Boolean> filteredSeatStatus = seatStatus.entrySet().stream()
+            .filter(entry -> entry.getKey() != null)
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        System.out.println("Filtered seat status: " + filteredSeatStatus);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("seatStatus", filteredSeatStatus);
+
+        // totalSeats가 유효한 경우에만 응답에 추가
+        if (totalSeatsMap != null && totalSeatsMap.containsKey("screen_all_seat")) {
+            response.put("totalSeats", totalSeatsMap.get("screen_all_seat"));
+            System.out.println("Total seats: " + totalSeatsMap.get("screen_all_seat"));
+        } else {
+            response.put("totalSeats", 0); // 기본값 설정
+            System.out.println("No valid total seats found, setting to 0");
+        }
+
+        System.out.println("Sending response: " + response);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    
+    
     // UUID 생성 엔드포인트
     @GetMapping("/generateUUID")
     public ResponseEntity<String> generateUUID() {

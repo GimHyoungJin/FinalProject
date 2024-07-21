@@ -118,7 +118,7 @@ $(document).ready(function () {
     }
 
     // 좌석 클릭 이벤트 핸들러
-   $('.seat').on('click', function () {
+    $('.seat').on('click', function () {
         if ($(this).hasClass('reserved') || $(this).hasClass('unavailable')) {
             return;
         }
@@ -165,8 +165,6 @@ $(document).ready(function () {
         updateSelectedSeatsDisplay();
         checkSelectionComplete();
     });
-
-	
 
     // 좌석에 마우스를 올렸을 때 인접 좌석을 표시하는 이벤트 핸들러
     $('.seat').on('mouseenter', function () {
@@ -305,7 +303,7 @@ $(document).ready(function () {
     }
 
     // 결제 버튼 클릭 이벤트 핸들러
- $('#paymentButton').on('click', function () {
+    $('#paymentButton').on('click', function () {
         if ($(this).hasClass('disabled')) {
             return;
         }
@@ -333,22 +331,19 @@ $(document).ready(function () {
             }
         });
     });
-	
-	
-	 // 결제 성공 후 처리 함수 (새로 추가)
+
+    // 결제 성공 후 처리 함수 (새로 추가)
     function onPaymentSuccess(paymentResponse) {
-        updateSeatStatusAfterPayment(selectedSeats);
         saveReservation(paymentResponse);
     }
-	
-	
-	 // 결제 성공 후 좌석 상태 업데이트 함수 (수정)
-    function updateSeatStatusAfterPayment(selectedSeats) {
+
+    // 결제 성공 후 좌석 상태 업데이트 함수 (수정)
+    function updateSeatStatusAfterPayment(selectedSeats, screenMovieId) {
         $.ajax({
             url: '/reservation/updateSeatStatus',
             method: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify({ selectedSeats: selectedSeats }),
+            data: JSON.stringify({ selectedSeats: selectedSeats, screenMovieId: screenMovieId }),
             success: function(response) {
                 if (response.status === 'success') {
                     console.log('Seat status updated successfully');
@@ -365,7 +360,6 @@ $(document).ready(function () {
         });
     }
 
-	
     // 예약 정보를 저장하는 함수 (수정)
     function saveReservation(paymentResponse) {
         const reservationData = {
@@ -385,7 +379,7 @@ $(document).ready(function () {
             contentType: 'application/json',
             data: JSON.stringify(reservationData),
             success: function (resId) {
-                savePayment(resId, paymentResponse);
+                savePayment(resId, paymentResponse, screenMovieId);
             },
             error: function (error) {
                 console.error('Error saving reservation:', error);
@@ -394,8 +388,8 @@ $(document).ready(function () {
         });
     }
 
-    // 결제 정보를 저장하는 함수
-    function savePayment(resId, paymentResponse) {
+    // 결제 정보를 저장하는 함수 (수정)
+    function savePayment(resId, paymentResponse, screenMovieId) { // screenMovieId 매개변수 추가
         const paymentData = {
             pay_id: paymentId,
             res_id: resId,
@@ -405,31 +399,36 @@ $(document).ready(function () {
             tot_price: parseInt($('#totalPrice').text().replace(/[^0-9]/g, '')),
             pay_status: 'Y',
             card_information: paymentResponse.card_name
-};
+        };
 
- $.ajax({
-        url: '/reservation/payment/save',
-        method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(paymentData),
-        success: function (response) {
-            console.log(response);
-            alert('예약 및 결제가 성공적으로 완료되었습니다.');
-            window.location.href = 'payment/success';
-        },
-        error: function (error) {
-            console.error('Error saving payment:', error);
-            alert('결제 처리 중 오류가 발생하였습니다.');
-        }
-    });
-}
+        $.ajax({
+            url: '/reservation/payment/save',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(paymentData),
+            success: function (response) {
+                console.log(response);
+                alert('예약 및 결제가 성공적으로 완료되었습니다.');
 
-// 페이지 로드 시 UUID 생성
-generateUUID().then(fetchSeatStatus);
+                // 결제 성공 후 좌석 상태 업데이트 호출
+                updateSeatStatusAfterPayment(selectedSeats, screenMovieId);
+                
+                // 결제 성공 후 리디렉션
+                window.location.href = 'payment/success';
+            },
+            error: function (error) {
+                console.error('Error saving payment:', error);
+                alert('결제 처리 중 오류가 발생하였습니다.');
+            }
+        });
+    }
 
-// 결제 UUID 생성
-generatePaymentUUID();
+    // 페이지 로드 시 UUID 생성
+    generateUUID().then(fetchSeatStatus);
 
-// 주기적으로 좌석 상태를 업데이트
-setInterval(fetchSeatStatus, 5000); // 5초마다 업데이트
+    // 결제 UUID 생성
+    generatePaymentUUID();
+
+    // 주기적으로 좌석 상태를 업데이트
+    setInterval(fetchSeatStatus, 5000); // 5초마다 업데이트
 });

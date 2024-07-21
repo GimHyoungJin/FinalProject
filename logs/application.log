@@ -1,0 +1,3 @@
+2024-07-21T14:17:42.965+09:00  INFO 13508 --- [movio_project] [RMI TCP Connection(5)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2024-07-21T14:17:43.133+09:00  INFO 13508 --- [movio_project] [RMI TCP Connection(5)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-07-21T14:17:43.135+09:00  INFO 13508 --- [movio_project] [RMI TCP Connection(5)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
