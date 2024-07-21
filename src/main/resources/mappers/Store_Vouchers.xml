@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="store_vouchers">
-    <select id="isVoucherAvailable" parameterType="string" resultType="int">
-        SELECT COUNT(*)
-        FROM store_vouchers
-        WHERE voucher_number = #{voucherNumber} AND mem_id IS NULL
+<mapper namespace="kr.co.movio.mypage.store_vouchers.Store_VouchersMapper">
+    
+    <resultMap id="storeVoucherMap" type="kr.co.movio.mypage.store_vouchers.Store_VouchersDTO">
+        <result property="category" column="category"/>
+        <result property="voucherName" column="voucher_name"/>
+        <result property="expirationDate" column="expiration_date"/>
+        <result property="status" column="status"/>
+        <result property="orderNo" column="order_no"/>
+    </resultMap>
+
+    <select id="findByOrderNo" parameterType="String" resultMap="storeVoucherMap">
+        SELECT * FROM store_vouchers WHERE order_no = #{order_no}
     </select>
 
-    <update id="registerVoucher" parameterType="map">
-        UPDATE store_vouchers
-        SET mem_id = #{memId}, status = 'registered'
-        WHERE voucher_number = #{voucherNumber}
+    <insert id="insertVoucher" parameterType="kr.co.movio.mypage.store_vouchers.Store_VouchersDTO">
+        INSERT INTO store_vouchers (category, voucher_name, expiration_date, status, order_no) 
+        VALUES (#{category}, #{voucherName}, #{expirationDate}, #{status}, #{orderNo})
+    </insert>
+
+    <update id="updateVoucher" parameterType="kr.co.movio.mypage.store_vouchers.Store_VouchersDTO">
+        UPDATE store_vouchers SET category=#{category}, voucher_name=#{voucherName}, expiration_date=#{expirationDate}, status=#{status} 
+        WHERE order_no=#{orderNo}
     </update>
+
+    <select id="findAll" resultMap="storeVoucherMap">
+        SELECT * FROM store_vouchers
+    </select>
 </mapper>
