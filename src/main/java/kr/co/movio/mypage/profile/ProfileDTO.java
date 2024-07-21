@@ -1,19 +1,20 @@
 package kr.co.movio.mypage.profile;
 
+import java.sql.Timestamp;
+
 public class ProfileDTO {
     private String memId;
     private String username;
     private String passwd;
-    private String email;
     private String phone;
-    private String regdate;
+    private Timestamp regdate;
     private String birth;
     private String gender;
     private String zipcode;
     private String address1;
     private String address2;
-    private String smsAgree;
-    private String emailAgree;
+    private String smsAgree = "N"; // 기본 값 설정
+    private String emailAgree = "N"; // 기본 값 설정
     private int memGrade;
 
     // Getters and Setters
@@ -41,14 +42,6 @@ public class ProfileDTO {
         this.passwd = passwd;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -57,11 +50,11 @@ public class ProfileDTO {
         this.phone = phone;
     }
 
-    public String getRegdate() {
+    public Timestamp getRegdate() {
         return regdate;
     }
 
-    public void setRegdate(String regdate) {
+    public void setRegdate(Timestamp regdate) {
         this.regdate = regdate;
     }
 
@@ -125,15 +118,15 @@ public class ProfileDTO {
         return memGrade;
     }
 
-    @Override
-	public String toString() {
-		return "ProfileDTO [memId=" + memId + ", username=" + username + ", passwd=" + passwd + ", email=" + email
-				+ ", phone=" + phone + ", regdate=" + regdate + ", birth=" + birth + ", gender=" + gender + ", zipcode="
-				+ zipcode + ", address1=" + address1 + ", address2=" + address2 + ", smsAgree=" + smsAgree
-				+ ", emailAgree=" + emailAgree + ", memGrade=" + memGrade + "]";
-	}
-
-	public void setMemGrade(int memGrade) {
+    public void setMemGrade(int memGrade) {
         this.memGrade = memGrade;
+    }
+
+    @Override
+    public String toString() {
+        return "ProfileDTO [memId=" + memId + ", username=" + username + ", passwd=" + passwd 
+                + ", phone=" + phone + ", regdate=" + regdate + ", birth=" + birth + ", gender=" + gender 
+                + ", zipcode=" + zipcode + ", address1=" + address1 + ", address2=" + address2 
+                + ", smsAgree=" + smsAgree + ", emailAgree=" + emailAgree + ", memGrade=" + memGrade + "]";
     }
 }

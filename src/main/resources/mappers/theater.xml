@@ -7,6 +7,7 @@
     <!-- 모든 극장 정보를 가져오는 쿼리 -->
     <select id="getAllTheaters" resultType="kr.co.movio.theater.TheaterDTO">
         SELECT * FROM theater
+         WHERE is_deleted = FALSE
     </select>
 
     <!-- 특정 극장 정보를 가져오는 쿼리 -->
@@ -84,6 +85,18 @@
 	</select>
     
     
+     <!-- 소프트 삭제를 위한 업데이트 쿼리 -->
+   <update id="softDeleteTheater" parameterType="String">
+    UPDATE theater
+    SET is_deleted = TRUE
+    WHERE theater_id = #{theater_id}
+</update>
+    
+<insert id="addTheater" parameterType="kr.co.movio.theater.TheaterDTO">
+    INSERT INTO theater (theater_id, region_id, theater_name, address, theaters_num, total_seats, latitude, longitude, is_deleted)
+    VALUES (#{theater_id}, #{region_id}, #{theater_name}, #{address}, #{theaters_num}, #{total_seats}, #{latitude}, #{longitude}, FALSE)
+</insert>
+
      <!-- 지역 id와 맞는 극장 지점 데이터를 가져오는 쿼리 
     <select id="getTheaters" resultType="java.util.Map" parameterType="String">
     	select theater_name, theater_id

@@ -24,7 +24,7 @@
           </a>
           <a href="<c:url value='/admin/members' />" class="list-group-item list-group-item-action">회원 관리</a>
           <a href="<c:url value='/admin/movie' />" class="list-group-item list-group-item-action">영화 관리</a>
-          <a href="<c:url value='/admin/theater' />" class="list-group-item list-group-item-action active">영화관 관리</a>
+          <a href="<c:url value='/admin/theater' />" class="list-group-item list-group-item-action">영화관 관리</a>
         </div>
       </div>
       <div class="col-md-9">
