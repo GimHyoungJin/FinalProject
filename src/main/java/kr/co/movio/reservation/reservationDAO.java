@@ -64,4 +64,20 @@ public class reservationDAO {
 	    public List<String> getActiveScreenMovieIds() {
 	        return sqlSession.selectList("ticketreservation.getActiveScreenMovieIds");
 	    }
+	    
+	    public int getTotalAudience(String movieId) {
+	        Integer result = sqlSession.selectOne("reservation.getTotalAudience", movieId);
+	        return result != null ? result : 0;
+	    }
+
+	    public double getRating(String movieId) {
+	        Double result = sqlSession.selectOne("reservation.getRating", movieId);
+	        return result != null ? result : 0.0;
+	    }
+
+	    public double getMovieGrade(String movieId) {
+	        Double result = sqlSession.selectOne("reservation.getMovieGrade", movieId);
+	        return result != null ? result : 0.0;
+	    }
+
 }
