@@ -64,7 +64,7 @@
             <tr>
               <td colspan="2" align="center">
                 <input type="button" value="결제하기" class="btn btn-dark" 
-                       onclick="checkLoginAndPay('inicis', '${useremail}', '${username}', '${param.pro_name}', ${param.totalPrice})">
+                       onclick="checkLoginAndPay('inicis', '${useremail}', '${username}', '${param.proName}', ${param.totalPrice})">
               </td>
             </tr>
           </tbody>
@@ -124,7 +124,6 @@ function orderCheck() {
     return confirm("결제하시겠습니까?");
 }
 
-var IMP = window.IMP;
 IMP.init("imp83385183"); // 아임포트 초기화
 
 // 현재 시간을 기준으로 고유한 주문 번호 생성
@@ -136,13 +135,13 @@ var milliseconds = today.getMilliseconds();
 var makeMerchantUid = `IMP${hours}${minutes}${seconds}${milliseconds}`;
 
 // 로그인 상태 확인 및 결제 진행
-async function checkLoginAndPay(paymentMethod, useremail, username, pro_name, productPrice) {
+async function checkLoginAndPay(paymentMethod, useremail, username, proName, productPrice) {
     console.log('Product Price:', productPrice);  // 값 확인
-    console.log('Product Name:', pro_name);  // 값 확인
+    console.log('Product Name:', proName);  // 값 확인
     const isLoggedIn = await checkLoginStatus();
     if (isLoggedIn) {
         if (paymentMethod === 'inicis') {
-            inicisPay(useremail, username, pro_name, productPrice);
+            inicisPay(useremail, username, proName, productPrice);
         }
     } else {
         showLoginModal();
@@ -166,17 +165,18 @@ function showLoginModal() {
     $('#loginModal').modal('show');
 }
 
-// 이니시스 결제 진행
-async function inicisPay(useremail, username, pro_name, productPrice) {
+//이니시스 결제 진행
+async function inicisPay(useremail, username, proName, productPrice) {
     if (confirm("구매하시겠습니까?")) {
         IMP.request_pay({
             pg: 'html5_inicis.INIpayTest',
             pay_method: 'card',
-            merchant_uid: makeMerchantUid,
-            name: pro_name,
+            merchant_uid: 'merchant_' + new Date().getTime(),
+            name: proName,
             amount: productPrice,
             buyer_email: useremail,
-            buyer_name: username
+            buyer_name: username,
+            goodsname: proName // 추가된 필수 파라미터
         }, async function (rsp) {
             if (rsp.success) {
                 // 결제가 성공하면 서버에 결제 정보 전송
@@ -194,7 +194,7 @@ async function inicisPay(useremail, username, pro_name, productPrice) {
                         buyer_name: rsp.buyer_name,
                         orderDetails: [{
                             pro_detail_code: '${product.proDetailCode}',
-                            pro_name: pro_name,
+                            pro_name: proName,
                             pro_price: productPrice,
                             quantity: 1
                         }]
@@ -220,6 +220,7 @@ async function inicisPay(useremail, username, pro_name, productPrice) {
         return false;
     }
 }
+
 </script>
 </body>
 </html>
