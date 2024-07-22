@@ -1,11 +1,11 @@
 package kr.co.movio.order;
 
 import java.util.HashMap;
-
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import kr.co.movio.cart.CartDTO;
 
 @Repository
 public class OrderDAO {
@@ -18,7 +18,7 @@ public class OrderDAO {
 
     public int totalamount(String memId) {
         Integer result = sqlSession.selectOne("kr.co.movio.order.OrderMapper.totalamount", memId);
-        return result != null ? result : 0; // 결과가 null일 경우 0을 반환
+        return result != null ? result : 0;
     }
 
     public void orderInsert(OrderDTO orderdto) {
@@ -35,5 +35,9 @@ public class OrderDAO {
 
     public List<HashMap<String, Object>> orderDesc(String orderNo) {
         return sqlSession.selectList("kr.co.movio.order.OrderMapper.orderDesc", orderNo);
+    }
+
+    public List<CartDTO> getCartItems(String memId) {
+        return sqlSession.selectList("kr.co.movio.order.OrderMapper.getCartItems", memId);
     }
 }

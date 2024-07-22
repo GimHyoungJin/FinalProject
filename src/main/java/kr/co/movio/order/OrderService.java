@@ -1,7 +1,6 @@
 package kr.co.movio.order;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import kr.co.movio.cart.CartDTO;
 import kr.co.movio.product.ProductDTO;
 import kr.co.movio.product.ProductDAO;
 
@@ -51,14 +51,10 @@ public class OrderService {
             System.out.println("Order inserted: " + order); // 추가 로그
 
             // 주문 상세 삽입
-            List<HashMap<String, Object>> orderDetails = orderDAO.orderDesc(orderNo);
-            for (HashMap<String, Object> detail : orderDetails) {
-                String proDetailCode = (String) detail.get("pro_detail_code");
-                Integer quantity = (Integer) detail.get("quantity");
-
-                if (proDetailCode == null || quantity == null) {
-                    throw new RuntimeException("Invalid order detail data: " + detail);
-                }
+            List<CartDTO> cartItems = orderDAO.getCartItems(memId);
+            for (CartDTO cartItem : cartItems) {
+                String proDetailCode = cartItem.getPro_detail_code();
+                int quantity = cartItem.getCart_amount();
 
                 ProductDTO product = productDAO.detail(proDetailCode);
                 System.out.println("Product before update: " + product); // 추가 로그
@@ -74,7 +70,7 @@ public class OrderService {
                     params.put("order_no", orderNo);
                     params.put("pro_detail_code", proDetailCode);
                     params.put("order_detail_amount", quantity);
-                    params.put("order_detail_price", product.getPro_price() * quantity); // 상품 가격 * 수량
+                    params.put("order_detail_price", cartItem.getCart_price() * quantity); // 장바구니 가격 * 수량
                     orderDAO.orderdetailInsert(params);
                     System.out.println("Order detail inserted: " + params); // 추가 로그
                 } else {

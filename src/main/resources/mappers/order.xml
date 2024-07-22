@@ -26,6 +26,25 @@
 
     <!-- 주문 상세 정보 조회 -->
     <select id="orderDesc" parameterType="String" resultType="map">
-        SELECT pro_detail_code, cart_amount AS quantity FROM cart WHERE mem_id = (SELECT mem_id FROM orders WHERE order_no = #{order_no})
+        SELECT od.pro_detail_code, od.order_detail_amount AS quantity, od.order_detail_price AS price
+        FROM orderdetail od 
+        JOIN orders o ON od.order_no = o.order_no 
+        WHERE o.order_no = #{order_no}
+    </select>
+    
+    <resultMap id="CartResultMap" type="kr.co.movio.cart.CartDTO">
+        <result property="mem_id" column="mem_id" />
+        <result property="cart_no" column="cart_no" />
+        <result property="pro_detail_code" column="pro_detail_code" />
+        <result property="pro_name" column="pro_name" />
+        <result property="cart_price" column="cart_price" />
+        <result property="cart_amount" column="cart_amount" />
+    </resultMap>
+    
+    <select id="getCartItems" resultMap="CartResultMap">
+        SELECT c.cart_no, c.mem_id, c.pro_detail_code, c.cart_price, c.cart_amount, p.pro_name
+        FROM cart c
+        JOIN product p ON c.pro_detail_code = p.pro_detail_code
+        WHERE c.mem_id = #{mem_id}
     </select>
 </mapper>

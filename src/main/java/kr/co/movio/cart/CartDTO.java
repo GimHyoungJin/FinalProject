@@ -1,16 +1,22 @@
 package kr.co.movio.cart;
 
 public class CartDTO {
-
-    private int cart_no;
     private String mem_id;
+    private int cart_no;
     private String pro_detail_code;
+    private String pro_name;
     private int cart_price;
     private int cart_amount;
-    private String cart_date;
-    private String pro_name; // 상품명 필드 추가
+    private String cart_date; // 추가된 속성
 
-    public CartDTO() {}
+    // Getters and Setters
+    public String getMem_id() {
+        return mem_id;
+    }
+
+    public void setMem_id(String mem_id) {
+        this.mem_id = mem_id;
+    }
 
     public int getCart_no() {
         return cart_no;
@@ -20,20 +26,20 @@ public class CartDTO {
         this.cart_no = cart_no;
     }
 
-    public String getMem_id() {
-        return mem_id;
-    }
-
-    public void setMem_id(String mem_id) {
-        this.mem_id = mem_id;
-    }
-
     public String getPro_detail_code() {
         return pro_detail_code;
     }
 
     public void setPro_detail_code(String pro_detail_code) {
         this.pro_detail_code = pro_detail_code;
+    }
+
+    public String getPro_name() {
+        return pro_name;
+    }
+
+    public void setPro_name(String pro_name) {
+        this.pro_name = pro_name;
     }
 
     public int getCart_price() {
@@ -58,20 +64,5 @@ public class CartDTO {
 
     public void setCart_date(String cart_date) {
         this.cart_date = cart_date;
-    }
-
-    public String getPro_name() {
-        return pro_name;
-    }
-
-    public void setPro_name(String pro_name) {
-        this.pro_name = pro_name;
-    }
-
-    @Override
-    public String toString() {
-        return "CartDTO [cart_no=" + cart_no + ", mem_id=" + mem_id + ", pro_detail_code=" + pro_detail_code 
-                + ", cart_price=" + cart_price + ", cart_amount=" + cart_amount + ", cart_date=" + cart_date 
-                + ", pro_name=" + pro_name + "]";
     }
 }

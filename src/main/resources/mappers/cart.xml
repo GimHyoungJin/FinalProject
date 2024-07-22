@@ -3,12 +3,7 @@
    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
- 
-  
- 
- 
 <!-- cart.xml -->
-
 <mapper namespace="cart">
     <select id="list" parameterType="string" resultType="kr.co.movio.cart.CartDTO">
         SELECT c.cart_no, c.mem_id, c.pro_detail_code, c.cart_price, c.cart_amount, c.cart_date, p.pro_name
@@ -18,8 +13,8 @@
     </select>
 
     <insert id="insert" parameterType="kr.co.movio.cart.CartDTO">
-        INSERT INTO cart (mem_id, pro_detail_code, cart_price, cart_amount, cart_date)
-        VALUES (#{mem_id}, #{pro_detail_code}, #{cart_price}, #{cart_amount}, #{cart_date})
+        INSERT INTO cart (mem_id, pro_detail_code, pro_name, cart_price, cart_amount, cart_date)
+        VALUES (#{mem_id}, #{pro_detail_code}, #{pro_name}, #{cart_price}, #{cart_amount}, #{cart_date})
     </insert>
 
     <delete id="delete" parameterType="map">
@@ -30,4 +25,3 @@
         SELECT SUM(cart_price * cart_amount) FROM cart WHERE mem_id = #{mem_id}
     </select>
 </mapper>
-

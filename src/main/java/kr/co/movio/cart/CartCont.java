@@ -1,5 +1,6 @@
 package kr.co.movio.cart;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -29,6 +31,7 @@ public class CartCont {
     @PostMapping("/insert")
     public String cartInsert(
         @RequestParam("pro_detail_code") String pro_detail_code,
+        @RequestParam("pro_name") String pro_name,  // 상품명 추가
         @RequestParam("cart_price") int cart_price,
         @RequestParam("cart_amount") int cart_amount,
         HttpSession session,
@@ -44,6 +47,7 @@ public class CartCont {
         CartDTO cartDTO = new CartDTO();
         cartDTO.setMem_id(mem_id);
         cartDTO.setPro_detail_code(pro_detail_code);
+        cartDTO.setPro_name(pro_name);  // 상품명 설정
         cartDTO.setCart_price(cart_price);
         cartDTO.setCart_amount(cart_amount);
         cartDTO.setCart_date(new java.sql.Date(System.currentTimeMillis()).toString());
@@ -78,5 +82,18 @@ public class CartCont {
         cartDao.delete(map);
 
         return "redirect:/cart/list";
+    }
+
+    @GetMapping("/items")
+    @ResponseBody
+    public List<CartDTO> getCartItems(HttpSession session) {
+        String mem_id = (String) session.getAttribute("mem_id");
+        if (mem_id != null) {
+            List<CartDTO> cartItems = cartDao.list(mem_id);
+            System.out.println("Fetched Cart Items: " + cartItems); // 디버깅 로그
+            return cartItems;
+        } else {
+            return Collections.emptyList();
+        }
     }
 }

@@ -14,23 +14,23 @@
   <link href="<c:url value='/css/footer.css' />" rel="stylesheet" type="text/css">
   
   <script>
-  	function cartDelete(cartno) {
-		if(confirm("장바구니에서 해당 상품을 삭제할까요?")) {
-			location.href='/cart/delete?cartno=' + cartno;
-		}//if end
-	}//cartDelete() end  
-	
-	function checkLoginAndOrder() {
-        var mem_id = '<c:out value="${sessionScope.mem_id}" />';
-        if (!mem_id) {
-            $('#loginModal').modal('show'); // 로그인 모달 표시
-        } else {
-            if(confirm("주문할까요?")){
-			    location.href='/order/orderform';
-		    }//if end
+    function cartDelete(cartno) {
+        if(confirm("장바구니에서 해당 상품을 삭제할까요?")) {
+            location.href='/cart/delete?cartno=' + cartno;
         }
     }
-  </script> 
+
+    function checkLoginAndOrder(totalPrice, proName) {
+        var mem_id = '<c:out value="${sessionScope.mem_id}" />';
+        if (!mem_id) {
+            $('#loginModal').modal('show');
+        } else {
+            if(confirm("주문할까요?")){
+                location.href='/order/orderform?totalPrice=' + totalPrice + '&proName=' + encodeURIComponent(proName);
+            }
+        }
+    }
+  </script>
   
 </head>
 <body>
@@ -51,50 +51,50 @@
 </nav>
 
 <div class="container text-center">
-  <!-- 본문 시작 -->
   <div class="row">
     <div class="col-sm-12">
-    	<p><h3>장바구니 목록</h3></p>
-    </div><!-- col end -->
-  </div><!-- row end -->
+      <p><h3>장바구니 목록</h3></p>
+    </div>
+  </div>
   
   <div class="row">
     <div class="col-sm-12">
-   	   	<table class="table table-hover">
-	    	<thead class="table-active">
-				<th>아이디</th>
-		    	<th>번호</th>
-		    	<th>상품명</th>
-		    	<th>단가</th>
-		    	<th>상품수량</th>
-		    	<th>가격</th>
-		    	<th>삭제</th>
-	    	</thead>
-	   		<tbody>
-	   			<c:forEach items="${list}" var="row">
-   					<tr>
-			    		<td>${row.mem_id}</td>
-			    		<td>${row.cart_no}</td>
-			    		<td>${row.pro_name}</td>
-			    		<td>${row.cart_price}</td>
-			    		<td>${row.cart_amount}</td>
-			    		<td>${row.cart_price * row.cart_amount}</td>
-			    		<td>
-			    			<input type="button" value="삭제" onclick="cartDelete(${row.cart_no})">
-			    		</td>
-			    	</tr>
-	   			</c:forEach>	   		
-	   		</tbody>
-    	</table>
-    	<p><h3>총 금액: ${totalPrice}원</h3></p>
-  	    <br>
-    	<input type="button" class="btn btn-dark" value="계속쇼핑하기" onclick="location.href='/product/list'">
-	    <input type="button" class="btn btn-dark" value="주문하기" onclick="checkLoginAndOrder()"> 
-    	
-  </div><!-- row end -->
-  <!-- 본문 끝 -->
-</div><!-- container end -->
+      <table class="table table-hover">
+        <thead class="table-active">
+          <tr>
+            <th>아이디</th>
+            <th>번호</th>
+            <th>상품명</th>
+            <th>단가</th>
+            <th>상품수량</th>
+            <th>가격</th>
+            <th>삭제</th>
+          </tr>
+        </thead>
+        <tbody>
+          <c:forEach items="${list}" var="row">
+            <tr>
+              <td>${row.mem_id}</td>
+              <td>${row.cart_no}</td>
+              <td>${row.pro_name}</td>
+              <td>${row.cart_price}</td>
+              <td>${row.cart_amount}</td>
+              <td>${row.cart_price * row.cart_amount}</td>
+              <td>
+                <input type="button" value="삭제" onclick="cartDelete(${row.cart_no})">
+              </td>
+            </tr>
+          </c:forEach>      
+        </tbody>
+      </table>
+      <p><h3>총 금액: ${totalPrice}원</h3></p>
+      <br>
+      <input type="button" class="btn btn-dark" value="계속쇼핑하기" onclick="location.href='/product/list'">
+      <input type="button" class="btn btn-dark" value="주문하기" onclick="checkLoginAndOrder(${totalPrice}, '${list[0].pro_name}')"> 
+    </div>
+  </div>
+</div>
 
- <%@ include file="../../footer.jsp" %>
+<%@ include file="../../footer.jsp" %>
 </body>
 </html>
