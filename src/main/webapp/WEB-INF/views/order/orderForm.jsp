@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> <!-- JSTL core 태그 라이브러리 선언 -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> <%-- JSTL core 태그 라이브러리 선언 --%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -43,11 +43,6 @@
   <div class="row">
     <div class="col-sm-12">
       <!-- 주문 폼: 서버로 주문 데이터를 전송 -->
-      <form name="orderForm" method="post" action="/order/insert" onsubmit="return orderCheck()">
-        <!-- 숨겨진 입력 필드: 제품 상세 코드, 총 가격, 제품 이름 -->
-        <input type="hidden" name="proDetailCode" value="${product.proDetailCode}">
-        <input type="hidden" name="totalPrice" id="totalPrice" value="${param.totalPrice}">
-        <input type="hidden" name="pro_name" id="pro_name" value="${param.proName}">
         <table class="table table-hover">
           <tbody style="text-align: left;">
             <!-- 받는 사람 입력 필드 -->
@@ -64,12 +59,11 @@
             <tr>
               <td colspan="2" align="center">
                 <input type="button" value="결제하기" class="btn btn-dark" 
-                       onclick="checkLoginAndPay('inicis', '${useremail}', '${username}', '${param.proName}', ${param.totalPrice})">
+                       onclick="checkLoginAndPay('inicis', '${useremail}', '${username}', '${proName}', ${totalPrice})">
               </td>
             </tr>
           </tbody>
         </table>
-      </form>
     </div>
   </div>
 </div>
@@ -103,26 +97,6 @@
 </div>
 
 <script>
-// 주문서 유효성 검사
-function orderCheck() {
-    let deliverynm = $("#deliverynm").val().trim();
-    if (deliverynm.length <= 2) {
-        alert("받는사람을 입력해주세요");
-        $("#deliverynm").focus();
-        return false;
-    }
-
-    let deliverypnum = $("#deliverypnum").val().trim();
-    let numericRegex = /^[0-9]{11}$/;
-
-    if (!numericRegex.test(deliverypnum)) {
-        alert("번호를 올바르게 입력해주세요");
-        $("#deliverypnum").focus();
-        return false;
-    }
-
-    return confirm("결제하시겠습니까?");
-}
 
 IMP.init("imp83385183"); // 아임포트 초기화
 
@@ -136,17 +110,36 @@ var makeMerchantUid = `IMP${hours}${minutes}${seconds}${milliseconds}`;
 
 // 로그인 상태 확인 및 결제 진행
 async function checkLoginAndPay(paymentMethod, useremail, username, proName, productPrice) {
-    console.log('Product Price:', productPrice);  // 값 확인
-    console.log('Product Name:', proName);  // 값 확인
-    const isLoggedIn = await checkLoginStatus();
-    if (isLoggedIn) {
-        if (paymentMethod === 'inicis') {
-            inicisPay(useremail, username, proName, productPrice);
-        }
-    } else {
-        showLoginModal();
+	
+	// 주문서 유효성 검사
+	let deliverynm = $("#deliverynm").val().trim();
+    if (deliverynm.length <= 2) {
+        alert("받는사람을 입력해주세요");
+        $("#deliverynm").focus();
+        return;
     }
-}
+	
+    let deliverypnum = $("#deliverypnum").val().trim();
+    let numericRegex = /^[0-9]{11}$/;
+    if (!numericRegex.test(deliverypnum)) {
+        alert("번호를 올바르게 입력해주세요");
+        $("#deliverypnum").focus();
+        return;
+    }
+	
+    if(confirm("구매 하시겠습니까?")) {
+	    console.log('Product Price:', productPrice);  // 값 확인
+	    console.log('Product Name:', proName);  // 값 확인
+	    const isLoggedIn = await checkLoginStatus();
+	    if (isLoggedIn) {
+	        if (paymentMethod === 'inicis') {
+	            inicisPay(useremail, username, proName, productPrice);
+	        }
+	    } else {
+	        showLoginModal();
+	    }
+    }//end
+}//checkLoginAndPay() end
 
 // 로그인 상태 확인
 async function checkLoginStatus() {
@@ -167,7 +160,7 @@ function showLoginModal() {
 
 //이니시스 결제 진행
 async function inicisPay(useremail, username, proName, productPrice) {
-    if (confirm("구매하시겠습니까?")) {
+    if (confirm("결제 하시겠습니까?")) {
         IMP.request_pay({
             pg: 'html5_inicis.INIpayTest',
             pay_method: 'card',
@@ -178,6 +171,10 @@ async function inicisPay(useremail, username, proName, productPrice) {
             buyer_name: username,
             goodsname: proName // 추가된 필수 파라미터
         }, async function (rsp) {
+        	
+        	//alert(rsp);
+        	console.log(rsp);
+        	
             if (rsp.success) {
                 // 결제가 성공하면 서버에 결제 정보 전송
                 const response = await fetch('/order/insert', {
@@ -191,27 +188,30 @@ async function inicisPay(useremail, username, proName, productPrice) {
                         paid_amount: rsp.paid_amount,
                         apply_num: rsp.apply_num,
                         buyer_email: rsp.buyer_email,
-                        buyer_name: rsp.buyer_name,
-                        orderDetails: [{
-                            pro_detail_code: '${product.proDetailCode}',
-                            pro_name: proName,
-                            pro_price: productPrice,
-                            quantity: 1
-                        }]
+                        buyer_name: rsp.buyer_name
                     })
                 });
-
+				//alert(response);
+				console.log(response);
                 if (response.ok) {
                     const result = await response.json();
-                    if (result.success) {
+                    
+                    //console.log(result);
+                    //alert(result.data); 성공 success 실패 fail
+                    let flag = result.data;
+                    
+                    if (flag=="success") {
                         alert('결제 완료!');
-                        window.location.href = '/order/msgView';
                     } else {
-                        alert(result.message);
-                    }
+                        alert('결제 처리 중 오류가 발생했습니다. 다시 시도해주세요.');
+                    }//end
+                    
+                    window.location.href = '/order/msgView?flag=' + flag;
+
                 } else {
                     alert(`error:[${response.status}]\n결제요청이 승인된 경우 관리자에게 문의바랍니다.`);
                 }
+				
             } else {
                 alert(rsp.error_msg);
             }

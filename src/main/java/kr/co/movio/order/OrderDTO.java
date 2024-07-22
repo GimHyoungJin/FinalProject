@@ -51,4 +51,11 @@ public class OrderDTO {
     public void setOrderDetails(List<CartDTO> orderDetails) {
         this.orderDetails = orderDetails;
     }
+
+	@Override
+	public String toString() {
+		return "OrderDTO [order_no=" + order_no + ", mem_id=" + mem_id + ", order_total=" + order_total
+				+ ", order_state=" + order_state + ", orderDetails=" + orderDetails + "]";
+	}
+    
 }
