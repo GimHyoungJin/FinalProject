@@ -9,12 +9,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import kr.co.movio.reservation.TicketReservationDTO;
 import kr.co.movio.reservation.reservationDAO;
 import kr.co.movio.review.ReviewDAO;
 import kr.co.movio.review.ReviewDTO;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,7 +26,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -46,7 +52,6 @@ public class MovieController {
     public String movieList(Model model) {
         try {
             List<MovieDTO> movies = movieDao.getMovies();
-            // 모든 영화를 모델에 추가합니다.
             model.addAttribute("movies", movies);
         } catch (Exception e) {
             e.printStackTrace();
@@ -84,7 +89,6 @@ public class MovieController {
                 model.addAttribute("movieId", movieId);
                 model.addAttribute("trailerUrl", movie.getTrailer_url());
 
-                // 예매 데이터 추가
                 int totalAudience = reservationDao.getTotalAudience(movieId);
                 double rating = reservationDao.getRating(movieId);
                 double movieGrade = reservationDao.getMovieGrade(movieId);
@@ -93,7 +97,7 @@ public class MovieController {
                 model.addAttribute("rating", rating);
                 model.addAttribute("movieGrade", movieGrade);
 
-                model.addAttribute("ageRating", movie.getAge_rating()); // 연령 등급 추가
+                model.addAttribute("ageRating", movie.getAge_rating());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -106,11 +110,10 @@ public class MovieController {
                                @RequestParam(value = "sort", required = false) String sort,
                                @RequestParam(value = "page", defaultValue = "1") int page,
                                Model model) {
-        int pageSize = 5;  // 페이지당 리뷰 수
+        int pageSize = 5;
         int offset = (page - 1) * pageSize;
 
         try {
-            // 영화 정보를 가져와 모델에 추가
             MovieDTO movie = movieDao.getMovieById(movieId);
             if (movie != null) {
                 model.addAttribute("title", movie.getMovie_title());
@@ -120,7 +123,6 @@ public class MovieController {
                 model.addAttribute("movieId", movieId);
                 model.addAttribute("trailerUrl", movie.getTrailer_url());
 
-                // 예매 데이터 추가
                 int totalAudience = reservationDao.getTotalAudience(movieId);
                 double rating = reservationDao.getRating(movieId);
                 double movieGrade = reservationDao.getMovieGrade(movieId);
@@ -129,10 +131,9 @@ public class MovieController {
                 model.addAttribute("rating", rating);
                 model.addAttribute("movieGrade", movieGrade);
 
-                model.addAttribute("ageRating", movie.getAge_rating()); // 연령 등급 추가
+                model.addAttribute("ageRating", movie.getAge_rating());
             }
 
-            // 리뷰 목록을 페이징 및 정렬 기준에 따라 가져와서 모델에 추가
             List<ReviewDTO> reviewList;
             if ("rating".equals(sort)) {
                 reviewList = reviewDao.getReviewsByMovieIdSortedByRatingPaged(movieId, offset, pageSize);
@@ -165,7 +166,6 @@ public class MovieController {
                 model.addAttribute("trailerUrl", movie.getTrailer_url());
                 model.addAttribute("movieId", movieId);
 
-                // 예매 데이터 추가
                 int totalAudience = reservationDao.getTotalAudience(movieId);
                 double rating = reservationDao.getRating(movieId);
                 double movieGrade = reservationDao.getMovieGrade(movieId);
@@ -183,7 +183,7 @@ public class MovieController {
     @GetMapping("/write")
     public String showMovieWriteForm(@RequestParam(value = "category", required = false) String category, Model model) {
         if (category == null || category.isEmpty()) {
-            category = "boxoffice"; // 기본값 설정
+            category = "boxoffice";
         }
         model.addAttribute("category", category);
         return "movie/write";
@@ -203,7 +203,6 @@ public class MovieController {
         String basePath = application.getRealPath("/static/images/poster");
 
         try {
-            // 가장 높은 movie_id 값을 가져와서 새로운 movie_id 설정
             String maxMovieId = movieDao.getMaxMovieId();
             int newMovieId = maxMovieId != null ? Integer.parseInt(maxMovieId) + 1 : 1;
             MovieDTO movie = new MovieDTO();
@@ -211,8 +210,8 @@ public class MovieController {
             movie.setMovie_title(movieTitle);
             movie.setRelease_date(releaseDate);
             movie.setDescription(description);
-            movie.setAge_rating(ageRating); // 연령 등급 설정
-            movie.setGenre(genre); // 장르 설정
+            movie.setAge_rating(ageRating);
+            movie.setGenre(genre);
 
             if (!posterFile.isEmpty()) {
                 String originalFilename = posterFile.getOriginalFilename();
@@ -238,28 +237,26 @@ public class MovieController {
         }
     }
 
-    // 영화 수정 페이지
     @GetMapping("/edit")
     public String showEditForm(@RequestParam("id") String movieId, Model model) {
         MovieDTO movie = movieDao.getMovieById(movieId);
         if (movie != null) {
             model.addAttribute("movie", movie);
-            model.addAttribute("posterUrl", movie.getPoster_url());  // 기존 이미지 URL을 모델에 추가
+            model.addAttribute("posterUrl", movie.getPoster_url());
         }
         return "movie/edit";
     }
 
-    // 영화 수정 처리
     @PostMapping("/update")
     public String updateMovie(@ModelAttribute MovieDTO movie,
                               @RequestParam("poster") MultipartFile posterFile,
-                              @RequestParam("existingPosterUrl") String existingPosterUrl, // 기존 포스터 URL을 받을 새로운 파라미터 추가
+                              @RequestParam("existingPosterUrl") String existingPosterUrl,
                               HttpServletRequest req) {
         ServletContext application = req.getServletContext();
         String basePath = application.getRealPath("/static/images/poster");
 
         try {
-            if (!posterFile.isEmpty()) { // 포스터 파일이 선택된 경우
+            if (!posterFile.isEmpty()) {
                 String originalFilename = posterFile.getOriginalFilename();
                 Path uploadPath = Paths.get(basePath).toAbsolutePath().normalize();
 
@@ -270,8 +267,8 @@ public class MovieController {
                 Path targetLocation = uploadPath.resolve(originalFilename);
                 posterFile.transferTo(targetLocation.toFile());
                 movie.setPoster_url("/static/images/poster/" + originalFilename);
-            } else { // 포스터 파일이 선택되지 않은 경우
-                movie.setPoster_url(existingPosterUrl); // 기존 포스터 URL을 유지
+            } else {
+                movie.setPoster_url(existingPosterUrl);
             }
 
             movieDao.updateMovie(movie);
@@ -282,16 +279,54 @@ public class MovieController {
         }
     }
 
-    // 영화 삭제 처리
     @PostMapping("/delete")
     public String deleteMovie(@RequestParam("id") String movieId) {
         try {
-            int movie_Id = Integer.parseInt(movieId); // String movieId를 int로 변환
+            int movie_Id = Integer.parseInt(movieId);
             movieDao.deleteMovie(movie_Id);
             return "redirect:/movie/movielist";
         } catch (Exception e) {
             e.printStackTrace();
             return "movie/movielist";
         }
+    }
+
+    @GetMapping("/verifyReservation")
+    @ResponseBody
+    public boolean verifyReservation(@RequestParam("reservationId") String reservationId, HttpSession session) {
+        TicketReservationDTO reservation = reservationDao.getReservationById(reservationId);
+        if (reservation != null && reservation.getMem_id().equals(session.getAttribute("mem_id"))) {
+            session.setAttribute("canWriteReview", true);
+            return true;
+        } else {
+            session.setAttribute("canWriteReview", false);
+            return false;
+        }
+    }
+
+    @GetMapping("/checkMovieRegistered")
+    @ResponseBody
+    public boolean checkMovieRegistered(@RequestParam("movieId") String movieId, HttpSession session) {
+        String memId = (String) session.getAttribute("mem_id");
+        if (memId == null) {
+            return false;
+        }
+        return reservationDao.isMovieRegisteredByUser(movieId, memId);
+    }
+
+    @GetMapping("/checkRegistered")
+    @ResponseBody
+    public Map<String, Boolean> checkRegistered(@RequestParam("movieId") String movieId, @RequestParam("memId") String memId) {
+        boolean isRegistered = reservationDao.isRegistered(movieId, memId);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("registered", isRegistered);
+        return response;
+    }
+
+    @GetMapping("/checkSessionForReview")
+    @ResponseBody
+    public boolean checkSessionForReview(HttpSession session) {
+        Boolean canWriteReview = (Boolean) session.getAttribute("canWriteReview");
+        return canWriteReview != null && canWriteReview;
     }
 }

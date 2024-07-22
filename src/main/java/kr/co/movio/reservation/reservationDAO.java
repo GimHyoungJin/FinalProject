@@ -7,7 +7,6 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @Repository
 public class reservationDAO {
@@ -79,5 +78,25 @@ public class reservationDAO {
 	        Double result = sqlSession.selectOne("reservation.getMovieGrade", movieId);
 	        return result != null ? result : 0.0;
 	    }
-
+	    
+	    // 예약 ID로 예약 정보를 조회하는 메소드 추가
+	    public TicketReservationDTO getReservationById(String reservationId) {
+	        return sqlSession.selectOne("reservation.getReservationById", reservationId);
+	    }
+	    
+	    public boolean isMovieRegisteredByUser(String movieId, String memId) {
+	        Map<String, String> params = new HashMap<>();
+	        params.put("movieId", movieId);
+	        params.put("memId", memId);
+	        Integer count = sqlSession.selectOne("reservation.isMovieRegisteredByUser", params);
+	        return count != null && count > 0;
+	    }
+	    
+	    public boolean isRegistered(String movieId, String memId) {
+	        Map<String, String> params = new HashMap<>();
+	        params.put("movieId", movieId);
+	        params.put("memId", memId);
+	        Integer count = sqlSession.selectOne("reservation.isRegistered", params);
+	        return count != null && count > 0;
+	    }
 }
