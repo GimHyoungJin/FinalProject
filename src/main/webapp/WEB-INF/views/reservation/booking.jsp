@@ -136,33 +136,35 @@ $(document).ready(function() {
     updateSeatButtonState(); // 초기 상태에서는 좌석 선택 버튼 비활성화
 
     // 좌석 선택 버튼 클릭 이벤트 처리
-    $('#seatButton').on('click', function() {
-        if (selectedMovieId && selectedTheaterId && selectedDate && selectedTime && selectedScreenMovieId) {
-            const bookingData = {
-                movieId: selectedMovieId.toString(),
-                theaterId: selectedTheaterId.toString(),
-                date: selectedDate.toString(),
-                time: selectedTime.toString(),
-                posterUrl: selectedPosterUrl,
-                movieTitle: selectedMovieTitle,
-                theaterName: selectedTheaterName,
-                screenNum: selectedScreenNum,
-                screenMovieId: selectedScreenMovieId
-            };
+    $('#seatButton').on('click', function(event) {
+        checkLogin(event, function() {
+            if (selectedMovieId && selectedTheaterId && selectedDate && selectedTime && selectedScreenMovieId) {
+                const bookingData = {
+                    movieId: selectedMovieId.toString(),
+                    theaterId: selectedTheaterId.toString(),
+                    date: selectedDate.toString(),
+                    time: selectedTime.toString(),
+                    posterUrl: selectedPosterUrl,
+                    movieTitle: selectedMovieTitle,
+                    theaterName: selectedTheaterName,
+                    screenNum: selectedScreenNum,
+                    screenMovieId: selectedScreenMovieId
+                };
 
-            $.ajax({
-                url: '/reservation/moviebooking',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(bookingData),
-                success: function(response) {
-                    window.location.href = '/reservation/moviebooking';
-                },
-                error: function(xhr, status, error) {
-                    alert('Error: ' + error);
-                }
-            });
-        }
+                $.ajax({
+                    url: '/reservation/moviebooking',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(bookingData),
+                    success: function(response) {
+                        window.location.href = '/reservation/moviebooking';
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Error: ' + error);
+                    }
+                });
+            }
+        });
     });
 
     // 영화 목록 항목 클릭 이벤트 처리
@@ -364,6 +366,27 @@ function resetSelections(resetMovie, resetTheater, resetDate, resetTime) {
     }
     updateSeatButtonState(); // 좌석 선택 버튼 상태 업데이트
 }
+
+// checkLogin 함수 추가
+function checkLogin(event, callback) {
+    event.preventDefault(); // 기본 이벤트 동작을 막음, 막는 이유: 체크하기 전에 mypage로 이동하면 안 되기 때문
+    $.ajax({
+        url: '/member/status',
+        type: 'GET',
+        success: function(response) {
+            if (response.loggedIn) {
+                callback(); // 로그인 상태일 경우 콜백 함수 호출
+            } else {
+                // 로그인 상태가 아닐 시 로그인 모달창을 보여줌
+                showLoginModal();
+            }
+        },
+        error: function(error) {
+            console.error('로그인 상태 확인 실패: ', error);
+        }
+    });
+}
+
 </script>
 <%@ include file="../../footer.jsp" %>
 

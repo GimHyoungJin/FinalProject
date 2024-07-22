@@ -47,7 +47,7 @@
 	  <!-- 추가 -->
 	  <div id="icon"> 
 	    <div class="icon-item">
-	    	<a id="reservation-logo-link" href="<c:url value='/reservation/booking' />" onclick="checkLogin(event)">
+	    	<a href="<c:url value='/reservation/booking' />" >
           	<img src="<c:url value='/images/logo/티켓로고.png' />" alt="1번 아이콘">
 	      	</a>
 	      	<p>빠른 예매</p>
@@ -65,7 +65,7 @@
 	      <div class="number">1</div>
 	      <div class="section-buttons">
 	        <a class="btn btn-detail">상세정보</a>
-	        <a id="btn btn-boo" class="btn btn-book" href="<c:url value='/reservation/booking' />" onclick="checkLogin(event)">예매</a>
+	        <a class="btn btn-book" href="<c:url value='/reservation/booking' />">예매</a>
 	      </div>
 	    </div>
 	    <div class="poster-container">
@@ -73,7 +73,7 @@
 	      <div class="number">2</div>
 	      <div class="section-buttons">
 	        <a class="btn btn-detail">상세정보</a>
-	        <a id="btn btn-boo" class="btn btn-book" href="<c:url value='/reservation/booking' />" onclick="checkLogin(event)">예매</a>
+	        <a class="btn btn-book" href="<c:url value='/reservation/booking' />">예매</a>
 	      </div>
 	    </div>
 	    <div class="poster-container">
@@ -81,7 +81,7 @@
 	      <div class="number">3</div>
 	      <div class="section-buttons">
 	        <a class="btn btn-detail">상세정보</a>
-	        <a id="btn btn-boo" class="btn btn-book" href="<c:url value='/reservation/booking' />" onclick="checkLogin(event)">예매</a>
+	        <a class="btn btn-book" href="<c:url value='/reservation/booking' />" onclick="checkLogin(event)">예매</a>
 	      </div>
 	    </div>
 	    <div class="poster-container">
@@ -89,12 +89,12 @@
 	      <div class="number">4</div>
 	      <div class="section-buttons">
 	        <a class="btn btn-detail" >상세정보</a>
-	        <a id="btn btn-boo" class="btn btn-book" href="<c:url value='/reservation/booking' />" onclick="checkLogin(event)">예매</a>
+	        <a class="btn btn-book" href="<c:url value='/reservation/booking' />" onclick="checkLogin(event)">예매</a>
 	      </div>
 	    </div>
 	  </div>
 	 <div class="icons">
-	          <div class="icon">
+	     	  <div class="icon">
 	              <a href="<c:url value='/customer/inquiryList' />">
 	                  <img src="<c:url value='/images/logo/문의.png' />" alt="3번 아이콘">
 	              </a>

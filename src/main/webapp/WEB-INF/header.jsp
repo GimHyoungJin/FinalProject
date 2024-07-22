@@ -18,7 +18,7 @@
                     <a id="register-link" class="nav-link small custom-small-font" href="<c:url value='/member/agreement' />">회원가입</a>
                 </li>
                 <li class="nav-item">
-                    <a id="quick-reserve-link" class="nav-link small custom-small-font" href="<c:url value='/reservation/booking' />" onclick="checkLogin(event)">예매</a>
+                    <a id="quick-reserve-link" class="nav-link small custom-small-font" href="<c:url value='/reservation/booking' />">예매</a>
                 </li>
                 <li class="nav-item">
                     <a id="support-link" class="nav-link small custom-small-font" href="<c:url value='/customer/home' />">고객센터</a>
@@ -39,7 +39,7 @@
                             <a id="movies-link" class="nav-link custom-large-font" href="<c:url value='/movie/movielist'/>">영화</a>
                         </li>
                         <li class="nav-item">
-                            <a id="reserve-link" class="nav-link custom-large-font" href="<c:url value='/reservation/booking' />" onclick="checkLogin(event)">예매</a>
+                            <a id="reserve-link" class="nav-link custom-large-font" href="<c:url value='/reservation/booking' />">예매</a>
                         </li>
                         <li class="nav-item logo-item">
                             <a class="navbar-brand" href="<c:url value='/' />">
@@ -79,7 +79,7 @@
                         <div id="reserve-column" class="col-md-3">
                             <h6>예매</h6>
                             <ul class="list-unstyled">
-                                <li><a id="quick-reserve-modal-link" href="<c:url value='/reservation/booking' />" onclick="checkLogin(event)">빠른 예매</a></li>
+                                <li><a id="quick-reserve-modal-link" href="<c:url value='/reservation/booking' />">빠른 예매</a></li>
                             </ul>
                         </div>
                         <div id="theaters-column" class="col-md-3">
