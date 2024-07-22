@@ -5,12 +5,12 @@
 
 <mapper namespace="customer">
     <insert id="save" parameterType="kr.co.movio.customer.inquiry.CustomerInquiryDTO">
-        INSERT INTO inquiry (inq_num, mem_id, theater_id, inq_type, inq_title, inq_content, inq_date)
-        VALUES (#{inq_num}, #{mem_id}, #{theater_id}, #{inq_type}, #{inq_title}, #{inq_content}, #{inq_date})
+        INSERT INTO inquiry (inq_num, mem_id, theater_id, inq_type, inq_title, inq_content, inq_date, password)
+        VALUES (#{inq_num}, #{mem_id}, #{theater_id}, #{inq_type}, #{inq_title}, #{inq_content}, #{inq_date}, #{password})
     </insert>
 
     <select id="findById" parameterType="String" resultType="kr.co.movio.customer.inquiry.CustomerInquiryDTO">
-        SELECT inq_num, mem_id, theater_id, inq_type, inq_title, inq_content, inq_date
+        SELECT inq_num, mem_id, theater_id, inq_type, inq_title, inq_content, inq_date, password
         FROM inquiry
         WHERE inq_num = #{inq_num}
     </select>
@@ -25,5 +25,39 @@
         SELECT COUNT(*)
         FROM inquiry
         WHERE theater_id = #{theater_id}
+    </select>
+
+    <select id="findAllInquiries" resultType="kr.co.movio.customer.inquiry.CustomerInquiryDTO">
+        SELECT inq_num, mem_id, theater_id, inq_type, inq_title, inq_content, inq_date, password
+        FROM inquiry
+    </select>
+
+    <select id="searchInquiries" parameterType="String" resultType="kr.co.movio.customer.inquiry.CustomerInquiryDTO">
+        SELECT inq_num, mem_id, theater_id, inq_type, inq_title, inq_content, inq_date, password
+        FROM inquiry
+        WHERE inq_title LIKE CONCAT('%', #{keyword}, '%') OR mem_id LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
+    <update id="update" parameterType="kr.co.movio.customer.inquiry.CustomerInquiryDTO">
+        UPDATE inquiry
+        SET mem_id=#{mem_id}, theater_id=#{theater_id}, inq_type=#{inq_type}, inq_title=#{inq_title}, 
+            inq_content=#{inq_content}, inq_date=#{inq_date}, password=#{password}
+        WHERE inq_num=#{inq_num}
+    </update>
+
+    <delete id="delete" parameterType="String">
+        DELETE FROM inquiry
+        WHERE inq_num = #{inq_num}
+    </delete>
+
+    <insert id="saveInquiryDetail" parameterType="kr.co.movio.customer.inquiry.InquiryDetailDTO">
+        INSERT INTO inquirydetail (inqde_num, inq_num, inqde_content, inqde_date)
+        VALUES (#{inqde_num}, #{inq_num}, #{inqde_content}, #{inqde_date})
+    </insert>
+
+    <select id="findInquiryDetailsByInquiryId" parameterType="String" resultType="kr.co.movio.customer.inquiry.InquiryDetailDTO">
+        SELECT inqde_num, inq_num, inqde_content, inqde_date
+        FROM inquirydetail
+        WHERE inq_num = #{inq_num}
     </select>
 </mapper>
