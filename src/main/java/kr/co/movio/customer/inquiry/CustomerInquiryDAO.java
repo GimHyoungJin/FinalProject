@@ -3,6 +3,7 @@ package kr.co.movio.customer.inquiry;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 import java.util.HashMap;
@@ -48,8 +49,17 @@ public class CustomerInquiryDAO {
     }
 
     // 키워드로 문의 검색
-    public List<CustomerInquiryDTO> searchInquiries(String keyword) {
-        return sqlSession.selectList("customer.searchInquiries", keyword);
+    public List<CustomerInquiryDTO> searchInquiries(String keyword, int offset, int limit) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("keyword", keyword);
+        params.put("offset", offset);
+        params.put("limit", limit);
+        return sqlSession.selectList("customer.searchInquiries", params);
+    }
+
+    // 키워드로 검색된 전체 문의 수 조회
+    public int getTotalInquiriesByKeyword(String keyword) {
+        return sqlSession.selectOne("customer.getTotalInquiriesByKeyword", keyword);
     }
 
     // 문의 수정

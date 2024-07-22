@@ -29,6 +29,16 @@ $(document).ready(function() {
     });
 });
 
+// 검색 기능
+$(document).ready(function() {
+    $('#search-button').click(function() {
+        const keyword = $('#search-input').val();
+        if (keyword) {
+            location.href = "/customer/inquiryList?keyword=" + keyword;
+        }
+    });
+});
+
 function validateForm() {
     if ($('#agree').prop('checked') === false) {
         alert('개인정보수집에 동의해주세요.');

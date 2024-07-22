@@ -33,18 +33,30 @@ public class CustomerInquiryCont {
 
     // 문의 목록 보여주기
     @GetMapping("/inquiryList")
-    public ModelAndView showInquiryList(@RequestParam(value = "page", required = false) Integer page) {
+    public ModelAndView showInquiryList(@RequestParam(value = "page", required = false) Integer page,
+                                        @RequestParam(value = "keyword", required = false) String keyword) {
         ModelAndView mav = new ModelAndView("customer/inquiryList");
 
         // 페이지가 null인 경우 기본값을 설정
         int currentPage = (page != null) ? page : 1;
         int pageSize = 10;  // 한 페이지에 보여줄 항목 수
 
-        List<CustomerInquiryDTO> inquiries = inquiryService.getAllInquiries((currentPage - 1) * pageSize, pageSize);
+        List<CustomerInquiryDTO> inquiries;
+        int totalInquiries;
+
+        // 검색어가 있는 경우와 없는 경우의 처리를 구분
+        if (keyword != null && !keyword.isEmpty()) {
+            inquiries = inquiryService.searchInquiries(keyword, (currentPage - 1) * pageSize, pageSize);
+            totalInquiries = inquiryService.getTotalInquiriesByKeyword(keyword);
+            mav.addObject("keyword", keyword);
+        } else {
+            inquiries = inquiryService.getAllInquiries((currentPage - 1) * pageSize, pageSize);
+            totalInquiries = inquiryService.getTotalInquiries();
+        }
+
         mav.addObject("inquiries", inquiries);
 
         // 전체 문의 수를 가져와서 페이지 수 계산
-        int totalInquiries = inquiryService.getTotalInquiries();
         int totalPages = (int) Math.ceil((double) totalInquiries / pageSize);
 
         mav.addObject("currentPage", currentPage);
@@ -52,6 +64,7 @@ public class CustomerInquiryCont {
 
         return mav;
     }
+
 
 
     // 문의 상세 보기

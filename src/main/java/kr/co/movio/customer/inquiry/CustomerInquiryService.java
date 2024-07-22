@@ -34,6 +34,9 @@ public interface CustomerInquiryService {
     // 문의 번호로 문의 답변 찾기
     List<InquiryDetailDTO> getInquiryDetailsByInquiryId(String inq_num);
 
-    // 키워드로 문의 검색
-    List<CustomerInquiryDTO> searchInquiries(String keyword);
+    // 키워드로 문의 검색 (페이지네이션 추가)
+    List<CustomerInquiryDTO> searchInquiries(String keyword, int page, int pageSize);
+
+    // 키워드로 검색된 전체 문의 수 조회
+    int getTotalInquiriesByKeyword(String keyword);
 }

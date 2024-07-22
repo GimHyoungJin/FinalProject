@@ -74,8 +74,15 @@ public class CustomerInquiryServiceImpl implements CustomerInquiryService {
     }
 
     @Override
-    // 키워드로 문의 검색
-    public List<CustomerInquiryDTO> searchInquiries(String keyword) {
-        return inquiryDAO.searchInquiries(keyword);
+    // 키워드로 문의 검색 (페이지네이션 추가)
+    public List<CustomerInquiryDTO> searchInquiries(String keyword, int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        return inquiryDAO.searchInquiries(keyword, offset, pageSize);
+    }
+
+    @Override
+    // 키워드로 검색된 전체 문의 수 조회
+    public int getTotalInquiriesByKeyword(String keyword) {
+        return inquiryDAO.getTotalInquiriesByKeyword(keyword);
     }
 }
