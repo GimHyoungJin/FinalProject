@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <title>개인정보 수정.</title>
+  <title>개인정보 수정</title>
   <meta charset="utf-8">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -24,15 +24,11 @@
 
   <div class="container-fluid mypage-container">
     <div class="row">
-
-      <!-- 사이드바 -->
       <div class="container-fluid mypage-container">
         <div class="row">
           <div class="col-md-3 sidebar">
             <div class="list-group">
-              <a href="<c:url value='/mypage/mypage' />" class="list-group-item header" aria-current="true">
-                나의 무비오
-              </a>
+              <a href="<c:url value='/mypage/mypage' />" class="list-group-item header" aria-current="true">나의 무비오</a>
               <a href="<c:url value='/mypage/bookinglist' />" class="list-group-item list-group-item-action">예매/구매 내역</a>
               <a href="<c:url value='/mypage/inquiry' />" class="list-group-item list-group-item-action">나의 문의내역</a>
               <a href="<c:url value='/mypage/profile' />" class="list-group-item list-group-item-action">회원정보</a>
@@ -40,7 +36,6 @@
             </div>
           </div>
 
-          <!-- 메인 콘텐츠 -->
           <div class="col-md-9 content-wrapper">
             <form method="post" action="<c:url value='/mypage/profile' />">
               <input type="hidden" name="memId" value="${profile.memId}" />
@@ -51,9 +46,7 @@
 
                 <!-- 에러 메시지 출력 -->
                 <c:if test="${not empty error}">
-                  <div class="alert alert-danger">
-                    ${error}
-                  </div>
+                  <div class="alert alert-danger">${error}</div>
                 </c:if>
 
                 <div class="mb-3 row">
@@ -139,11 +132,19 @@
               </div>
             </form>
           </div>
-
         </div>
       </div>
     </div>
   </div>
   <%@ include file="/WEB-INF/footer.jsp" %>
+
+  <script>
+    $(document).ready(function() {
+      <% if ("Y".equals(session.getAttribute("updateSuccess"))) { %>
+        alert("변경사항이 적용되었습니다.");
+        <% session.removeAttribute("updateSuccess"); %>
+      <% } %>
+    });
+  </script>
 </body>
 </html>

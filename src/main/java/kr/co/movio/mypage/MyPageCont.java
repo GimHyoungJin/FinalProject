@@ -14,29 +14,20 @@ public class MyPageCont {
     public String getMyPage(HttpSession session, Model model) {
         // 세션에서 사용자 정보를 가져와 모델에 추가
         String username = (String) session.getAttribute("username");
-        String currentGrade = (String) session.getAttribute("currentGrade");
-        Integer points = (Integer) session.getAttribute("points");
-        Integer nextGradePoints = (Integer) session.getAttribute("nextGradePoints");
+        Integer mem_grade = (Integer) session.getAttribute("mem_grade");
+       
 
         // 세션에 값이 없는 경우 기본 값 설정
         if (username == null) {
             username = "강지천";
         }
-        if (currentGrade == null) {
-            currentGrade = "WELCOME";
+        if (mem_grade == null) {
+            mem_grade = -1; // 알 수 없음
         }
-        if (points == null) {
-            points = 0;
-        }
-        if (nextGradePoints == null) {
-            nextGradePoints = 6000;
-        }
-
+        
         model.addAttribute("username", username);
-        model.addAttribute("currentGrade", currentGrade);
-        model.addAttribute("points", points);
-        model.addAttribute("nextGradePoints", nextGradePoints);
-
+        model.addAttribute("mem_grade", mem_grade);
+      
         return "mypage/mypage"; // JSP 파일 경로를 지정
     }
 }

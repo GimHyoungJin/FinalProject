@@ -33,8 +33,15 @@
       <div class="col-md-9">
         <div class="profile-header">
           <div class="user-info">
-            <h1>안녕하세요! ${username}님</h1>
-            <p>현재등급: ${currentGrade}</p>
+            <h2>안녕하세요! ${username}님</h2>
+           <p><h1>현재등급: 
+    <c:choose>
+        <c:when test="${mem_grade == 0}">관리자</c:when>
+        <c:when test="${mem_grade == 1}">일반 회원</c:when>
+        <c:when test="${mem_grade == 2}">우수 회원</c:when>
+        <c:otherwise>알 수 없음</c:otherwise>
+    </c:choose>
+</h1></p>
           </div>
         </div>
 
@@ -62,13 +69,7 @@
         </div>
 
       
-        <div class="tab-content" id="myTabContent">
-          <div class="tab-pane fade show active" id="family" role="tabpanel" aria-labelledby="family-tab">Family content</div>
-          <div class="tab-pane fade" id="vip" role="tabpanel" aria-labelledby="vip-tab">VIP content</div>
-          <div class="tab-pane fade" id="vvip" role="tabpanel" aria-labelledby="vvip-tab">VVIP content</div>
-          <div class="tab-pane fade" id="admin" role="tabpanel" aria-labelledby="admin-tab">Admin content</div>
-        </div>
-
+     
         <div class="card mt-3">
           <div class="card-body">
             <h5 class="card-title">나의 예매내역</h5>
