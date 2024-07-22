@@ -92,7 +92,7 @@
                                 <span>${movie.movie_title}</span>
                             </h5>
                             <p class="card-text">개봉일 ${movie.release_date}</p>
-                            <a href="<c:url value='/reservation/movieBooking?id=${movie.movie_id}' />" class="btn btn-primary btn-block mb-4">예매</a>
+                            <a id="reserve-link2" href="<c:url value='/reservation/booking' />" class="btn btn-primary btn-block mb-4" onclick="checkLogin(event)">예매</a>
                         </div>
                     </div>
                 </div>

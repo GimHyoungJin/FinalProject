@@ -139,7 +139,7 @@
                 </div>
                 <div class="movie-poster">
                     <img src="${posterUrl}" class="img-fluid" alt="${title}">
-                    <a href="<c:url value='/reservation/movieBooking?id=${movieId}' />" class="btn btn-primary">예매</a>
+                    <a id="reserve-link3" href="<c:url value='/reservation/booking' />" onclick="checkLogin(event)" class="btn btn-primary">예매</a>
                 </div>
             </div>
         </div>
