@@ -1,60 +1,84 @@
+@import url('customer_sidebar.css');
+
 /* inquiry.css */
 .container {
+    margin: 20px;
+}
+
+.content {
+    padding: 20px;
+}
+
+.info p {
+    margin: 0;
+}
+
+.button-container {
+    text-align: right;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.search-container {
+    margin-top: 10px;
+    text-align: right;
+}
+
+#search-input {
+    padding: 5px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#search-button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#search-button:hover {
+    background-color: #0056b3;
+}
+
+.table-responsive {
     margin-top: 20px;
 }
 
-.description {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 10px;
-}
-
-#info-box {
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 20px;
-    background-color: #f9f9f9;
-}
-
-#info-header {
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-#required {
-    color: red;
-    margin-left: 5px;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-control {
+.table-bordered {
     width: 100%;
-    padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-collapse: collapse;
 }
 
-#submit-btn {
-    background-color: #007bff;
-    border-color: #007bff;
-    padding: 10px 20px;
-    border-radius: 4px;
+.table-bordered th, .table-bordered td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
 }
 
-label {
+.table-bordered th {
+    background-color: #f4f4f4;
+}
+
+.pagination ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination ul li {
+    margin: 0 5px;
+}
+
+.pagination ul li a {
+    text-decoration: none;
+    color: #000;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
     display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    font-size: 14px;
-}
-
-textarea.form-control {
-    resize: vertical;
-}
-
-input[type="file"] {
-    padding: 5px;
 }

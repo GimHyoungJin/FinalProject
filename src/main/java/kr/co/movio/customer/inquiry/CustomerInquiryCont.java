@@ -30,9 +30,11 @@ public class CustomerInquiryCont {
 
     // 문의 목록 보여주기
     @GetMapping("/inquiryList")
-    public ModelAndView showInquiryList() {
+    public ModelAndView showInquiryList(int page) {
+        int pageSize = 10;
         ModelAndView mav = new ModelAndView("customer/inquiryList");
-        mav.addObject("inquiries", inquiryService.getAllInquiries());
+        mav.addObject("inquiries", inquiryService.getAllInquiries(page, pageSize));
+        mav.addObject("totalPages", (int) Math.ceil((double) inquiryService.getTotalInquiries() / pageSize));
         return mav;
     }
 

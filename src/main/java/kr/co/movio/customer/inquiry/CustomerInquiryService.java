@@ -17,7 +17,10 @@ public interface CustomerInquiryService {
     boolean checkDuplicateTheaterId(String theater_id);
 
     // 전체 문의 목록 조회
-    List<CustomerInquiryDTO> getAllInquiries();
+    List<CustomerInquiryDTO> getAllInquiries(int page, int pageSize);
+
+    // 전체 문의 수 조회
+    int getTotalInquiries();
 
     // 문의 수정
     void updateInquiry(CustomerInquiryDTO inquiryDTO);

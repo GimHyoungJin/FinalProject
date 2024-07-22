@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Repository
 public class CustomerInquiryDAO {
@@ -33,8 +35,16 @@ public class CustomerInquiryDAO {
     }
 
     // 전체 문의 목록 조회
-    public List<CustomerInquiryDTO> findAllInquiries() {
-        return sqlSession.selectList("customer.findAllInquiries");
+    public List<CustomerInquiryDTO> findAllInquiries(int offset, int limit) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("offset", offset);
+        params.put("limit", limit);
+        return sqlSession.selectList("customer.findAllInquiries", params);
+    }
+
+    // 전체 문의 수 조회
+    public int getTotalInquiries() {
+        return sqlSession.selectOne("customer.getTotalInquiries");
     }
 
     // 키워드로 문의 검색

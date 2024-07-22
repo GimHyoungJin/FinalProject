@@ -38,8 +38,15 @@ public class CustomerInquiryServiceImpl implements CustomerInquiryService {
 
     @Override
     // 전체 문의 목록 조회
-    public List<CustomerInquiryDTO> getAllInquiries() {
-        return inquiryDAO.findAllInquiries();
+    public List<CustomerInquiryDTO> getAllInquiries(int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        return inquiryDAO.findAllInquiries(offset, pageSize);
+    }
+
+    @Override
+    // 전체 문의 수 조회
+    public int getTotalInquiries() {
+        return inquiryDAO.getTotalInquiries();
     }
 
     @Override
