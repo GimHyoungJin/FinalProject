@@ -12,8 +12,8 @@
 
     <!-- 결제 정보를 저장하는 SQL문 -->
     <insert id="savePayment" parameterType="kr.co.movio.reservation.TicketPaymentDTO">
-        INSERT INTO payment (pay_id, res_id, used_coupon_information, imp_uid, mer_uid, pay_method, tot_price, dis_price, final_price, pay_status, card_information)
-        VALUES (#{pay_id}, #{res_id}, #{used_coupon_information}, #{imp_uid}, #{mer_uid}, #{pay_method}, #{tot_price}, #{dis_price}, #{final_price}, #{pay_status}, #{card_information})
+        INSERT INTO payment (pay_id, res_id, imp_uid, mer_uid, pay_method, tot_price, dis_price, final_price, pay_status, card_information)
+        VALUES (#{pay_id}, #{res_id}, #{imp_uid}, #{mer_uid}, #{pay_method}, #{tot_price}, #{dis_price}, #{final_price}, #{pay_status}, #{card_information})
     </insert>
 
     <!-- 예약 정보를 가져오는 SQL문 -->

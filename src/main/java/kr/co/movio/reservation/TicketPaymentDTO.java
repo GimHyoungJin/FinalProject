@@ -3,8 +3,7 @@ package kr.co.movio.reservation;
 public class TicketPaymentDTO {
 	
     private String pay_id;
-    private String res_id;
-    private String used_coupon_information;  
+    private String res_id; 
     private String imp_uid;
     private String mer_uid;
     private String pay_method;
@@ -14,7 +13,8 @@ public class TicketPaymentDTO {
     private String pay_status;
     private String pay_time;
     private String card_information;
-	public String getPay_id() {
+	
+    public String getPay_id() {
 		return pay_id;
 	}
 	public void setPay_id(String pay_id) {
@@ -25,12 +25,6 @@ public class TicketPaymentDTO {
 	}
 	public void setRes_id(String res_id) {
 		this.res_id = res_id;
-	}
-	public String getUsed_coupon_information() {
-		return used_coupon_information;
-	}
-	public void setUsed_coupon_information(String used_coupon_information) {
-		this.used_coupon_information = used_coupon_information;
 	}
 	public String getImp_uid() {
 		return imp_uid;
@@ -89,11 +83,10 @@ public class TicketPaymentDTO {
 	
 	@Override
 	public String toString() {
-		return "TicketPaymentDTO [pay_id=" + pay_id + ", res_id=" + res_id + ", used_coupon_information="
-				+ used_coupon_information + ", imp_uid=" + imp_uid + ", mer_uid=" + mer_uid + ", pay_method="
-				+ pay_method + ", tot_price=" + tot_price + ", dis_price=" + dis_price + ", final_price=" + final_price
-				+ ", pay_status=" + pay_status + ", pay_time=" + pay_time + ", card_information=" + card_information
-				+ "]";
+		return "TicketPaymentDTO [pay_id=" + pay_id + ", res_id=" + res_id + ", imp_uid=" + imp_uid + ", mer_uid="
+				+ mer_uid + ", pay_method=" + pay_method + ", tot_price=" + tot_price + ", dis_price=" + dis_price
+				+ ", final_price=" + final_price + ", pay_status=" + pay_status + ", pay_time=" + pay_time
+				+ ", card_information=" + card_information + "]";
 	}
-    
+
 }
