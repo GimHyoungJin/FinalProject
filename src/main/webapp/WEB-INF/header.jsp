@@ -123,7 +123,7 @@
                               <li><a id="bookinglist-link" href="<c:url value='/mypage/bookinglist' />" onclick="checkLogin(event)">예매/구매내역</a></li>
                               <li><a id="my-inquiries-link" href="<c:url value='/mypage/inquiry' />" onclick="checkLogin(event)">나의문의내역</a></li>
                               <li><a id="profile-link" href="<c:url value='/mypage/profile' />" onclick="checkLogin(event)">회원정보</a></li>
-                              <li><a href="<c:url value='/mypage/store_vouchers' />" class="list-group-item list-group-item-action">스토어 교환권</a></li>
+                              <li><a id="store-vouchers-link" href="<c:url value='/mypage/store_vouchers' />" class="list-group-item list-group-item-action">스토어 교환권</a></li>
                           </ul>
                       </div>
                     </div>

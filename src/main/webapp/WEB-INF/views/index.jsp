@@ -47,7 +47,9 @@
 	  <!-- 추가 -->
 	  <div id="icon"> 
 	    <div class="icon-item">
+	    	<a id="reservation-logo-link" href="<c:url value='/reservation/booking' />" onclick="checkLogin(event)">
           	<img src="<c:url value='/images/logo/티켓로고.png' />" alt="1번 아이콘">
+	      	</a>
 	      	<p>빠른 예매</p>
 	    </div>
 	    <div class="icon-item">
@@ -56,39 +58,38 @@
 	      	</a>
 	      	<p>박스오피스</p>
 	    </div>
-	    
 	  </div>
 	  <div class="movie-poster">
 	  	<div class="poster-container">
 	      <img src="<c:url value='/images/poster/인사이드아웃v2.png' />" alt="인사이드 아웃 2" width="220px" height="330px">
 	      <div class="number">1</div>
 	      <div class="section-buttons">
-	        <button class="btn btn-detail">상세정보</button>
-	        <button class="btn btn-book">예매</button>
+	        <a class="btn btn-detail">상세정보</a>
+	        <a id="btn btn-boo" class="btn btn-book" href="<c:url value='/reservation/booking' />" onclick="checkLogin(event)">예매</a>
 	      </div>
 	    </div>
 	    <div class="poster-container">
 	      <img src="<c:url value='/images/poster/탈주세로v2.png' />" alt="탈주" width="220px" height="330px">
 	      <div class="number">2</div>
 	      <div class="section-buttons">
-	        <button class="btn btn-detail">상세정보</button>
-	        <button class="btn btn-book">예매</button>
+	        <a class="btn btn-detail">상세정보</a>
+	        <a id="btn btn-boo" class="btn btn-book" href="<c:url value='/reservation/booking' />" onclick="checkLogin(event)">예매</a>
 	      </div>
 	    </div>
 	    <div class="poster-container">
 	      <img src="<c:url value='/images/poster/핸섬가이즈_세로.png' />" alt="핸섬 가이즈" width="220px" height="330px">
 	      <div class="number">3</div>
 	      <div class="section-buttons">
-	        <button class="btn btn-detail">상세정보</button>
-	        <button class="btn btn-book">예매</button>
+	        <a class="btn btn-detail">상세정보</a>
+	        <a id="btn btn-boo" class="btn btn-book" href="<c:url value='/reservation/booking' />" onclick="checkLogin(event)">예매</a>
 	      </div>
 	    </div>
 	    <div class="poster-container">
 	      <img src="<c:url value='/images/poster/하이재킹v2.png' />" alt="하이재킹" width="220px" height="330px">
 	      <div class="number">4</div>
 	      <div class="section-buttons">
-	        <button class="btn btn-detail">상세정보</button>
-	        <button class="btn btn-book">예매</button>
+	        <a class="btn btn-detail" >상세정보</a>
+	        <a id="btn btn-boo" class="btn btn-book" href="<c:url value='/reservation/booking' />" onclick="checkLogin(event)">예매</a>
 	      </div>
 	    </div>
 	  </div>
@@ -96,24 +97,25 @@
 	          <div class="icon">
 	              <a href="<c:url value='/customer/inquiryList' />">
 	                  <img src="<c:url value='/images/logo/문의.png' />" alt="3번 아이콘">
-	                  <p>1:1 문의</p>
 	              </a>
+	                  <p>1:1 문의</p>
 	          </div>
 	          <div class="icon">
 	              <a href="<c:url value='/customer/home' />">
 	                  <img src="<c:url value='/images/logo/고객센터.png' />" alt="4번 아이콘">
-	                  <p>고객센터</p>
 	              </a>
+	                  <p>고객센터</p>
 	          </div>
 	          <div class="icon">
 	              <a href="<c:url value='/customer/lostItem' />">
 	                  <img src="<c:url value='/images/logo/분실물.png' />" alt="5번 아이콘">
-	                  <p>분실물 문의</p>
 	              </a>
+	                  <p>분실물 문의</p>
 	          </div>
       </div>
 	</section>
   <!-- 메인 끝 -->
   <%@ include file="../footer.jsp" %>
+
 </body>
 </html>
