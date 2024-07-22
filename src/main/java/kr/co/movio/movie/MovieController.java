@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import kr.co.movio.reservation.reservationDAO;
 import kr.co.movio.review.ReviewDAO;
 import kr.co.movio.review.ReviewDTO;
 import jakarta.servlet.ServletContext;
@@ -34,6 +35,9 @@ public class MovieController {
 
     @Autowired
     ReviewDAO reviewDao;
+
+    @Autowired
+    reservationDAO reservationDao;
 
     @Value("${file.upload-dir}")
     private String uploadDir;
@@ -79,7 +83,16 @@ public class MovieController {
                 model.addAttribute("posterUrl", movie.getPoster_url());
                 model.addAttribute("movieId", movieId);
                 model.addAttribute("trailerUrl", movie.getTrailer_url());
-                model.addAttribute("totalAudience", movie.getTotal_audience());
+
+                // 예매 데이터 추가
+                int totalAudience = reservationDao.getTotalAudience(movieId);
+                double rating = reservationDao.getRating(movieId);
+                double movieGrade = reservationDao.getMovieGrade(movieId);
+
+                model.addAttribute("totalAudience", totalAudience);
+                model.addAttribute("rating", rating);
+                model.addAttribute("movieGrade", movieGrade);
+
                 model.addAttribute("ageRating", movie.getAge_rating()); // 연령 등급 추가
             }
         } catch (Exception e) {
@@ -106,8 +119,17 @@ public class MovieController {
                 model.addAttribute("posterUrl", movie.getPoster_url());
                 model.addAttribute("movieId", movieId);
                 model.addAttribute("trailerUrl", movie.getTrailer_url());
-                model.addAttribute("totalAudience", movie.getTotal_audience());
-                model.addAttribute("ageRating", movie.getAge_rating());
+
+                // 예매 데이터 추가
+                int totalAudience = reservationDao.getTotalAudience(movieId);
+                double rating = reservationDao.getRating(movieId);
+                double movieGrade = reservationDao.getMovieGrade(movieId);
+
+                model.addAttribute("totalAudience", totalAudience);
+                model.addAttribute("rating", rating);
+                model.addAttribute("movieGrade", movieGrade);
+
+                model.addAttribute("ageRating", movie.getAge_rating()); // 연령 등급 추가
             }
 
             // 리뷰 목록을 페이징 및 정렬 기준에 따라 가져와서 모델에 추가
@@ -132,7 +154,6 @@ public class MovieController {
         return "movie/moviedetail_review";
     }
 
-
     @GetMapping("/trailer")
     public String showTrailer(@RequestParam("id") String movieId, Model model) {
         try {
@@ -143,7 +164,15 @@ public class MovieController {
                 model.addAttribute("posterUrl", movie.getPoster_url());
                 model.addAttribute("trailerUrl", movie.getTrailer_url());
                 model.addAttribute("movieId", movieId);
-                model.addAttribute("totalAudience", movie.getTotal_audience());
+
+                // 예매 데이터 추가
+                int totalAudience = reservationDao.getTotalAudience(movieId);
+                double rating = reservationDao.getRating(movieId);
+                double movieGrade = reservationDao.getMovieGrade(movieId);
+
+                model.addAttribute("totalAudience", totalAudience);
+                model.addAttribute("rating", rating);
+                model.addAttribute("movieGrade", movieGrade);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -257,7 +286,7 @@ public class MovieController {
     @PostMapping("/delete")
     public String deleteMovie(@RequestParam("id") String movieId) {
         try {
-        	int movie_Id = Integer.parseInt(movieId); // String movieId를 int로 변환
+            int movie_Id = Integer.parseInt(movieId); // String movieId를 int로 변환
             movieDao.deleteMovie(movie_Id);
             return "redirect:/movie/movielist";
         } catch (Exception e) {
