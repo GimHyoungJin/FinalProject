@@ -1,20 +1,38 @@
-$(document).ready(function () {
-    $('#submit-btn').on('click', function (event) {
-        // 예시: 폼 유효성 검사
-        var isValid = true;
-
-        if ($('#name').val().trim() === '') {
-            alert('이름을 입력해주세요.');
-            isValid = false;
+$(document).ready(function() {
+    // 문의 제출 폼 유효성 검사
+    $('#submitInquiryForm').on('submit', function(e) {
+        if ($('#agree').prop('checked') === false) {
+            alert('개인정보수집에 동의해주세요.');
+            return false;
         }
+        alert('1:1 문의가 등록되었습니다');
+    });
 
-        if ($('#email').val().trim() === '') {
-            alert('이메일을 입력해주세요.');
-            isValid = false;
-        }
-
-        if (!isValid) {
-            event.preventDefault();
+    // 삭제 확인 메시지
+    $('#deleteInquiryForm').on('submit', function(e) {
+        e.preventDefault();
+        if (confirm('정말로 삭제하시겠습니까?')) {
+            alert('1:1 문의가 삭제되었습니다');
+            this.submit();
         }
     });
+
+    // 취소 버튼 처리
+    $('#cancelButton').on('click', function() {
+        window.location.href = '/customer/inquiryList';
+    });
+
+    // 제목이나 작성자로 문의 검색
+    $('#searchInquiriesButton').on('click', function() {
+        var keyword = $('#searchKeyword').val();
+        window.location.href = '/customer/inquiryList?keyword=' + keyword;
+    });
 });
+
+function validateForm() {
+    if ($('#agree').prop('checked') === false) {
+        alert('개인정보수집에 동의해주세요.');
+        return false;
+    }
+    return true;
+}
