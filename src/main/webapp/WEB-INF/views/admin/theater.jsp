@@ -26,7 +26,7 @@
                     <div class="list-group-item header" aria-current="true">관리자 페이지</div>
                     <a href="<c:url value='/admin/members' />" class="list-group-item list-group-item-action">회원 관리</a>
                     <a href="<c:url value='/admin/movie' />" class="list-group-item list-group-item-action">영화 관리</a>
-                    <a href="<c:url value='/admin/theater' />" class="list-group-item list-group-item-action active">영화관 관리</a>
+                    <a href="<c:url value='/admin/theater' />" class="list-group-item list-group-item-action">영화관 관리</a>
                 </div>
             </div>
             <!-- 메인 콘텐츠 -->
@@ -36,23 +36,30 @@
                     <div class="card-body">
                         <!-- 영화관 추가 폼 -->
                         <form action="<c:url value='/admin/theater/add' />" method="post">
+                        
+                         <div class="mb-3">
+        						<label for="theaterId" class="form-label">상영관 ID</label>
+        						<input type="text" class="form-control" id="theaterId" name="theaterId" value="${param.theaterId}" required>
+    					</div>
                             <div class="mb-3">
                                 <label for="theaterName" class="form-label">상영관 이름</label>
                                 <input type="text" class="form-control" id="theaterName" name="theaterName" value="${param.theaterName}" required>
                             </div>
-                            <div class="mb-3">
-                                <label for="regionId" class="form-label">지역</label>
-                                <select class="form-select" id="regionId" name="regionId" required>
-                                    <option value="">지역 선택</option>
-                                    <option value="seoul" <c:if test="${param.regionId == 'seoul'}">selected</c:if>>서울</option>
-                                    <option value="busan" <c:if test="${param.regionId == 'busan'}">selected</c:if>>부산</option>
-                                    <option value="daegu" <c:if test="${param.regionId == 'daegu'}">selected</c:if>>대구</option>
-                                    <option value="incheon" <c:if test="${param.regionId == 'incheon'}">selected</c:if>>인천</option>
-                                    <option value="gwangju" <c:if test="${param.regionId == 'gwangju'}">selected</c:if>>광주</option>
-                                    <option value="daejeon" <c:if test="${param.regionId == 'daejeon'}">selected</c:if>>대전</option>
-                                    <option value="ulsan" <c:if test="${param.regionId == 'ulsan'}">selected</c:if>>울산</option>
-                                </select>
-                            </div>
+                           <div class="mb-3">
+   
+    <label for="regionId" class="form-label">지역</label>
+    <select class="form-select" id="regionId" name="regionId" required>
+        <option value="">지역 선택</option>
+        <option value="seoul" <c:if test="${param.regionId == 'seoul'}">selected</c:if>>서울</option>
+        <option value="busan_daegu" <c:if test="${param.regionId == 'busan_daegu'}">selected</c:if>>부산/대구</option>
+        <option value="daejeon_chungcheong" <c:if test="${param.regionId == 'daejeon_chungcheong'}">selected</c:if>>대전/충청</option>
+        <option value="gangwon" <c:if test="${param.regionId == 'gangwon'}">selected</c:if>>강원</option>
+        <option value="gwangju_jeolla" <c:if test="${param.regionId == 'gwangju_jeolla'}">selected</c:if>>광주/전라</option>
+        <option value="gyeonggi" <c:if test="${param.regionId == 'gyeonggi'}">selected</c:if>>경기</option>
+        <option value="incheon" <c:if test="${param.regionId == 'incheon'}">selected</c:if>>인천</option>
+    </select>
+</div>
+
                             <div class="mb-3">
                                 <label for="address" class="form-label">주소</label>
                                 <input type="text" class="form-control" id="address" name="address" value="${param.address}" required>
