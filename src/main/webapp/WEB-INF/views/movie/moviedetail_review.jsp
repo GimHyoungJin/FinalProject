@@ -14,204 +14,212 @@
     <link href="<c:url value='/css/footer.css' />" rel="stylesheet" type="text/css">
     <link href="<c:url value='/css/movie/movie.css' />" rel="stylesheet" type="text/css">
     <style>
-    /* 헤더 배경 스타일 설정 */
-    .header-background {
-        background: rgb(2,0,36); /* 백업용 배경색 */
-        background: linear-gradient(90deg, rgba(2,0,36,1) 30%, rgba(84,84,94,1) 52%, rgba(0,10,10,1) 75%); /* 그라데이션 배경 */
-        color: #fff; /* 글자 색상 흰색 */
-        padding-bottom: 20px; /* 아래쪽 패딩 */
-    }
+        /* 헤더 배경 스타일 설정 */
+        .header-background {
+            background: rgb(2,0,36); /* 백업용 배경색 */
+            background: linear-gradient(90deg, rgba(2,0,36,1) 30%, rgba(84,84,94,1) 52%, rgba(0,10,10,1) 75%); /* 그라데이션 배경 */
+            color: #fff; /* 글자 색상 흰색 */
+            padding-bottom: 20px; /* 아래쪽 패딩 */
+        }
 
-    /* 영화 헤더 스타일 설정 */
-    .movie-header {
-        display: flex; /* 플렉스 박스 사용 */
-        justify-content: space-between; /* 공간을 균등하게 분배 */
-        align-items: center; /* 수직 가운데 정렬 */
-        padding: 20px; /* 모든 방향 패딩 */
-    }
+        /* 영화 헤더 스타일 설정 */
+        .movie-header {
+            display: flex; /* 플렉스 박스 사용 */
+            justify-content: space-between; /* 공간을 균등하게 분배 */
+            align-items: center; /* 수직 가운데 정렬 */
+            padding: 20px; /* 모든 방향 패딩 */
+        }
 
-    /* 영화 포스터 스타일 설정 */
-    .movie-poster {
-        max-width: 300px; /* 최대 너비 설정 */
-        margin-right: 20px; /* 오른쪽 마진 */
-    }
+        /* 영화 포스터 스타일 설정 */
+        .movie-poster {
+            max-width: 300px; /* 최대 너비 설정 */
+            margin-right: 20px; /* 오른쪽 마진 */
+        }
 
-    .movie-poster img {
-        width: 100%; /* 너비 100% 설정 */
-        border-radius: 10px; /* 둥근 테두리 */
-    }
+        .movie-poster img {
+            width: 100%; /* 너비 100% 설정 */
+            border-radius: 10px; /* 둥근 테두리 */
+        }
 
-    /* 영화 정보 스타일 설정 */
-    .movie-info {
-        flex: 1; /* flex-grow 값 설정 */
-        margin-left: 20px; /* 왼쪽 마진 */
-    }
+        /* 영화 정보 스타일 설정 */
+        .movie-info {
+            flex: 1; /* flex-grow 값 설정 */
+            margin-left: 20px; /* 왼쪽 마진 */
+        }
 
-    .movie-info h1 {
-        font-size: 3.5em; /* 제목 폰트 크기 설정 */
-        margin-bottom: 10px; /* 아래쪽 마진 */
-    }
+        .movie-info h1 {
+            font-size: 3.5em; /* 제목 폰트 크기 설정 */
+            margin-bottom: 10px; /* 아래쪽 마진 */
+        }
 
-    .movie-info p {
-        font-size: 1.5em; /* 문단 폰트 크기 설정 */
-        margin-bottom: 10px; /* 아래쪽 마진 */
-    }
+        .movie-info p {
+            font-size: 1.5em; /* 문단 폰트 크기 설정 */
+            margin-bottom: 10px; /* 아래쪽 마진 */
+        }
 
-    /* 통계 컨테이너 스타일 설정 */
-    .stats-container {
-        display: flex; /* 플렉스 박스 사용 */
-        justify-content: center; /* 가운데 정렬 */
-        padding: 20px 0; /* 위아래 패딩 */
-        gap: 50px; /* 요소 간격 */
-    }
+        /* 통계 컨테이너 스타일 설정 */
+        .stats-container {
+            display: flex; /* 플렉스 박스 사용 */
+            justify-content: center; /* 가운데 정렬 */
+            padding: 20px 0; /* 위아래 패딩 */
+            gap: 50px; /* 요소 간격 */
+        }
 
-    .stat {
-        text-align: center; /* 텍스트 가운데 정렬 */
-    }
+        .stat {
+            text-align: center; /* 텍스트 가운데 정렬 */
+        }
 
-    .stat h2 {
-        font-size: 1.2em; /* 통계 제목 폰트 크기 */
-        margin-bottom: 10px; /* 아래쪽 마진 */
-    }
+        .stat h2 {
+            font-size: 1.2em; /* 통계 제목 폰트 크기 */
+            margin-bottom: 10px; /* 아래쪽 마진 */
+        }
 
-    .stat p {
-        font-size: 1.5em; /* 통계 내용 폰트 크기 */
-        margin: 0; /* 마진 없음 */
-    }
+        .stat p {
+            font-size: 1.5em; /* 통계 내용 폰트 크기 */
+            margin: 0; /* 마진 없음 */
+        }
 
-    /* 리뷰 아이템 스타일 설정 */
-    .review-item {
-        border-bottom: 1px solid #ddd; /* 아래쪽 테두리 */
-        padding-bottom: 10px; /* 아래쪽 패딩 */
-        margin-bottom: 10px; /* 아래쪽 마진 */
-    }
+        /* 리뷰 아이템 스타일 설정 */
+        .review-item {
+            border-bottom: 1px solid #ddd; /* 아래쪽 테두리 */
+            padding-bottom: 10px; /* 아래쪽 패딩 */
+            margin-bottom: 10px; /* 아래쪽 마진 */
+        }
 
-    .review-user {
-        font-weight: bold; /* 글자 굵게 */
-    }
+        .review-user {
+            font-weight: bold; /* 글자 굵게 */
+        }
 
-    .review-date {
-        color: #888; /* 날짜 색상 */
-        font-size: 0.9em; /* 폰트 크기 */
-    }
+        .review-date {
+            color: #888; /* 날짜 색상 */
+            font-size: 0.9em; /* 폰트 크기 */
+        }
 
-    .review-text {
-        margin-top: 10px; /* 위쪽 마진 */
-    }
+        .review-text {
+            margin-top: 10px; /* 위쪽 마진 */
+        }
 
-    /* 필터 버튼 그룹 스타일 설정 */
-    .filter-btn-group {
-        margin-top: 20px; /* 위쪽 마진 */
-        margin-bottom: 20px; /* 아래쪽 마진 */
-    }
+        /* 필터 버튼 그룹 스타일 설정 */
+        .filter-btn-group {
+            margin-top: 20px; /* 위쪽 마진 */
+            margin-bottom: 20px; /* 아래쪽 마진 */
+        }
 
-    .btn-review {
-        display: inline-block; /* 인라인 블록 요소 */
-        padding: 6px 12px; /* 패딩 설정 */
-        cursor: pointer; /* 커서 포인터 설정 */
-        border: 1px solid transparent; /* 투명 테두리 */
-        border-radius: 4px; /* 둥근 테두리 */
-        background-color: #007bff; /* 배경색 파란색 */
-        color: white; /* 글자색 흰색 */
-        text-align: center; /* 텍스트 가운데 정렬 */
-    }
+        .btn-review {
+            display: inline-block; /* 인라인 블록 요소 */
+            padding: 6px 12px; /* 패딩 설정 */
+            cursor: pointer; /* 커서 포인터 설정 */
+            border: 1px solid transparent; /* 투명 테두리 */
+            border-radius: 4px; /* 둥근 테두리 */
+            background-color: #007bff; /* 배경색 파란색 */
+            color: white; /* 글자색 흰색 */
+            text-align: center; /* 텍스트 가운데 정렬 */
+        }
 
-    .btn-review:hover {
-        background-color: #0056b3; /* 호버 시 배경색 어두운 파란색 */
-    }
+        .btn-review:hover {
+            background-color: #0056b3; /* 호버 시 배경색 어두운 파란색 */
+        }
 
-    /* 메인 콘텐츠 스타일 설정 */
-    .main-content {
-        background-color: #fff; /* 배경색 흰색 */
-        color: #000; /* 글자색 검정색 */
-        padding: 20px; /* 패딩 설정 */
-        padding-left: 300px; /* 왼쪽 패딩 추가 */
-    }
+        /* 메인 콘텐츠 스타일 설정 */
+        .main-content {
+            background-color: #fff; /* 배경색 흰색 */
+            color: #000; /* 글자색 검정색 */
+            padding: 20px; /* 패딩 설정 */
+            padding-left: 300px; /* 왼쪽 패딩 추가 */
+        }
 
-    .btn-primary {
-        display: block; /* 블록 요소 */
-        margin: 20px auto 0; /* 위쪽 마진, 중앙 정렬 */
-        font-size: 1.2em; /* 폰트 크기 */
-        padding: 10px 20px; /* 패딩 설정 */
-    }
+        .btn-primary {
+            display: block; /* 블록 요소 */
+            margin: 20px auto 0; /* 위쪽 마진, 중앙 정렬 */
+            font-size: 1.2em; /* 폰트 크기 */
+            padding: 10px 20px; /* 패딩 설정 */
+        }
 
-    .nav-tabs {
-        margin-left: 20px; /* 왼쪽 마진 */
-    }
+        .nav-tabs {
+            margin-left: 20px; /* 왼쪽 마진 */
+        }
 
-    .tab-content {
-        padding: 20px; /* 패딩 설정 */
-    }
+        .tab-content {
+            padding: 20px; /* 패딩 설정 */
+        }
 
-    /* 페이지네이션 스타일 설정 */
-    .pagination {
-        display: flex; /* 플렉스 박스 사용 */
-        justify-content: center; /* 가운데 정렬 */
-        margin-top: 20px; /* 위쪽 마진 */
-    }
+        /* 페이지네이션 스타일 설정 */
+        .pagination {
+            display: flex; /* 플렉스 박스 사용 */
+            justify-content: center; /* 가운데 정렬 */
+            margin-top: 20px; /* 위쪽 마진 */
+        }
 
-    .pagination li {
-        margin: 0 5px; /* 좌우 마진 */
-    }
+        .pagination li {
+            margin: 0 5px; /* 좌우 마진 */
+        }
 
-    .pagination a {
-        color: #000; /* 링크 색상 */
-        text-decoration: none; /* 밑줄 제거 */
-        border: 1px solid #dee2e6; /* 테두리 설정 */
-        padding: 5px 10px; /* 패딩 설정 */
-        border-radius: 4px; /* 둥근 테두리 */
-    }
+        .pagination a {
+            color: #000; /* 링크 색상 */
+            text-decoration: none; /* 밑줄 제거 */
+            border: 1px solid #dee2e6; /* 테두리 설정 */
+            padding: 5px 10px; /* 패딩 설정 */
+            border-radius: 4px; /* 둥근 테두리 */
+        }
 
-    .pagination a:hover {
-        background-color: #f1f1f1; /* 호버 시 배경색 */
-    }
+        .pagination a:hover {
+            background-color: #f1f1f1; /* 호버 시 배경색 */
+        }
 
-    .pagination .active a {
-        background-color: #007bff; /* 활성화된 페이지 배경색 */
-        color: white; /* 글자색 흰색 */
-        border-color: #007bff; /* 테두리 색상 */
-    }
-    /* 별점 스타일 추가 */
-    .star-rating {
-        direction: rtl;
-        display: inline-flex;
-        font-size: 2rem;
-    }
-    .star-rating input {
-        display: none;
-    }
-    .star-rating label {
-        color: #ddd;
-        cursor: pointer;
-        padding: 0 0.1em;
-    }
-    .star-rating input:checked ~ label,
-    .star-rating label:hover,
-    .star-rating label:hover ~ label {
-        color: #f5b301;
-    }
-    /* 별점 표시를 위한 스타일 추가 */
-    .stars-outer {
-        display: inline-block;
-        position: relative;
-        font-family: FontAwesome;
-        color: #ccc; /* 빈 별 색상 */
-    }
-    .stars-inner {
-        position: absolute;
-        top: 0;
-        left: 0;
-        white-space: nowrap;
-        overflow: hidden;
-        color: #f5b301; /* 채워진 별 색상 */
-    }
-    .stars-outer::before, .stars-inner::before {
-        content: "\f005\f005\f005\f005\f005";
-        font-family: 'Font Awesome 5 Free';
-        font-weight: 900;
-    }
-    
-</style>
+        .pagination .active a {
+            background-color: #007bff; /* 활성화된 페이지 배경색 */
+            color: white; /* 글자색 흰색 */
+            border-color: #007bff; /* 테두리 색상 */
+        }
+
+        /* 별점 스타일 추가 */
+        .star-rating {
+            direction: rtl;
+            display: inline-flex;
+            font-size: 2rem;
+        }
+
+        .star-rating input {
+            display: none;
+        }
+
+        .star-rating label {
+            color: #ddd;
+            cursor: pointer;
+            padding: 0 0.1em;
+        }
+
+        .star-rating input:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+            color: #f5b301;
+        }
+
+        /* 별점 표시를 위한 스타일 추가 */
+        .stars-outer {
+            display: inline-block;
+            position: relative;
+            font-family: FontAwesome;
+            color: #ccc; /* 빈 별 색상 */
+        }
+
+        .stars-inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            color: #f5b301; /* 채워진 별 색상 */
+        }
+
+        .stars-outer::before,
+        .stars-inner::before {
+            content: "\f005\f005\f005\f005\f005";
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+        }
+
+    </style>
 
 </head>
 <body>
@@ -263,7 +271,10 @@
 
         <div class="tab-content mt-3" id="myTabContent">
             <div class="tab-pane fade show active" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
-                <h2>실관람평</h2>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>실관람평</h2>
+                    <a href="javascript:void(0);" class="btn btn-primary" onclick="checkLoginAndOpenModal()">본 영화 등록</a>
+                </div>
 
                 <!-- 리뷰 작성 폼 항상 표시 -->
                 <form id="reviewForm" action="${pageContext.request.contextPath}/review/insert" method="post" class="mt-3">
@@ -288,9 +299,8 @@
                             <label for="1-stars" class="star">&#9733;</label>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-primary" onclick="checkLoginAndSubmit()">등록</button>
+                    <button type="button" class="btn btn-primary" onclick="checkReviewEligibility()">등록</button>
                 </form>
-
 
                 <p>총 ${reviewCount}건의 관람평이 있습니다.</p>
                 <div class="filter-btn-group">
@@ -361,7 +371,7 @@
             });
         }
 
-     // 리뷰 수정 함수
+        // 리뷰 수정 함수
         function editReview(review_id, review_text, rating, review_date) {
             document.getElementById("editReviewId").value = review_id;
             document.getElementById("editReviewText").value = review_text;
@@ -379,14 +389,74 @@
             $('#editReviewModal').modal('show');
         }
 
-        // 로그인 확인 후 폼 제출 함수
-        function checkLoginAndSubmit() {
+        // 리뷰 작성 자격 확인 함수
+        function checkReviewEligibility() {
+            var mem_id = '${sessionScope.mem_id}';
+            if (!mem_id) {
+                $('#loginModal').modal('show'); // 로그인 모달 표시
+                return;
+            }
+
+            $.ajax({
+                url: '${pageContext.request.contextPath}/movie/checkSessionForReview',
+                type: 'GET',
+                success: function(response) {
+                    if (response) {
+                        document.getElementById('reviewForm').submit(); // 폼 제출
+                    } else {
+                        $('#registerMovieAlertModal').modal('show'); // 본 영화 등록 알림 모달 표시
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Failed to check session for review:', error);
+                    alert('리뷰 작성 자격 확인에 실패했습니다.');
+                }
+            });
+        }
+
+        // 로그인 확인 후 모달 표시 함수
+        function checkLoginAndOpenModal() {
             var mem_id = '${sessionScope.mem_id}';
             if (!mem_id) {
                 $('#loginModal').modal('show'); // 로그인 모달 표시
             } else {
-                document.getElementById('reviewForm').submit(); // 폼 제출
+                $('#registerMovieModal').modal('show'); // 본 영화 등록 모달 표시
             }
+        }
+
+        // 예매번호 확인 함수
+        function verifyReservation() {
+            var reservationId = document.getElementById("reservationId").value;
+            $.ajax({
+                url: '${pageContext.request.contextPath}/movie/verifyReservation',
+                type: 'GET',
+                data: {
+                    reservationId: reservationId
+                },
+                success: function(response) {
+                    if (response) {
+                        $('#registerMovieModal').modal('hide');
+                        alert('예매번호가 확인되었습니다. 리뷰를 작성할 수 있습니다.');
+                        // 세션에 값 설정 요청
+                        $.ajax({
+                            url: '${pageContext.request.contextPath}/movie/setReviewSession',
+                            type: 'GET',
+                            success: function() {
+                                console.log('세션 값 설정 성공');
+                            },
+                            error: function(xhr, status, error) {
+                                console.error('Failed to set session value:', error);
+                            }
+                        });
+                    } else {
+                        alert('유효한 예매번호가 아닙니다. 다시 시도해주세요.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Failed to verify reservation:', error);
+                    alert('예매번호 확인에 실패했습니다.');
+                }
+            });
         }
     </script>
 
@@ -430,6 +500,87 @@
             </div>
         </div>
     </div>
+
+    <!-- 본 영화 등록 모달 -->
+    <div id="registerMovieModal" class="modal fade" tabindex="-1" aria-labelledby="registerMovieModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerMovieModalLabel">본 영화 등록</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>발권하신 티켓 하단의 거래번호 또는 예매번호를 입력해주세요.</p>
+                    <form id="registerMovieForm" action="${pageContext.request.contextPath}/reservation/register" method="post">
+                        <div class="mb-3">
+                            <label for="ticketNumber" class="form-label">거래번호 또는 예매번호</label>
+                            <input type="text" class="form-control" id="reservationId" name="ticketNumber" placeholder="숫자만 입력해 주세요" required>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="verifyReservation()">등록</button>
+                    </form>
+                    <div class="mt-3">
+                        <h6>이용안내</h6>
+                        <ul>
+                            <li>극장에서 예매하신 내역을 본 영화(관람이력)으로 등록하실 수 있습니다.</li>
+                            <li>예매좌를 통해 예매하신 고객님은 극장에서 발권하신 티켓 하단의 온라인 예매번호 12자리를 입력해주세요. (Yes24, 네이버, 인터파크, SKT, KT, 다음)</li>
+                            <li>본 영화 등록은 관람인원수 만큼 등록가능하며, 동일 계정에 중복등록은 불가합니다.</li>
+                            <li>상영시간 종료 이후 등록 가능합니다.</li>
+                            <li>본 영화로 자동 등록하신 내역은 이벤트 참여 및 포인트 추후 적립이 불가합니다.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 본 영화 등록 알림 모달 -->
+    <div id="registerMovieAlertModal" class="modal fade" tabindex="-1" aria-labelledby="registerMovieAlertModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerMovieAlertModalLabel">알림</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>한줄평은 실관람 이후 작성 가능합니다. 메가박스에서 관람하신 경우 [본 영화] 등록 후 이용하실 수 있습니다.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 로그인 모달 -->
+    <div id="loginModal" class="modal fade" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">로그인</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>로그인이 필요합니다.</p>
+                    <form id="loginForm" action="${pageContext.request.contextPath}/login" method="post">
+                        <div class="mb-3">
+                            <label for="loginId" class="form-label">아이디</label>
+                            <input type="text" class="form-control" id="loginId" name="loginId" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">비밀번호</label>
+                            <input type="password" class="form-control" id="loginPassword" name="loginPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">로그인</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
-

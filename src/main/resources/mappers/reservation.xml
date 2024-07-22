@@ -31,4 +31,26 @@
         WHERE m.movie_id = #{movieId}
     </select>
 
+    <!-- 예약 ID로 예약 정보를 조회 -->
+    <select id="getReservationById" parameterType="string" resultType="kr.co.movio.reservation.TicketReservationDTO">
+        SELECT res_id, mem_id, screen_movie_id, res_seat_info, adult, teenager, child, tot_people
+        FROM reservation
+        WHERE res_id = #{reservationId}
+    </select>
+    
+    <select id="isMovieRegisteredByUser" parameterType="map" resultType="int">
+	    SELECT COUNT(*)
+	    FROM reservation r
+	    JOIN screenmovie sm ON r.screen_movie_id = sm.screen_movie_id
+	    WHERE sm.movie_id = #{movieId} AND r.mem_id = #{memId}
+	</select>
+	
+	<!-- 본 영화 등록 여부 확인 -->
+    <select id="isRegistered" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM reservation r
+        JOIN screenmovie sm ON r.screen_movie_id = sm.screen_movie_id
+        JOIN movie m ON sm.movie_id = m.movie_id
+        WHERE m.movie_id = #{movieId} AND r.mem_id = #{memId}
+    </select>
 </mapper>
