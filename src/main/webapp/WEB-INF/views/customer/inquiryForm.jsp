@@ -13,72 +13,66 @@
   <link href="<c:url value='/css/header.css' />" rel="stylesheet" type="text/css">
   <link href="<c:url value='/css/footer.css' />" rel="stylesheet" type="text/css">
   <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"></script>
-  <!-- 공통 시작 끝 -->
+  <!-- 공통 끝 -->
   <!-- 개별 파일 시작 -->
   <link href="<c:url value='/css/customer/inquiry.css' />" rel="stylesheet" type="text/css">
   <link href="<c:url value='/css/customer/customer_sidebar.css' />" rel="stylesheet" type="text/css">
   <script src="<c:url value='/js/inquiry.js' />"></script>
+  <script src="<c:url value='/smarteditor2/js/service/HuskyEZCreator.js' />" charset="utf-8"></script>
+  <script src="<c:url value='/smarteditor2/js/smarteditor2.js' />" charset="utf-8"></script>
   <!-- 개별 파일 끝 -->
 </head>
 <body>
   <%@ include file="../../header.jsp" %>
-
-	<div id="container">
-		<div class="row">
-			<div id="sidebar">
+  <!-- 메인 콘텐츠 시작 -->
+  <div id="container" class="d-flex justify-content-center mt-3">
+    <div id="main-content" class="d-flex">
+      <div id="sidebar" class="me-3">
         <%@ include file="customer_sidebar.jsp" %>
       </div>
-      <div class="col-md-9">
+      <div class="content">
         <h1>1:1 문의</h1>
-        <p class="description">고객님의 문의에 정확한 답변을 위해 문의하신 고객의 예약 내역 및 사용기록을 조회할 수 있습니다. 고객님께서 제공하신 정보는 문의사항 조회용으로만 사용됩니다.</p>
-        <p class="description">문의사항이 FAQ에 포함되었는지 공고된 공지를 먼저 확인해 보시기 바랍니다.</p>
-        <div id="info-box">
-          <div id="info-header">
-            <span>개인정보 수집에 대한 동의</span>
-            <span id="required">필수*</span>
-          </div>
-          <p id="info-content">
-            개인정보 수집에 동의해 주셔야 문의사항 등록이 가능합니다. 개인정보는 오직 문의사항 답변용으로만 사용되며, 다른 용도로는 사용되지 않습니다.
-          </p>
-        </div>
-        <form action="<c:url value='/customer/submitInquiry' />" method="post" enctype="multipart/form-data">
+        <p>문의하시기 전 FAQ를 확인하시면 궁금증을 더욱 빠르게 해결하실 수 있습니다.</p>
+        <form id="submitInquiryForm" method="post" action="<c:url value='/customer/submitInquiry' />" onsubmit="return validateForm();">
           <div class="form-group">
-            <label for="inquiry-type">문의유형</label>
-            <select id="inquiry-type" name="inq_type" class="form-control">
-              <option value="customer">고객센터</option>
-              <option value="theater">지점문의</option>
-            </select>
+            <label for="agree">
+              <input type="checkbox" id="agree" name="agree">
+              개인정보 수집에 대한 동의 [필수]
+            </label>
+            <div class="agree-text">
+              <p>개인정보 수집 및 이용에 대한 동의를 얻기 위해 본 개인정보 수집 및 이용 방침을 숙지해주세요.</p>
+            </div>
           </div>
           <div class="form-group">
             <label for="name">이름</label>
-            <input type="text" id="name" name="name" class="form-control">
+            <input type="text" id="name" name="mem_id" class="form-control" required>
           </div>
           <div class="form-group">
             <label for="email">이메일</label>
-            <input type="email" id="email" name="email" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="phone">휴대폰</label>
-            <input type="text" id="phone" name="phone" class="form-control">
+            <input type="email" id="email" name="email" class="form-control" required>
           </div>
           <div class="form-group">
             <label for="title">제목</label>
-            <input type="text" id="title" name="inq_title" class="form-control">
+            <input type="text" id="title" name="inq_title" class="form-control" required>
           </div>
           <div class="form-group">
             <label for="content">내용</label>
-            <textarea id="content" name="inq_content" class="form-control" rows="5"></textarea>
+            <textarea id="content" name="inq_content" class="form-control" rows="10" required></textarea>
           </div>
           <div class="form-group">
-            <label for="file">첨부파일</label>
-            <input type="file" id="file" name="file" class="form-control">
+            <label for="password">비밀번호</label>
+            <input type="password" id="password" name="password" class="form-control" required>
           </div>
-          <button type="submit" id="submit-btn" class="btn btn-primary">등록</button>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">등록하기</button>
+            <button type="reset" class="btn btn-secondary">다시입력</button>
+            <button type="button" class="btn btn-tertiary" id="cancelButton">작성취소</button>
+          </div>
         </form>
       </div>
     </div>
   </div>
-
+  <!-- 메인 콘텐츠 끝 -->
   <%@ include file="../../footer.jsp" %>
 </body>
 </html>

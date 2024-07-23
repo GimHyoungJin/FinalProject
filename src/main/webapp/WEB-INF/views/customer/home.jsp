@@ -15,7 +15,7 @@
   <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"></script>
   <!-- 공통 끝 -->
   
-  <!-- 고객센터 전용 CSS 파일들 포함 시작 -->
+  <!-- 고객센터 전용 Cw2SS 파일들 포함 시작 -->
   <link href="<c:url value='/css/customer/home.css' />" rel="stylesheet" type="text/css">
   <link href="<c:url value='/css/customer/customer_sidebar.css' />" rel="stylesheet" type="text/css">
   <!-- 고객센터 전용 CSS 파일들 포함 끝 -->
@@ -76,38 +76,40 @@
           <!-- 실선 추가 -->
           <div id="divider-line"></div>
           
-          <!-- 공지사항 섹션 시작 -->
-          <div id="notice-section">
-            <h2>공지사항</h2>
-            <!-- 공지사항 목록 시작 -->
-            <div id="notice-list">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <!-- 제목과 날짜 컬럼 제거 -->
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- 공지사항 리스트를 반복문으로 출력 -->
-                  <c:forEach var="notice" items="${notices}">
+ <!-- 공지사항 섹션 시작 -->
+<div id="notice-section">
+    <h2>공지사항</h2>
+    <!-- 공지사항 목록 시작 -->
+    <div id="notice-list">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>제목</th>
+                    <th>날짜</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 공지사항 리스트를 반복문으로 출력 -->
+                <c:forEach var="notice" items="${recentNotices}">
                     <tr>
-                      <td>
-                        <a href="<c:url value='/customer/noticeDetail?notice_num=${notice.noticeNum}' />">
-                          ${notice.title}
-                        </a>
-                      </td>
-                      <td>${notice.regDate}</td>
+                        <td>
+                            <a href="#" class="recent-notice-link" data-id="${notice.noticeNum}">
+                                ${notice.title}
+                            </a>
+                        </td>
+                        <td>${notice.regdate}</td>
                     </tr>
-                  </c:forEach>
-                </tbody>
-              </table>
-            </div>
-            <!-- 공지사항 목록 끝 -->
-            
-            <!-- 더보기 링크 -->
-            <a id="more-notices" href="<c:url value='/customer/noticeList' />">더보기</a>
-          </div>
-          <!-- 공지사항 섹션 끝 -->
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
+    <!-- 공지사항 목록 끝 -->
+    
+    <!-- 더보기 링크 -->
+    <a id="more-notices" href="<c:url value='/customer/notices' />">더보기</a>
+</div>
+<!-- 공지사항 섹션 끝 -->
+
         </div>
       </div>
       <!-- 메인 콘텐츠 영역 끝 -->
