@@ -3,7 +3,6 @@ package kr.co.movio.customer.inquiry;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 import java.util.HashMap;
@@ -38,7 +37,7 @@ public class CustomerInquiryDAO {
     // 전체 문의 목록 조회
     public List<CustomerInquiryDTO> findAllInquiries(int offset, int limit) {
         Map<String, Object> params = new HashMap<>();
-        params.put("offset", offset);
+        params.put("offset", Math.max(offset, 0));  // offset이 음수가 되지 않도록 처리
         params.put("limit", limit);
         return sqlSession.selectList("customer.findAllInquiries", params);
     }
@@ -52,7 +51,7 @@ public class CustomerInquiryDAO {
     public List<CustomerInquiryDTO> searchInquiries(String keyword, int offset, int limit) {
         Map<String, Object> params = new HashMap<>();
         params.put("keyword", keyword);
-        params.put("offset", offset);
+        params.put("offset", Math.max(offset, 0));  // offset이 음수가 되지 않도록 처리
         params.put("limit", limit);
         return sqlSession.selectList("customer.searchInquiries", params);
     }

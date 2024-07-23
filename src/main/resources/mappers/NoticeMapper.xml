@@ -6,7 +6,7 @@
 
     <!-- 공지사항 최신 5개 가져오기 -->
     <select id="getRecentNotices" resultType="kr.co.movio.customer.notice.NoticeDTO">
-        SELECT notice_num AS noticeNum, title, content, regdate AS regDate
+        SELECT notice_num AS noticeNum, title, content, regdate, chdate, kinds
         FROM notice
         ORDER BY regdate DESC
         LIMIT 5
@@ -19,27 +19,23 @@
 
     <!-- 특정 공지사항 가져오기 -->
     <select id="getNoticeById" parameterType="int" resultType="kr.co.movio.customer.notice.NoticeDTO">
-        SELECT notice_num AS noticeNum, title, content, regdate AS regDate
+        SELECT notice_num AS noticeNum, title, content, regdate, chdate, kinds
         FROM notice
         WHERE notice_num = #{noticeNum}
     </select>
 
-    <!-- 공지사항 저장 -->
-    <insert id="saveNotice" parameterType="kr.co.movio.customer.notice.NoticeDTO">
-        INSERT INTO notice (title, content, regdate, chdate, kinds)
-        VALUES (#{title}, #{content}, #{regdate}, #{chdate}, #{kinds})
-    </insert>
+    <!-- 공지사항 목록 가져오기 (페이징 처리) -->
+    <select id="getNotices" parameterType="map" resultType="kr.co.movio.customer.notice.NoticeDTO">
+        SELECT notice_num AS noticeNum, title, content, regdate, chdate, kinds
+        FROM notice
+        ORDER BY regdate DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
 
-    <!-- 공지사항 업데이트 -->
-    <update id="updateNotice" parameterType="kr.co.movio.customer.notice.NoticeDTO">
+    <!-- 조회수 증가 -->
+    <update id="incrementViewCount" parameterType="int">
         UPDATE notice
-        SET title = #{title}, content = #{content}, regdate = #{regdate}, chdate = #{chdate}, kinds = #{kinds}
+        SET view_count = view_count + 1
         WHERE notice_num = #{noticeNum}
     </update>
-
-    <!-- 공지사항 삭제 -->
-    <delete id="deleteNotice" parameterType="int">
-        DELETE FROM notice
-        WHERE notice_num = #{noticeNum}
-    </delete>
 </mapper>

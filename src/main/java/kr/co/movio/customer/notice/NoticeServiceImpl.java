@@ -12,6 +12,26 @@ public class NoticeServiceImpl implements NoticeService {
     private NoticeDAO noticeDAO;
 
     @Override
+    public List<NoticeDTO> getNotices(int offset, int limit) {
+        return noticeDAO.getNotices(offset, limit);
+    }
+
+    @Override
+    public NoticeDTO getNoticeById(int id) {
+        return noticeDAO.getNoticeById(id);
+    }
+
+    @Override
+    public void incrementViewCount(int id) {
+        noticeDAO.incrementViewCount(id);
+    }
+
+    @Override
+    public int countNotices() {
+        return noticeDAO.countNotices();
+    }
+
+    @Override
     public List<NoticeDTO> getRecentNotices() {
         return noticeDAO.getRecentNotices();
     }

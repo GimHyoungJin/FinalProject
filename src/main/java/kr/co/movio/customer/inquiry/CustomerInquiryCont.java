@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/customer")
@@ -24,10 +25,11 @@ public class CustomerInquiryCont {
         return mav;
     }
 
-    // 문의 제출
+    
     @PostMapping("/submitInquiry")
-    public String submitInquiry(CustomerInquiryDTO inquiryDTO) {
+    public String submitInquiry(CustomerInquiryDTO inquiryDTO, RedirectAttributes redirectAttributes) {
         inquiryService.saveInquiry(inquiryDTO);
+        redirectAttributes.addFlashAttribute("message", "1:1 문의가 등록되었습니다.");
         return "redirect:/customer/inquiryList";
     }
 
