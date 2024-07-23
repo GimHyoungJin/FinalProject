@@ -58,11 +58,6 @@
         WHERE inq_num=#{inq_num}
     </update>
 
-    <delete id="delete" parameterType="String">
-        DELETE FROM inquiry
-        WHERE inq_num = #{inq_num}
-    </delete>
-
     <insert id="saveInquiryDetail" parameterType="kr.co.movio.customer.inquiry.InquiryDetailDTO">
         INSERT INTO inquirydetail (inqde_num, inq_num, inqde_content, inqde_date)
         VALUES (#{inqde_num}, #{inq_num}, #{inqde_content}, #{inqde_date})
@@ -87,6 +82,16 @@
 	    FROM member
 	    WHERE mem_id = #{mem_id}
 	</select>
+	
+	<!-- 삭제 관련 메서드 -->
+	 <delete id="delete" parameterType="int">
+        DELETE FROM inquiry
+        WHERE inq_num = #{inq_num}
+    </delete>
+	
+	 <delete id="deleteInquiryDetail" parameterType="int">
+        DELETE FROM inquirydetail WHERE inq_num = #{inq_num}
+    </delete>
     
     
     

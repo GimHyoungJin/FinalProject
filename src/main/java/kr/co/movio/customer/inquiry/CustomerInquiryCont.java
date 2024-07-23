@@ -119,7 +119,7 @@ public class CustomerInquiryCont {
 
     // 문의 삭제
     @PostMapping("/deleteInquiry")
-    public String deleteInquiry(String inq_num) {
+    public String deleteInquiry(int inq_num) {
         inquiryService.deleteInquiry(inq_num);
         return "redirect:/customer/inquiryList";
     }

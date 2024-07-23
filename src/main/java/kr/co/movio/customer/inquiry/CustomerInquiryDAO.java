@@ -67,8 +67,11 @@ public class CustomerInquiryDAO {
     }
 
     // 문의 삭제
-    public int delete(String inq_num) {
-        return sqlSession.delete("customer.delete", inq_num);
+    public void delete(int inq_num) {
+        // inquirydetail 테이블에서 관련 레코드 삭제
+        sqlSession.delete("customer.deleteInquiryDetail", inq_num);
+        // inquiry 테이블에서 레코드 삭제
+        sqlSession.delete("customer.delete", inq_num);
     }
 
     // 문의 답변 저장
@@ -89,4 +92,6 @@ public class CustomerInquiryDAO {
     public String getUsernameByMemId(String memId) {
         return sqlSession.selectOne("customer.getUsernameByMemId", memId);
     }
+    
+
 }

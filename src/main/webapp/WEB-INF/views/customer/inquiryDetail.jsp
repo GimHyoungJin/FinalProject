@@ -107,7 +107,10 @@
     <div class="btn-group-custom">
       <button type="button" class="btn btn-secondary btn-custom me-2" onclick="location.href='<c:url value='/customer/inquiryList' />'">목록</button>
       <div class="admin-button-container" style="display: none;">
-      <button type="button" class="btn btn-danger btn-custom" onclick="deleteInquiry(${inquiry.inq_num})">삭제</button>
+      <form id="deleteForm" method="post" action="<c:url value='/customer/deleteInquiry' />">
+        <input type="hidden" name="inq_num" value="${inquiry.inq_num}" />
+        <button type="button" class="btn btn-danger btn-custom" onclick="confirmDelete()">삭제</button>
+      </form>
       </div>
     </div>
   </div>
@@ -116,9 +119,9 @@
   <%@ include file="../../footer.jsp" %>
 
   <script>
-    function deleteInquiry(inq_num) {
-      if(confirm('삭제하시겠습니까?')) {
-        window.location.href = '/customer/deleteInquiry?inq_num=' + inq_num;
+    function confirmDelete() {
+      if (confirm('정말 삭제하시겠습니까?')) {
+        document.getElementById('deleteForm').submit();
       }
     }
   </script>
