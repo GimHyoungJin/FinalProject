@@ -60,20 +60,24 @@ public class reservationDAO {
 	        return sqlSession.selectOne("ticketreservation.getTotalSeats", screen_id);
 	    }
 	    
+	    //현재 활성화된 상영 영화 ID 목록을 조회하는 메소드
 	    public List<String> getActiveScreenMovieIds() {
 	        return sqlSession.selectList("ticketreservation.getActiveScreenMovieIds");
 	    }
 	    
+	    //영화 ID로 총 관객 수를 조회하는 메소드
 	    public int getTotalAudience(String movieId) {
 	        Integer result = sqlSession.selectOne("reservation.getTotalAudience", movieId);
 	        return result != null ? result : 0;
 	    }
 
+	    //영화 ID로 영화의 평균 평점을 조회하는 메소드
 	    public double getRating(String movieId) {
 	        Double result = sqlSession.selectOne("reservation.getRating", movieId);
 	        return result != null ? result : 0.0;
 	    }
 
+	    //영화 ID로 예매율을 조회하는 메소드
 	    public double getMovieGrade(String movieId) {
 	        Double result = sqlSession.selectOne("reservation.getMovieGrade", movieId);
 	        return result != null ? result : 0.0;
@@ -84,6 +88,7 @@ public class reservationDAO {
 	        return sqlSession.selectOne("reservation.getReservationById", reservationId);
 	    }
 	    
+	    //사용자별 영화 등록 여부를 확인하는 메소드
 	    public boolean isMovieRegisteredByUser(String movieId, String memId) {
 	        Map<String, String> params = new HashMap<>();
 	        params.put("movieId", movieId);
@@ -92,6 +97,7 @@ public class reservationDAO {
 	        return count != null && count > 0;
 	    }
 	    
+	    //본 영화 등록 여부를 확인하는 메소드
 	    public boolean isRegistered(String movieId, String memId) {
 	        Map<String, String> params = new HashMap<>();
 	        params.put("movieId", movieId);
