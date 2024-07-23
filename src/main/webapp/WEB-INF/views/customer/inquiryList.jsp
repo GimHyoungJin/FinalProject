@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <title>1:1문의 목록</title>
+  <title>통합 문의</title>
   <meta charset="utf-8">
   <!-- 공통 시작 -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -28,40 +28,134 @@
       </div>
       <div class="content">
         <div class="container">
-          <h2>1:1 문의 목록</h2>
-          <p>1:1 문의를 접수 해 주세요.</p>
+          <h2>통합 문의 목록</h2>
+          <p>문의를 접수 해 주세요.</p>
           <p>접수하신 글은 비밀글로 등록되어 작성자와 관리자만 확인 가능합니다.</p>
           <!-- 1:1 문의 버튼 -->
           <div class="text-end mb-3">
-             <a href="<c:url value='/customer/inquiryForm' />" class="btn btn-primary">1:1 문의</a>
+             <a href="<c:url value='/customer/inquiryForm' />" class="btn btn-primary">통합 문의</a>
           </div>
-          <!-- 검색 폼 -->
-          <form class="d-flex mb-3 search-container">
-            <input class="form-control me-2" id="search-input" type="search" placeholder="검색어를 입력해 주세요." aria-label="검색">
-            <button class="btn btn-outline-success" id="search-button" type="button">검색</button>
-          </form>
-          <!-- 문의 목록 테이블 -->
-          <div class="table-responsive">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>번호</th>
-                  <th>제목</th>
-                  <th>접수상태</th>
-                  <th>등록일</th>
-                </tr>
-              </thead>
-              <tbody>
-                <c:forEach var="inquiry" items="${inquiries}">
-                  <tr>
-                    <td>${inquiry.inq_num}</td>
-                    <td><a href="<c:url value='/customer/inquiryDetail?inq_num=${inquiry.inq_num}' />">${inquiry.inq_title}</a></td>
-                    <td>${inquiry.inq_status}</td>
-                    <td>${inquiry.inq_date}</td>
-                  </tr>
-                </c:forEach>
-              </tbody>
-            </table>
+          <!-- 탭 네비게이션 -->
+          <ul class="nav nav-tabs" id="inquiryTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <a class="nav-link active" id="all-inquiries-tab" data-bs-toggle="tab" href="#all-inquiries" role="tab" aria-controls="all-inquiries" aria-selected="true">전체 문의</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" id="inquiry-type-1-tab" data-bs-toggle="tab" href="#inquiry-type-1" role="tab" aria-controls="inquiry-type-1" aria-selected="false">1:1 문의</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" id="inquiry-type-2-tab" data-bs-toggle="tab" href="#inquiry-type-2" role="tab" aria-controls="inquiry-type-2" aria-selected="false">분실물 문의</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="inquiryTabsContent">
+            <!-- 전체 문의 탭 -->
+            <div class="tab-pane fade show active" id="all-inquiries" role="tabpanel" aria-labelledby="all-inquiries-tab">
+              <!-- 전체 문의 목록 테이블 -->
+              <div class="table-responsive mt-3">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>번호</th>
+                      <th>제목</th>
+                      <th>접수상태</th>
+                      <th>등록일</th>
+                      <th>문의유형</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <c:forEach var="inquiry" items="${inquiries}">
+                      <tr>
+                        <td>${inquiry.inq_num}</td>
+                        <td><a href="<c:url value='/customer/inquiryDetail?inq_num=${inquiry.inq_num}' />">${inquiry.inq_title}</a></td>
+                        <td>
+                          <c:choose>
+                            <c:when test="${inquiry.inq_status == '0'}">확인중</c:when>
+                            <c:when test="${inquiry.inq_status == '1'}">답변 완료</c:when>
+                            <c:otherwise>알 수 없음</c:otherwise>
+                          </c:choose>
+                        </td>
+                        <td>${inquiry.inq_date}</td>
+                        <td>
+                          <c:choose>
+                            <c:when test="${inquiry.inq_type == '1'}">1:1 문의</c:when>
+                            <c:when test="${inquiry.inq_type == '2'}">분실물 문의</c:when>
+                            <c:otherwise>알 수 없음</c:otherwise>
+                          </c:choose>
+                        </td>
+                      </tr>
+                    </c:forEach>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- 1:1 문의 탭 -->
+            <div class="tab-pane fade" id="inquiry-type-1" role="tabpanel" aria-labelledby="inquiry-type-1-tab">
+              <!-- 1:1 문의 목록 테이블 -->
+              <div class="table-responsive mt-3">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>번호</th>
+                      <th>제목</th>
+                      <th>접수상태</th>
+                      <th>등록일</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <c:forEach var="inquiry" items="${inquiries}">
+                      <c:if test="${inquiry.inq_type == '1'}">
+                        <tr>
+                          <td>${inquiry.inq_num}</td>
+                          <td><a href="<c:url value='/customer/inquiryDetail?inq_num=${inquiry.inq_num}' />">${inquiry.inq_title}</a></td>
+                          <td>
+                            <c:choose>
+                              <c:when test="${inquiry.inq_status == '0'}">확인중</c:when>
+                              <c:when test="${inquiry.inq_status == '1'}">답변 완료</c:when>
+                              <c:otherwise>알 수 없음</c:otherwise>
+                            </c:choose>
+                          </td>
+                          <td>${inquiry.inq_date}</td>
+                        </tr>
+                      </c:if>
+                    </c:forEach>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- 분실물 문의 탭 -->
+            <div class="tab-pane fade" id="inquiry-type-2" role="tabpanel" aria-labelledby="inquiry-type-2-tab">
+              <!-- 분실물 문의 목록 테이블 -->
+              <div class="table-responsive mt-3">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>번호</th>
+                      <th>제목</th>
+                      <th>접수상태</th>
+                      <th>등록일</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <c:forEach var="inquiry" items="${inquiries}">
+                      <c:if test="${inquiry.inq_type == '2'}">
+                        <tr>
+                          <td>${inquiry.inq_num}</td>
+                          <td><a href="<c:url value='/customer/inquiryDetail?inq_num=${inquiry.inq_num}' />">${inquiry.inq_title}</a></td>
+                          <td>
+                            <c:choose>
+                              <c:when test="${inquiry.inq_status == '0'}">확인중</c:when>
+                              <c:when test="${inquiry.inq_status == '1'}">답변 완료</c:when>
+                              <c:otherwise>알 수 없음</c:otherwise>
+                            </c:choose>
+                          </td>
+                          <td>${inquiry.inq_date}</td>
+                        </tr>
+                      </c:if>
+                    </c:forEach>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
           <!-- 페이지 네비게이션 -->
           <nav aria-label="Page navigation">

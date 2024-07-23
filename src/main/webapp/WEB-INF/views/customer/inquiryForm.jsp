@@ -30,9 +30,17 @@
         <%@ include file="customer_sidebar.jsp" %>
       </div>
       <div class="content">
-        <h1>1:1 문의</h1>
+        <h1>통합 문의</h1>
         <p>문의하시기 전 FAQ를 확인하시면 궁금증을 더욱 빠르게 해결하실 수 있습니다.</p>
         <form id="submitInquiryForm" method="post" action="<c:url value='/customer/submitInquiry' />">
+          <div class="form-group">
+            <label for="inq_type">문의 유형</label>
+            <select id="inq_type" name="inq_type" class="form-control" required>
+              <option value="">선택하세요</option>
+              <option value="1">1:1 문의</option>
+              <option value="2">분실물 문의</option>
+            </select>
+          </div>
           <div class="form-group">
             <label for="agree">
               <input type="checkbox" id="agree" name="agree">
@@ -44,7 +52,7 @@
           </div>
           <div class="form-group">
             <label for="name">이름</label>
-            <input type="text" id="name" name="mem_id" class="form-control" required>
+            <input type="text" id="name" name="username" class="form-control" required>
           </div>
           <div class="form-group">
             <label for="email">이메일</label>
@@ -76,7 +84,7 @@
 
   <!-- SmartEditor2 초기화 -->
   <script type="text/javascript">
-    $(document).ready(function() {
+    document.addEventListener("DOMContentLoaded", function() {
       console.log("Document is ready");
 
       var oEditors = [];
@@ -90,39 +98,41 @@
           console.log("SmartEditor2 is loaded");
 
           // SmartEditor2가 로드된 후 이벤트 설정
-          var form = $("#submitInquiryForm");
-          if (form.length) {
+          var form = document.getElementById("submitInquiryForm");
+          if (form) {
             console.log("Form found");
 
-            form.on("submit", function(e) {
+            form.addEventListener("submit", function(e) {
               e.preventDefault();
 
               // SmartEditor2 내용을 textarea로 업데이트
               oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
 
               // 개인정보수집 동의 확인
-              if ($('#agree').prop('checked') === false) {
+              if (!document.getElementById('agree').checked) {
                 alert('개인정보수집에 동의해주세요.');
                 return false;
               }
 
               // AJAX로 폼 제출
-              $.ajax({
-                type: 'POST',
-                url: $(this).attr('action'),
-                data: $(this).serialize(),
-                success: function(response) {
-                  alert('1:1 문의가 등록되었습니다.');
+              var xhr = new XMLHttpRequest();
+              xhr.open("POST", form.action, true);
+              xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+              xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                  alert('문의가 정상적으로 등록되었습니다.');
                   window.location.href = '/customer/inquiryList';
-                },
-                error: function() {
+                } else if (xhr.readyState === XMLHttpRequest.DONE) {
                   alert('문의 제출 중 오류가 발생했습니다. 다시 시도해주세요.');
                 }
-              });
+              };
+
+              xhr.send(new URLSearchParams(new FormData(form)).toString());
             });
 
             // 작성취소 버튼 클릭 시 페이지 이동
-            $('.cancelButton').on('click', function() {
+            document.querySelector('.cancelButton').addEventListener('click', function() {
               window.location.href = '/customer/inquiryList';
             });
           } else {
