@@ -85,13 +85,25 @@ public class CustomerInquiryDAO {
     }
     
     //inq_num에 맞는 비밀번호 찾기 
-    public CustomerInquiryDTO findByInqNum(int inqNum) {
-        return sqlSession.selectOne("customer.findByInqNum", inqNum);
+    public CustomerInquiryDTO findByInqNum(int inq_num) {
+        return sqlSession.selectOne("customer.findByInqNum", inq_num);
     }
     
     public String getUsernameByMemId(String memId) {
         return sqlSession.selectOne("customer.getUsernameByMemId", memId);
     }
     
-
+    public void addReply(InquiryDetailDTO inquiryDetailDTO) {
+        sqlSession.insert("customer.addReply", inquiryDetailDTO);
+    }
+    
+    
+    
+    public List<InquiryDetailDTO> getRepliesByInquiryId(int inq_num) {
+        return sqlSession.selectList("customer.getRepliesByInquiryId", inq_num);
+    }
+    
+    public void updateInquiryStatus(int inq_num, String status) {
+        sqlSession.update("customer.updateInquiryStatus", Map.of("inq_num", inq_num, "status", status));
+    }
 }
