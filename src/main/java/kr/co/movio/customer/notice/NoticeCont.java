@@ -3,52 +3,55 @@ package kr.co.movio.customer.notice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("/customer/notice")
+@RequestMapping("/customer/notices")
 public class NoticeCont {
 
     @Autowired
-    private NoticeService noticeService;
+    private NoticeDAO noticeDAO;
 
-    /**
-     * 공지사항 목록을 보여주는 메서드입니다.
-     *
-     * @param page  현재 페이지 번호
-     * @param model 뷰에 데이터를 전달하기 위한 모델 객체
-     * @return 공지사항 목록 페이지를 나타내는 뷰 이름
-     */
-    @GetMapping("/list")
-    public String list(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
-        int pageSize = 10;
-        List<NoticeDTO> notices = noticeService.getNotices((page - 1) * pageSize, pageSize);
-        int totalNotices = noticeService.countNotices();
-        int totalPages = (int) Math.ceil((double) totalNotices / pageSize);
-
+    // 공지사항 목록 조회
+    @GetMapping
+    public String listNotices(@RequestParam(value = "page", defaultValue = "1") int page,
+                              @RequestParam(value = "size", defaultValue = "10") int size,
+                              Model model) {
+        int offset = (page - 1) * size;
+        List<NoticeDTO> notices = noticeDAO.getNotices(offset, size);
+        int totalNotices = noticeDAO.getTotalNotices();
+        int totalPages = (int) Math.ceil((double) totalNotices / size);
         model.addAttribute("notices", notices);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", totalPages);
-        return "noticeList";
+        return "customer/noticeList";
     }
 
-    /**
-     * 공지사항 상세 페이지를 보여주는 메서드입니다.
-     *
-     * @param id    공지사항 ID
-     * @param model 뷰에 데이터를 전달하기 위한 모델 객체
-     * @return 공지사항 상세 페이지를 나타내는 뷰 이름
-     */
-    @GetMapping("/detail/{id}")
-    public String detail(@PathVariable("id") int id, Model model) {
-        noticeService.incrementViewCount(id);
-        NoticeDTO notice = noticeService.getNoticeById(id);
+    // 공지사항 상세 보기
+    @GetMapping("/detail")
+    public String detailNotice(@RequestParam("noticeNum") int noticeNum, Model model) {
+        noticeDAO.increaseViewCount(noticeNum);  // 조회수 증가
+        NoticeDTO notice = noticeDAO.getNoticeDetail(noticeNum);
         model.addAttribute("notice", notice);
-        return "noticeDetail"; // noticeDetail.jsp와 연동되도록 설정합니다.
+        return "customer/noticeDetail";
+    }
+
+    // 공지사항 검색
+    @GetMapping("/search")
+    public String searchNotices(@RequestParam("keyword") String keyword,
+                                @RequestParam(value = "page", defaultValue = "1") int page,
+                                @RequestParam(value = "size", defaultValue = "10") int size,
+                                Model model) {
+        int offset = (page - 1) * size;
+        List<NoticeDTO> notices = noticeDAO.searchNotices(keyword, offset, size);
+        int totalNotices = noticeDAO.getTotalNoticesByKeyword(keyword);
+        int totalPages = (int) Math.ceil((double) totalNotices / size);
+        model.addAttribute("notices", notices);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("keyword", keyword);
+        return "customer/noticeList";
     }
 }

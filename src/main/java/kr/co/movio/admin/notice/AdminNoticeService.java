@@ -2,6 +2,7 @@ package kr.co.movio.admin.notice;
 
 import java.util.List;
 
+
 public interface AdminNoticeService {
     // 공지사항 목록 조회
     List<AdminNoticeDTO> getNotices(int page, int size);

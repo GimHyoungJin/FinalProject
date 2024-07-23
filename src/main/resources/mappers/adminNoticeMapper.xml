@@ -1,46 +1,65 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.co.movio.admin.notice.AdminNoticeMapper">
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-    <!-- 공지사항 목록 조회 -->
-    <select id="getNotices" resultType="kr.co.movio.admin.notice.AdminNoticeDTO">
+<mapper namespace="AdminNotice">
+
+    <!-- 공지사항 저장 -->
+    <insert id="save" parameterType="kr.co.movio.admin.notice.AdminNoticeDTO">
+        INSERT INTO notice (title, content, regdate, chdate, view_count)
+        VALUES (#{title}, #{content}, #{regdate}, #{chdate}, #{viewCount})
+    </insert>
+
+    <!-- 공지사항 번호로 공지사항 찾기 -->
+    <select id="findById" parameterType="int" resultType="kr.co.movio.admin.notice.AdminNoticeDTO">
+        SELECT notice_num, title, content, regdate, chdate, view_count
+        FROM notice
+        WHERE notice_num = #{noticeNum}
+    </select>
+
+    <!-- 총 공지사항 수 조회 -->
+    <select id="getTotalNotices" resultType="int">
+        SELECT COUNT(*)
+        FROM notice
+    </select>
+
+    <!-- 전체 공지사항 목록 조회 -->
+    <select id="findAllNotices" parameterType="map" resultType="kr.co.movio.admin.notice.AdminNoticeDTO">
         SELECT notice_num, title, content, regdate, chdate, view_count
         FROM notice
         ORDER BY regdate DESC
         LIMIT #{limit} OFFSET #{offset}
     </select>
 
-    <!-- 총 공지사항 수 조회 -->
-    <select id="getTotalNotices" resultType="int">
-        SELECT COUNT(*) FROM notice
+    <!-- 키워드로 공지사항 검색 -->
+    <select id="searchNotices" parameterType="map" resultType="kr.co.movio.admin.notice.AdminNoticeDTO">
+        SELECT notice_num, title, content, regdate, chdate, view_count
+        FROM notice
+        WHERE title LIKE CONCAT('%', #{keyword}, '%') OR content LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY regdate DESC
+        LIMIT #{limit} OFFSET #{offset}
     </select>
 
-    <!-- 공지사항 생성 -->
-    <insert id="createNotice" parameterType="kr.co.movio.admin.notice.AdminNoticeDTO">
-        INSERT INTO notice (title, content, regdate, chdate, view_count)
-        VALUES (#{title}, #{content}, #{regdate}, #{chdate}, #{viewCount})
-    </insert>
+    <!-- 키워드로 검색된 전체 공지사항 수 조회 -->
+    <select id="getTotalNoticesByKeyword" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM notice
+        WHERE title LIKE CONCAT('%', #{keyword}, '%') OR content LIKE CONCAT('%', #{keyword}, '%')
+    </select>
 
     <!-- 공지사항 수정 -->
-    <update id="updateNotice" parameterType="kr.co.movio.admin.notice.AdminNoticeDTO">
+    <update id="update" parameterType="kr.co.movio.admin.notice.AdminNoticeDTO">
         UPDATE notice
         SET title = #{title}, content = #{content}, chdate = #{chdate}, view_count = #{viewCount}
         WHERE notice_num = #{noticeNum}
     </update>
 
     <!-- 공지사항 삭제 -->
-    <delete id="deleteNotice" parameterType="int">
-        DELETE FROM notice WHERE notice_num = #{noticeNum}
-    </delete>
-
-    <!-- 공지사항 상세보기 -->
-    <select id="getNoticeDetail" resultType="kr.co.movio.admin.notice.AdminNoticeDTO">
-        SELECT notice_num, title, content, regdate, chdate, view_count
-        FROM notice
+    <delete id="delete" parameterType="int">
+        DELETE FROM notice
         WHERE notice_num = #{noticeNum}
-    </select>
+    </delete>
 
     <!-- 조회수 증가 -->
     <update id="increaseViewCount" parameterType="int">
