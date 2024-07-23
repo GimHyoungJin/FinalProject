@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <title>공지사항 상세보기</title>
+  <title>공지사항 목록</title>
   <meta charset="utf-8">
   <!-- 공통 시작 -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -14,33 +14,32 @@
   <link href="<c:url value='/css/footer.css' />" rel="stylesheet" type="text/css">
   <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"></script>
   <!-- 공통 끝 -->
-    <link href="<c:url value='/css/customer/notice.css' />" rel="stylesheet" type="text/css">
+  <link href="<c:url value='/css/customer/notice.css' />" rel="stylesheet" type="text/css">
   <link href="<c:url value='/css/customer/customer_sidebar.css' />" rel="stylesheet" type="text/css">
-  <script src="<c:url value='/js/notice.js' />"></script>
-  
 </head>
 <body>
   <%@ include file="../../header.jsp" %>
-  <!-- 메인 콘텐츠 시작 -->
-      <div id="container" class="d-flex justify-content-center mt-3">
+   <!-- 메인 콘텐츠 시작 -->
+  <div id="container" class="d-flex justify-content-center mt-3">
     <div id="main-content" class="d-flex">
       <div id="sidebar" class="me-3">
-        <%@ include file="customer_sidebar.jsp" %>
+        <%@ include file="../customer/customer_sidebar.jsp" %>
       </div>
- <div class="content flex-grow-1">
-        <h1>공지사항</h1>
-        
-        <!-- 공지사항 상세보기 시작 -->
+      <div class="content-wrapper">
+        <h2>공지사항 상세보기</h2>
         <div class="notice-detail">
-          <h2>${notice.title}</h2>
-          <p class="meta">
-            작성자: ${notice.writer} | 등록일: ${notice.regdate} | 조회수: ${notice.viewCount}
-          </p>
-          <div class="content">
-            <p>${notice.content}</p>
+          <h3>${notice.title}</h3>
+          <div class="notice-meta">
+            <span>등록일: ${notice.regdate}</span>
+            <span>조회수: ${notice.viewCount}</span>
+          </div>
+          <div class="notice-content">
+            ${notice.content}
+          </div>
+          <div class="mt-3">
+            <button class="btn btn-secondary" onclick="window.history.back()">목록으로</button>
           </div>
         </div>
-        <!-- 공지사항 상세보기 끝 -->
       </div>
     </div>
   </div>
