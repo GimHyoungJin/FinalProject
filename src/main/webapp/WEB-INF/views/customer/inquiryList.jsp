@@ -30,10 +30,10 @@
         <div class="container">
           <h2>통합 문의 목록</h2>
           <p>문의를 접수 해 주세요.</p>
-          <p>접수하신 글은 비밀글로 등록되어 작성자와 관리자만 확인 가능합니다.</p>
+          <p>접수하신 글은 비밀글로 등록되어 비밀번호를 통해 확인 가능합니다.</p>
           <!-- 1:1 문의 버튼 -->
           <div class="text-end mb-3">
-             <a href="<c:url value='/customer/inquiryForm' />" class="btn btn-primary">통합 문의</a>
+             <a id="inquiry-btn" href="<c:url value='/customer/inquiryForm' />" class="btn btn-primary" onclick="checkLogin(event)">통합 문의</a>
           </div>
           <!-- 탭 네비게이션 -->
           <ul class="nav nav-tabs" id="inquiryTabs" role="tablist">
@@ -66,7 +66,7 @@
                     <c:forEach var="inquiry" items="${inquiries}">
                       <tr>
                         <td>${inquiry.inq_num}</td>
-                        <td><a href="<c:url value='/customer/inquiryDetail?inq_num=${inquiry.inq_num}' />">${inquiry.inq_title}</a></td>
+                        <td><a href="javascript:void(0);" onclick="showPasswordPrompt(${inquiry.inq_num});">${inquiry.inq_title}</a></td>
                         <td>
                           <c:choose>
                             <c:when test="${inquiry.inq_status == '0'}">확인중</c:when>
@@ -106,7 +106,7 @@
                       <c:if test="${inquiry.inq_type == '1'}">
                         <tr>
                           <td>${inquiry.inq_num}</td>
-                          <td><a href="<c:url value='/customer/inquiryDetail?inq_num=${inquiry.inq_num}' />">${inquiry.inq_title}</a></td>
+                          <td><a href="javascript:void(0);" onclick="showPasswordPrompt(${inquiry.inq_num});">${inquiry.inq_title}</a></td>
                           <td>
                             <c:choose>
                               <c:when test="${inquiry.inq_status == '0'}">확인중</c:when>
@@ -140,7 +140,7 @@
                       <c:if test="${inquiry.inq_type == '2'}">
                         <tr>
                           <td>${inquiry.inq_num}</td>
-                          <td><a href="<c:url value='/customer/inquiryDetail?inq_num=${inquiry.inq_num}' />">${inquiry.inq_title}</a></td>
+                          <td><a href="javascript:void(0);" onclick="showPasswordPrompt(${inquiry.inq_num});">${inquiry.inq_title}</a></td>
                           <td>
                             <c:choose>
                               <c:when test="${inquiry.inq_status == '0'}">확인중</c:when>
@@ -169,7 +169,57 @@
       </div>
     </div>
   </div>
+  <!-- 비밀번호 입력 모달 -->
+  <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="passwordModalLabel">비밀번호 확인</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>비밀번호를 입력하세요:</p>
+          <input type="password" id="inputPassword" class="form-control">
+          <input type="hidden" id="inquiryNum">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+          <button type="button" class="btn btn-primary" onclick="verifyPassword()">확인</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- 메인 콘텐츠 끝 -->
   <%@ include file="../../footer.jsp" %>
+  <script>
+    function showPasswordPrompt(inquiryNum) {
+      $('#inquiryNum').val(inquiryNum);
+      $('#passwordModal').modal('show');
+    }
+
+    function verifyPassword() {
+      var inquiryNum = $('#inquiryNum').val();
+      var password = $('#inputPassword').val();
+
+      $.ajax({
+        url: '<c:url value="/customer/verifyPassword" />',
+        method: 'POST',
+        data: {
+          inq_num: inquiryNum,
+          password: password
+        },
+        success: function(response) {
+          if (response.valid) {
+            window.location.href = '<c:url value="/customer/inquiryDetail" />?inq_num=' + inquiryNum;
+          } else {
+            alert('비밀번호가 틀렸습니다.');
+          }
+        },
+        error: function() {
+          alert('비밀번호 확인 중 오류가 발생했습니다.');
+        }
+      });
+    }
+  </script>
 </body>
 </html>
