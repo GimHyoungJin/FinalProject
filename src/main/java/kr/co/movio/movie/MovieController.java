@@ -48,6 +48,7 @@ public class MovieController {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
+    //영화 목록 페이지를 반환합니다.
     @GetMapping("/movielist")
     public String movieList(Model model) {
         try {
@@ -59,6 +60,7 @@ public class MovieController {
         return "movie/movielist";
     }
 
+    //곧 개봉할 영화 목록 페이지를 반환합니다.
     @GetMapping("/comingsoon")
     public String comingSoon(Model model) {
         try {
@@ -77,6 +79,7 @@ public class MovieController {
         return "movie/comingsoon";
     }
 
+    //영화 상세 정보 페이지를 반환합니다.
     @GetMapping("/moviedetail")
     public String movieDetail(@RequestParam("id") String movieId, Model model) {
         try {
@@ -105,6 +108,7 @@ public class MovieController {
         return "movie/moviedetail";
     }
 
+    //영화 리뷰 페이지를 반환합니다.
     @GetMapping("/comment")
     public String movieComment(@RequestParam("id") String movieId,
                                @RequestParam(value = "sort", required = false) String sort,
@@ -155,6 +159,7 @@ public class MovieController {
         return "movie/moviedetail_review";
     }
 
+    //영화 트레일러 페이지를 반환합니다.
     @GetMapping("/trailer")
     public String showTrailer(@RequestParam("id") String movieId, Model model) {
         try {
@@ -180,6 +185,7 @@ public class MovieController {
         return "movie/trailer_url";
     }
 
+    //영화 작성(등록) 페이지를 반환합니다.
     @GetMapping("/write")
     public String showMovieWriteForm(@RequestParam(value = "category", required = false) String category, Model model) {
         if (category == null || category.isEmpty()) {
@@ -189,6 +195,7 @@ public class MovieController {
         return "movie/write";
     }
 
+    //새로운 영화를 등록하는 메소드
     @PostMapping("/register")
     public String registerMovie(@RequestParam("movie_title") String movieTitle,
                                 @RequestParam("release_date") String releaseDate,
@@ -237,6 +244,7 @@ public class MovieController {
         }
     }
 
+    //영화 수정 페이지를 반환합니다.
     @GetMapping("/edit")
     public String showEditForm(@RequestParam("id") String movieId, Model model) {
         MovieDTO movie = movieDao.getMovieById(movieId);
@@ -247,6 +255,7 @@ public class MovieController {
         return "movie/edit";
     }
 
+    //영화 등록한걸 수정하는 메소드
     @PostMapping("/update")
     public String updateMovie(@ModelAttribute MovieDTO movie,
                               @RequestParam("poster") MultipartFile posterFile,
@@ -291,6 +300,7 @@ public class MovieController {
         }
     }
 
+    //예매 번호를 확인하는 메소드
     @GetMapping("/verifyReservation")
     @ResponseBody
     public boolean verifyReservation(@RequestParam("reservationId") String reservationId, HttpSession session) {
@@ -304,6 +314,7 @@ public class MovieController {
         }
     }
 
+    //영화가 사용자의 계정으로 등록되었는지 확인하는 메소드
     @GetMapping("/checkMovieRegistered")
     @ResponseBody
     public boolean checkMovieRegistered(@RequestParam("movieId") String movieId, HttpSession session) {
@@ -314,6 +325,7 @@ public class MovieController {
         return reservationDao.isMovieRegisteredByUser(movieId, memId);
     }
 
+    //본 영화가 등록되었는지 확인하는 메소드
     @GetMapping("/checkRegistered")
     @ResponseBody
     public Map<String, Boolean> checkRegistered(@RequestParam("movieId") String movieId, @RequestParam("memId") String memId) {
@@ -323,6 +335,7 @@ public class MovieController {
         return response;
     }
 
+    //리뷰 작성 권한을 확인하는 메소드
     @GetMapping("/checkSessionForReview")
     @ResponseBody
     public boolean checkSessionForReview(HttpSession session) {
