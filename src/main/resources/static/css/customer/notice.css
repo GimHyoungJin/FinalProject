@@ -52,3 +52,48 @@
 .pagination {
   margin-top: 20px; /* 위쪽에 20px 간격을 둡니다. */
 }
+
+/* 공지사항 상세 영역 설정 */
+.notice-detail {
+  width: 100%; /* 공지사항 상세 영역의 너비를 100%로 설정합니다. */
+  margin-top: 20px; /* 위쪽에 20px 간격을 둡니다. */
+}
+
+.notice-detail h3 {
+  font-size: 24px; /* 제목의 폰트 크기를 24px로 설정합니다. */
+  font-weight: bold; /* 제목을 굵게 표시합니다. */
+  margin-bottom: 20px; /* 아래쪽에 20px 간격을 둡니다. */
+}
+
+.notice-meta {
+  display: flex; /* 플렉스박스를 사용하여 내부 요소들을 배치합니다. */
+  justify-content: space-between; /* 내부 요소들을 양쪽 끝으로 정렬합니다. */
+  color: #6c757d; /* 텍스트 색상을 약간 어둡게 설정합니다. */
+  margin-bottom: 20px; /* 아래쪽에 20px 간격을 둡니다. */
+}
+
+.notice-meta span {
+  font-size: 14px; /* 메타 정보의 폰트 크기를 14px로 설정합니다. */
+}
+
+.notice-content {
+  white-space: pre-wrap; /* 공지사항 내용을 줄바꿈과 함께 표시합니다. */
+  line-height: 1.6; /* 행 간격을 1.6으로 설정하여 가독성을 높입니다. */
+  font-size: 16px; /* 내용의 폰트 크기를 16px로 설정합니다. */
+}
+
+.mt-3 {
+  margin-top: 20px; /* 위쪽에 20px 간격을 둡니다. */
+}
+
+.btn-secondary {
+  background-color: #6c757d; /* 버튼 배경색을 설정합니다. */
+  border: none; /* 버튼 테두리를 제거합니다. */
+  color: white; /* 버튼 텍스트 색상을 흰색으로 설정합니다. */
+  padding: 10px 20px; /* 버튼 내부 여백을 설정합니다. */
+  cursor: pointer; /* 커서 모양을 포인터로 설정합니다. */
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268; /* 버튼 배경색을 호버 상태에서 변경합니다. */
+}

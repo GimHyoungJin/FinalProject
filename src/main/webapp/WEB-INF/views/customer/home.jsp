@@ -106,7 +106,7 @@
     <!-- 공지사항 목록 끝 -->
     
     <!-- 더보기 링크 -->
-    <a id="more-notices" href="<c:url value='/customer/notices' />">더보기</a>
+    <a id="more-notices" href="<c:url value='/customer/noticeList' />">더보기</a>
 </div>
 <!-- 공지사항 섹션 끝 -->
 

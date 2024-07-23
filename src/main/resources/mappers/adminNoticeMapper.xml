@@ -67,5 +67,6 @@
         SET view_count = view_count + 1
         WHERE notice_num = #{noticeNum}
     </update>
+    
 
 </mapper>

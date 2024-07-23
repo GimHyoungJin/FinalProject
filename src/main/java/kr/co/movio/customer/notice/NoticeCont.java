@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/customer/notices")
+@RequestMapping("/customer/noticeList")
 public class NoticeCont {
 
     @Autowired
