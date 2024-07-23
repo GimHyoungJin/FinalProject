@@ -1,7 +1,7 @@
 package kr.co.movio.customer.inquiry;
 
 public class CustomerInquiryDTO {
-    private String inq_num;
+    private int inq_num;
     private String mem_id;
     private String theater_id;
     private String inq_type;
@@ -14,11 +14,11 @@ public class CustomerInquiryDTO {
     public CustomerInquiryDTO() {}
 
     // Getters and Setters
-    public String getInq_num() {
+    public int getInq_num() {
         return inq_num;
     }
 
-    public void setInq_num(String inq_num) {
+    public void setInq_num(int inq_num) {
         this.inq_num = inq_num;
     }
 

@@ -1,6 +1,5 @@
 $(document).ready(function() {
     var oEditors = [];
-
     nhn.husky.EZCreator.createInIFrame({
         oAppRef: oEditors,
         elPlaceHolder: "content",
@@ -33,6 +32,7 @@ $(document).ready(function() {
             });
         }
     });
+
 
     $('#deleteInquiryForm').on('submit', function(e) {
         e.preventDefault();
