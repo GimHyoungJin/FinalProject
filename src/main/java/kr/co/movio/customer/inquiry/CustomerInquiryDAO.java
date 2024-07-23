@@ -20,7 +20,7 @@ public class CustomerInquiryDAO {
     }
 
     // 문의 번호로 문의 찾기
-    public CustomerInquiryDTO findById(String inq_num) {
+    public CustomerInquiryDTO findById(int inq_num) {
         return sqlSession.selectOne("customer.findById", inq_num);
     }
 
@@ -77,7 +77,16 @@ public class CustomerInquiryDAO {
     }
 
     // 문의 번호로 문의 답변 찾기
-    public List<InquiryDetailDTO> findInquiryDetailsByInquiryId(String inq_num) {
+    public List<InquiryDetailDTO> findInquiryDetailsByInquiryId(int inq_num) {
         return sqlSession.selectList("customer.findInquiryDetailsByInquiryId", inq_num);
+    }
+    
+    //inq_num에 맞는 비밀번호 찾기 
+    public CustomerInquiryDTO findByInqNum(int inqNum) {
+        return sqlSession.selectOne("customer.findByInqNum", inqNum);
+    }
+    
+    public String getUsernameByMemId(String memId) {
+        return sqlSession.selectOne("customer.getUsernameByMemId", memId);
     }
 }

@@ -8,7 +8,7 @@ public interface CustomerInquiryService {
     void saveInquiry(CustomerInquiryDTO inquiryDTO);
 
     // 문의 번호로 문의 찾기
-    CustomerInquiryDTO getInquiryById(String inq_num);
+    CustomerInquiryDTO getInquiryById(int inqNum);
 
     // 회원 ID로 문의 중복 확인
     boolean checkDuplicateMemberId(String mem_id);
@@ -32,11 +32,18 @@ public interface CustomerInquiryService {
     void saveInquiryDetail(InquiryDetailDTO detailDTO);
 
     // 문의 번호로 문의 답변 찾기
-    List<InquiryDetailDTO> getInquiryDetailsByInquiryId(String inq_num);
+    List<InquiryDetailDTO> getInquiryDetailsByInquiryId(int inq_num);
 
     // 키워드로 문의 검색 (페이지네이션 추가)
     List<CustomerInquiryDTO> searchInquiries(String keyword, int page, int pageSize);
 
     // 키워드로 검색된 전체 문의 수 조회
     int getTotalInquiriesByKeyword(String keyword);
+    
+    //문의 내역 비밀번호 확인 
+   boolean verifyPassword(int inqNum, String password);
+   
+   //memID로 유저 이름 가져오기
+   String getUsernameByMemId(String memId);
+        
 }

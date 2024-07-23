@@ -104,9 +104,8 @@
                             <h6>고객센터</h6>
                             <ul class="list-unstyled">
                                 <li><a id="support-home-link" href="<c:url value='/customer/home' />">고객센터 홈</a></li>
-                                <li><a id="lost-items-link" href="<c:url value='/customer/lostItemList' />">분실물 문의</a></li>
                                 <li><a id="notices-link" href="<c:url value='/customer/noticeList' />">공지사항</a></li>
-                                <li><a id="inquiry-link" href="<c:url value='/customer/inquiryList' />">1:1문의</a></li>
+                                <li><a id="inquiry-link" href="<c:url value='/customer/inquiryList' />">통합 문의</a></li>
                                 <li><a id="inquiry-link" href="<c:url value='/customer/terms' />">이용약관</a></li>
                                 <!-- 관리자 페이지 링크 (관리자 등급 사용자만) -->
                                 <div class="admin-button-container" style="display: none;">

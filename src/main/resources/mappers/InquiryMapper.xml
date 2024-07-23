@@ -5,12 +5,12 @@
 
 <mapper namespace="customer">
     <insert id="save" parameterType="kr.co.movio.customer.inquiry.CustomerInquiryDTO">
-        INSERT INTO inquiry (inq_num, mem_id, theater_id, inq_type, inq_title, inq_content, inq_date, password)
-        VALUES (#{inq_num}, #{mem_id}, #{theater_id}, #{inq_type}, #{inq_title}, #{inq_content}, #{inq_date}, #{password})
+        INSERT INTO inquiry (inq_num, mem_id, inq_type, inq_title, inq_content, password)
+        VALUES (#{inq_num}, #{mem_id}, #{inq_type}, #{inq_title}, #{inq_content}, #{password})
     </insert>
 
-    <select id="findById" parameterType="String" resultType="kr.co.movio.customer.inquiry.CustomerInquiryDTO">
-        SELECT inq_num, mem_id, theater_id, inq_type, inq_title, inq_content, inq_date, password
+    <select id="findById" parameterType="int" resultType="kr.co.movio.customer.inquiry.CustomerInquiryDTO">
+        SELECT inq_num, mem_id, inq_type, inq_title, inq_content, inq_date, password, inq_status
         FROM inquiry
         WHERE inq_num = #{inq_num}
     </select>
@@ -28,7 +28,7 @@
     </select>
 
     <select id="findAllInquiries" parameterType="map" resultType="kr.co.movio.customer.inquiry.CustomerInquiryDTO">
-        SELECT inq_num, mem_id, theater_id, inq_type, inq_title, inq_content, inq_date, password
+        SELECT inq_num, mem_id, inq_type, inq_title, inq_content, inq_date, password, inq_status
         FROM inquiry
         LIMIT #{offset}, #{limit}
     </select>
@@ -39,7 +39,7 @@
     </select>
 
     <select id="searchInquiries" parameterType="map" resultType="kr.co.movio.customer.inquiry.CustomerInquiryDTO">
-        SELECT inq_num, mem_id, theater_id, inq_type, inq_title, inq_content, inq_date, password
+        SELECT inq_num, mem_id, inq_type, inq_title, inq_content, inq_date, password, inq_status
         FROM inquiry
         WHERE inq_title LIKE CONCAT('%', #{keyword}, '%') OR mem_id LIKE CONCAT('%', #{keyword}, '%')
         LIMIT #{offset}, #{limit}
@@ -53,7 +53,7 @@
 
     <update id="update" parameterType="kr.co.movio.customer.inquiry.CustomerInquiryDTO">
         UPDATE inquiry
-        SET mem_id=#{mem_id}, theater_id=#{theater_id}, inq_type=#{inq_type}, inq_title=#{inq_title}, 
+        SET mem_id=#{mem_id}, inq_type=#{inq_type}, inq_title=#{inq_title}, 
             inq_content=#{inq_content}, inq_date=#{inq_date}, password=#{password}
         WHERE inq_num=#{inq_num}
     </update>
@@ -73,4 +73,21 @@
         FROM inquirydetail
         WHERE inq_num = #{inq_num}
     </select>
+    
+    <!-- inqnum을 통해 데이터 가져오기 -->
+	 <select id="findByInqNum" parameterType="int" resultType="kr.co.movio.customer.inquiry.CustomerInquiryDTO">
+	    SELECT inq_num, mem_id, inq_type, inq_title, inq_content, inq_date, inq_status, password
+	    FROM inquiry
+	    WHERE inq_num = #{inq_num}
+	 </select>
+	
+	<!-- 멤버 테이블에서 mem_id를 통해 username 가져오기 -->
+	<select id="getUsernameByMemId" parameterType="String" resultType="String">
+	    SELECT username
+	    FROM member
+	    WHERE mem_id = #{mem_id}
+	</select>
+    
+    
+    
 </mapper>

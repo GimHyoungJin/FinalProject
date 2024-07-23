@@ -20,7 +20,7 @@ public class CustomerInquiryServiceImpl implements CustomerInquiryService {
 
     @Override
     // 문의 번호로 문의 찾기
-    public CustomerInquiryDTO getInquiryById(String inq_num) {
+    public CustomerInquiryDTO getInquiryById(int inq_num) {
         return inquiryDAO.findById(inq_num);
     }
 
@@ -69,7 +69,7 @@ public class CustomerInquiryServiceImpl implements CustomerInquiryService {
 
     @Override
     // 문의 번호로 문의 답변 찾기
-    public List<InquiryDetailDTO> getInquiryDetailsByInquiryId(String inq_num) {
+    public List<InquiryDetailDTO> getInquiryDetailsByInquiryId(int inq_num) {
         return inquiryDAO.findInquiryDetailsByInquiryId(inq_num);
     }
 
@@ -84,5 +84,18 @@ public class CustomerInquiryServiceImpl implements CustomerInquiryService {
     // 키워드로 검색된 전체 문의 수 조회
     public int getTotalInquiriesByKeyword(String keyword) {
         return inquiryDAO.getTotalInquiriesByKeyword(keyword);
+    }
+    
+    @Override
+    //문의글에 대한 비밀번호 확인
+    public boolean verifyPassword(int inqNum, String password) {
+        CustomerInquiryDTO inquiry = inquiryDAO.findByInqNum(inqNum);
+        return inquiry != null && inquiry.getPassword().equals(password);
+    }
+    
+    @Override
+    //mem_id로 유저 이름 가져오기
+    public String getUsernameByMemId(String memId) {
+        return inquiryDAO.getUsernameByMemId(memId);
     }
 }

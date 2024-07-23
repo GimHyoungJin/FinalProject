@@ -1,6 +1,8 @@
 package kr.co.movio.customer.inquiry;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,8 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/customer")
@@ -18,16 +23,18 @@ public class CustomerInquiryCont {
     @Autowired
     private CustomerInquiryService inquiryService;
 
-    // 문의 작성 폼 보여주기
     @GetMapping("/inquiryForm")
-    public ModelAndView showInquiryForm() {
+    public ModelAndView showInquiryForm(HttpSession session) {
         ModelAndView mav = new ModelAndView("customer/inquiryForm");
+        String memId = (String) session.getAttribute("mem_id");
+        mav.addObject("mem_id", memId);
         return mav;
     }
 
-    
     @PostMapping("/submitInquiry")
-    public String submitInquiry(CustomerInquiryDTO inquiryDTO, RedirectAttributes redirectAttributes) {
+    public String submitInquiry(CustomerInquiryDTO inquiryDTO, HttpSession session, RedirectAttributes redirectAttributes) {
+        String memId = (String) session.getAttribute("mem_id");
+        inquiryDTO.setMem_id(memId); // 세션에서 가져온 mem_id 설정
         inquiryService.saveInquiry(inquiryDTO);
         redirectAttributes.addFlashAttribute("message", "1:1 문의가 등록되었습니다.");
         return "redirect:/customer/inquiryList";
@@ -66,21 +73,37 @@ public class CustomerInquiryCont {
 
         return mav;
     }
-
-
-
+    
+ // 비밀번호 확인 엔드포인트
+    @PostMapping("/verifyPassword")
+    @ResponseBody
+    public Map<String, Object> verifyPassword(@RequestParam("inq_num") int inqNum, @RequestParam("password") String password) {
+        boolean isValid = inquiryService.verifyPassword(inqNum, password);
+        Map<String, Object> response = new HashMap<>();
+        response.put("valid", isValid);
+        return response;
+    }
+    
+    
     // 문의 상세 보기
     @GetMapping("/inquiryDetail")
-    public ModelAndView showInquiryDetail(String inq_num) {
+    public ModelAndView showInquiryDetail(@RequestParam("inq_num") int inqNum, HttpSession session) {
         ModelAndView mav = new ModelAndView("customer/inquiryDetail");
-        CustomerInquiryDTO inquiry = inquiryService.getInquiryById(inq_num);
+
+        CustomerInquiryDTO inquiry = inquiryService.getInquiryById(inqNum);
+        String memId = inquiry.getMem_id();
+        String username = inquiryService.getUsernameByMemId(memId);
+
         mav.addObject("inquiry", inquiry);
+        mav.addObject("username", username);
+
         return mav;
     }
-
+    
+    
     // 문의 수정 폼 보여주기
     @GetMapping("/inquiryEditForm")
-    public ModelAndView showInquiryEditForm(String inq_num) {
+    public ModelAndView showInquiryEditForm(int inq_num) {
         ModelAndView mav = new ModelAndView("customer/inquiryEditForm");
         CustomerInquiryDTO inquiry = inquiryService.getInquiryById(inq_num);
         mav.addObject("inquiry", inquiry);
