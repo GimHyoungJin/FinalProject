@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -38,7 +38,7 @@
 
           <div class="col-md-9 content-wrapper">
             <form method="post" action="<c:url value='/mypage/profile' />">
-              <input type="hidden" name="memId" value="${profile.memId}" />
+              <input type="hidden" name="memId" value="${profile.mem_id}" />
               <br><br>
               <h2>개인정보 수정</h2>
               <div class="card mt-3">
@@ -101,11 +101,11 @@
                   <label class="col-sm-2 col-form-label">SMS 수신동의</label>
                   <div class="col-sm-10 d-flex align-items-center">
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" id="sms_agree_y" name="sms_agree" value="Y" <c:if test="${profile.smsAgree == 'Y'}">checked</c:if>>
+                      <input class="form-check-input" type="radio" id="sms_agree_y" name="sms_agree" value="Y" <c:if test="${profile.sms_agree == 'Y'}">checked</c:if>>
                       <label class="form-check-label" for="sms_agree_y">예</label>
                     </div>
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" id="sms_agree_n" name="sms_agree" value="N" <c:if test="${profile.smsAgree == 'N'}">checked</c:if>>
+                      <input class="form-check-input" type="radio" id="sms_agree_n" name="sms_agree" value="N" <c:if test="${profile.sms_agree == 'N'}">checked</c:if>>
                       <label class="form-check-label" for="sms_agree_n">아니오</label>
                     </div>
                   </div>
@@ -114,11 +114,11 @@
                   <label class="col-sm-2 col-form-label">이메일 수신동의</label>
                   <div class="col-sm-10 d-flex align-items-center">
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" id="email_agree_y" name="email_agree" value="Y" <c:if test="${profile.emailAgree == 'Y'}">checked</c:if>>
+                      <input class="form-check-input" type="radio" id="email_agree_y" name="email_agree" value="Y" <c:if test="${profile.email_agree == 'Y'}">checked</c:if>>
                       <label class="form-check-label" for="email_agree_y">예</label>
                     </div>
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" id="email_agree_n" name="email_agree" value="N" <c:if test="${profile.emailAgree == 'N'}">checked</c:if>>
+                      <input class="form-check-input" type="radio" id="email_agree_n" name="email_agree" value="N" <c:if test="${profile.email_agree == 'N'}">checked</c:if>>
                       <label class="form-check-label" for="email_agree_n">아니오</label>
                     </div>
                   </div>
@@ -126,8 +126,8 @@
               </div>
               <div class="mb-3 row">
                 <div class="col-sm-10 offset-sm-2"> <br><br>
-                  <button type="submit" class="btn btn-primary">저장</button>
-                  <button type="button" class="btn btn-danger">회원탈퇴</button>
+                  <input type="submit" value="수정" class="btn btn-primary">
+                  <button type="button" class="btn btn-danger" onclick="confirmDeleteProfile()">회원탈퇴</button>
                 </div>
               </div>
             </form>
@@ -139,6 +139,27 @@
   <%@ include file="/WEB-INF/footer.jsp" %>
 
   <script>
+    function confirmDeleteProfile() {
+      if (confirm("정말 계정을 삭제하시겠습니까?")) {
+        deleteProfile();
+      }
+    }
+
+    function deleteProfile() {
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = '<c:url value="/mypage/profile/delete" />';
+      
+      const hiddenField = document.createElement('input');
+      hiddenField.type = 'hidden';
+      hiddenField.name = 'memId';
+      hiddenField.value = '${profile.mem_id}';
+      
+      form.appendChild(hiddenField);
+      document.body.appendChild(form);
+      form.submit();
+    }
+
     $(document).ready(function() {
       <% if ("Y".equals(session.getAttribute("updateSuccess"))) { %>
         alert("변경사항이 적용되었습니다.");

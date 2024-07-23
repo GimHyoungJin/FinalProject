@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -39,42 +39,56 @@
                 <c:when test="${loggedIn}">
                   <c:choose>
                     <c:when test="${not empty bookingList}">
-                      <table class="table table-bordered">
-                        <thead>
-                          <tr>
-                            <th>예매 ID</th>
-                            <th>회원 ID</th>
-                            <th>영화 정보</th>
-                            <th>좌석 정보</th>
-                            <th>성인</th>
-                            <th>청소년</th>
-                            <th>아동</th>
-                            <th>총 인원(티켓) 수</th>
-                            <th>예매 날짜</th>
-                            <th>영화 제목</th>
-                            <th>영화 시작 시간</th>
-                            <th>영화 종료 시간</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <c:forEach var="booking" items="${bookingList}">
-                            <tr>
-                              <td>${booking.bookingId}</td>
-                              <td>${booking.memberId}</td>
-                              <td>${booking.movieInfo}</td>
-                              <td>${booking.seatInfo}</td>
-                              <td>${booking.adultCount}</td>
-                              <td>${booking.teenCount}</td>
-                              <td>${booking.childCount}</td>
-                              <td>${booking.totalCount}</td>
-                              <td>${booking.bookingDate}</td>
-                              <td>${booking.movieTitle}</td>
-                              <td>${booking.movieStartTime}</td>
-                              <td>${booking.movieEndTime}</td>
-                            </tr>
-                          </c:forEach>
-                        </tbody>
-                      </table>
+                      <div id="bookingContent">
+                        <div id="main-info">
+                          <table class="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th>예매 ID</th>
+                                <th>회원 ID</th>
+                                <th>영화 ID</th>
+                                <th>좌석 정보</th>
+                                <th>성인</th>
+                                <th>청소년</th>
+                                <th>아동</th>
+                                <th>총 인원(티켓) 수</th>
+                                <th>예매 날짜</th>
+                                <th>사용자 이름</th>
+                                <th>이메일</th>
+                                <th>영화 제목</th>
+                                <th>극장 이름</th>
+                                <th>주소</th>
+                              </tr>
+                            </thead>
+                            <tbody id="bookingTable">
+                              <c:forEach var="booking" items="${bookingList}">
+                                <tr>
+                                  <td>${booking.resId}</td>
+                                  <td>${booking.memId}</td>
+                                  <td>${booking.screenMovieId}</td>
+                                  <td>${booking.resSeatInfo}</td>
+                                  <td>${booking.adult}</td>
+                                  <td>${booking.teenager}</td>
+                                  <td>${booking.child}</td>
+                                  <td>${booking.totPeople}</td>
+                                  <td>${booking.resDate}</td>
+                                  <td>${booking.username}</td>
+                                  <td>${booking.email}</td>
+                                  <td>${booking.movieTitle}</td>
+                                  <td>${booking.theaterName}</td>
+                                  <td>${booking.address}</td>
+                                </tr>
+                              </c:forEach>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-center mt-3">
+                        <form action="<c:url value='/mypage/bookinglist' />" method="get">
+                          <input type="hidden" name="offset" value="${offset}" />
+                          <button type="submit" class="btn btn-primary">더보기</button>
+                        </form>
+                      </div>
                     </c:when>
                     <c:otherwise>
                       <p>예매내역이 없습니다.</p>

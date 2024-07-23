@@ -54,7 +54,7 @@ public class MemberDAO {
     
     //모든 멤버를 조회하는 메서드 
     public List<Map<String, Object>> getAllMembers() {
-    	return sqlSession.selectList("member.getAllMembers");
+        return sqlSession.selectList("member.getAllMembers");
     }
     
     // 멤버 정보 업데이트
@@ -63,7 +63,12 @@ public class MemberDAO {
     }
 
     // 멤버 삭제
-    public int deleteMember(String mem_id) {
-        return sqlSession.delete("member.deleteMember", mem_id);
+    public void softDeleteMember(String memId) {
+        sqlSession.update("member.softDeleteMember", memId);
+    }
+
+    // 로그인용 사용자 찾기
+    public MemberDTO findUserForLogin(MemberDTO memberDTO) {
+        return sqlSession.selectOne("member.findUserForLogin", memberDTO);
     }
 }

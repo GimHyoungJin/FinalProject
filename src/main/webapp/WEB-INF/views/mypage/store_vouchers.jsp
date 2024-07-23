@@ -150,10 +150,17 @@
 		    <label for="voucherInput" class="form-label">스토어 교환권</label>
 		    <input type="text" class="form-control" id="voucherInput" placeholder="숫자만 입력해 주세요">
 		  </div>
-		  <div class="mb-3">
-		    <label for="categoryInput" class="form-label">카테고리</label>
-		    <input type="text" class="form-control" id="categoryInput" placeholder="카테고리를 입력해 주세요">
-		  </div>
+		   <div class="mb-3">
+   
+    <label for="categoryId" class="form-label">카테고리</label>
+    <select class="form-select" id="areaId" name="categoryId" required>
+        <option value="">카테고리 선택</option>
+        <option value="drink" <c:if test="${param.categoryId == 'drink'}">selected</c:if>>음료</option>
+        <option value="package" <c:if test="${param.categoryId == 'package'}">selected</c:if>>세트</option>
+         <option value="snack" <c:if test="${param.categoryId == 'snack'}">selected</c:if>>팝콘</option>
+          <option value="ticket" <c:if test="${param.categoryId == 'ticket'}">selected</c:if>>관람권</option>
+    </select>
+</div>
 		  <div class="mb-3">
 		    <label for="voucherNameInput" class="form-label">교환권명</label>
 		    <input type="text" class="form-control" id="voucherNameInput" placeholder="교환권명을 입력해 주세요">

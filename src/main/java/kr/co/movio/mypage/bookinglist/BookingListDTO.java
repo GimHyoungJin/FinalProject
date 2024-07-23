@@ -1,96 +1,118 @@
 package kr.co.movio.mypage.bookinglist;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import java.util.Date;
-
 public class BookingListDTO {
-    private String bookingId;
-    private String memberId;
-    private String movieInfo;
-    private String seatInfo;
-    private int adultCount;
-    private int teenCount;
-    private int childCount;
-    private int totalCount;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date bookingDate;
-
+    private String resId; // UUID 형식
+    private String memId;
+    private String screenMovieId;
+    private String resSeatInfo;
+    private int adult;
+    private int teenager;
+    private int child;
+    private int totPeople;
+    private String resDate;
+    private String username;
+    private String email;
+    private int movieId;
     private String movieTitle;
-    private String movieStartTime;
-    private String movieEndTime;
+    private String theaterName;
+    private String address;
 
-    // Getters and Setters
-    public String getBookingId() {
-        return bookingId;
+    // Getters and setters...
+
+    public String getResId() {
+        return resId;
     }
 
-    public void setBookingId(String bookingId) {
-        this.bookingId = bookingId;
+    public void setResId(String resId) {
+        this.resId = resId;
     }
 
-    public String getMemberId() {
-        return memberId;
+    public String getMemId() {
+        return memId;
     }
 
-    public void setMemberId(String memberId) {
-        this.memberId = memberId;
+    public void setMemId(String memId) {
+        this.memId = memId;
     }
 
-    public String getMovieInfo() {
-        return movieInfo;
+    public String getScreenMovieId() {
+        return screenMovieId;
     }
 
-    public void setMovieInfo(String movieInfo) {
-        this.movieInfo = movieInfo;
+    public void setScreenMovieId(String screenMovieId) {
+        this.screenMovieId = screenMovieId;
     }
 
-    public String getSeatInfo() {
-        return seatInfo;
+    public String getResSeatInfo() {
+        return resSeatInfo;
     }
 
-    public void setSeatInfo(String seatInfo) {
-        this.seatInfo = seatInfo;
+    public void setResSeatInfo(String resSeatInfo) {
+        this.resSeatInfo = resSeatInfo;
     }
 
-    public int getAdultCount() {
-        return adultCount;
+    public int getAdult() {
+        return adult;
     }
 
-    public void setAdultCount(int adultCount) {
-        this.adultCount = adultCount;
+    public void setAdult(int adult) {
+        this.adult = adult;
     }
 
-    public int getTeenCount() {
-        return teenCount;
+    public int getTeenager() {
+        return teenager;
     }
 
-    public void setTeenCount(int teenCount) {
-        this.teenCount = teenCount;
+    public void setTeenager(int teenager) {
+        this.teenager = teenager;
     }
 
-    public int getChildCount() {
-        return childCount;
+    public int getChild() {
+        return child;
     }
 
-    public void setChildCount(int childCount) {
-        this.childCount = childCount;
+    public void setChild(int child) {
+        this.child = child;
     }
 
-    public int getTotalCount() {
-        return totalCount;
+    public int getTotPeople() {
+        return totPeople;
     }
 
-    public void setTotalCount(int totalCount) {
-        this.totalCount = totalCount;
+    public void setTotPeople(int totPeople) {
+        this.totPeople = totPeople;
     }
 
-    public Date getBookingDate() {
-        return bookingDate;
+    public String getResDate() {
+        return resDate;
     }
 
-    public void setBookingDate(Date bookingDate) {
-        this.bookingDate = bookingDate;
+    public void setResDate(String resDate) {
+        this.resDate = resDate;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
     }
 
     public String getMovieTitle() {
@@ -101,19 +123,19 @@ public class BookingListDTO {
         this.movieTitle = movieTitle;
     }
 
-    public String getMovieStartTime() {
-        return movieStartTime;
+    public String getTheaterName() {
+        return theaterName;
     }
 
-    public void setMovieStartTime(String movieStartTime) {
-        this.movieStartTime = movieStartTime;
+    public void setTheaterName(String theaterName) {
+        this.theaterName = theaterName;
     }
 
-    public String getMovieEndTime() {
-        return movieEndTime;
+    public String getAddress() {
+        return address;
     }
 
-    public void setMovieEndTime(String movieEndTime) {
-        this.movieEndTime = movieEndTime;
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

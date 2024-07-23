@@ -15,4 +15,9 @@ public class BookingListServiceImpl implements BookingListService {
     public List<BookingListDTO> getBookingList(String memId) {
         return bookingListDAO.getBookingList(memId);
     }
+
+    @Override
+    public List<BookingListDTO> getBookingList(String memId, int offset, int limit) {
+        return bookingListDAO.getBookingList(memId, offset, limit);
+    }
 }

@@ -1,52 +1,58 @@
 package kr.co.movio.mypage.profile;
 
+import kr.co.movio.member.MemberDAO;
+import kr.co.movio.member.MemberDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import jakarta.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/mypage/profile")
 public class ProfileCont {
 
     @Autowired
-    private ProfileDAO profileDAO;
+    private MemberDAO memberDAO;
 
     @GetMapping
     public String getProfile(HttpSession session, Model model) {
-        // 세션에서 로그인된 사용자 정보 가져오기
         String memId = (String) session.getAttribute("mem_id");
         if (memId != null) {
-            ProfileDTO profile = profileDAO.getProfileById(memId);
-            model.addAttribute("profile", profile);
+            MemberDTO member = memberDAO.findById(memId);
+            model.addAttribute("profile", member);
         } else {
-            model.addAttribute("profile", new ProfileDTO());
+            model.addAttribute("profile", new MemberDTO());
         }
-        return "mypage/profile"; // JSP 파일 경로
+        return "mypage/profile";
+    }
+
+    @PostMapping("/delete")
+    public String deleteProfile(@RequestParam("memId") String memId, HttpSession session) {
+        memberDAO.softDeleteMember(memId);
+        session.invalidate();  // 세션 무효화
+        return "redirect:/";  // 홈페이지 경로로 리다이렉트
     }
 
     @PostMapping
-    public String updateProfile(ProfileDTO profile, HttpSession session, Model model) {
-        // 세션에서 로그인된 사용자 정보 가져오기
+    public String updateProfile(MemberDTO member, HttpSession session, Model model) {
         String memId = (String) session.getAttribute("mem_id");
-        System.out.println("Session memId: " + memId);
-        System.out.println("Profile memId: " + profile.getMemId());
+        member.setMem_id(memId);
 
-        // 세션에서 가져온 memId를 ProfileDTO 객체에 설정
-        profile.setMemId(memId);
-
-        if (memId == null || !memId.equals(profile.getMemId())) {
+        if (memId == null || !memId.equals(member.getMem_id())) {
             model.addAttribute("error", "잘못된 접근입니다.");
             return "mypage/profile";
         }
 
         try {
-            // 프로필 정보를 데이터베이스에 업데이트
-            profileDAO.updateProfile(profile);
+            memberDAO.updateMember(member);
             session.setAttribute("updateSuccess", "Y");
         } catch (Exception e) {
             model.addAttribute("error", "프로필 업데이트 중 오류가 발생했습니다.");
@@ -55,5 +61,6 @@ public class ProfileCont {
 
         return "redirect:/mypage/profile";
     }
+
+  
 }
-    

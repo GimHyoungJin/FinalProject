@@ -15,6 +15,7 @@ public class MemberDTO {
     private String sms_agree;
     private String email_agree;
     private int mem_grade; // 추가된 속성
+    private int is_deleted; // 추가된 속성
 
     // Getters and Setters
     public String getMem_id() {
@@ -129,11 +130,19 @@ public class MemberDTO {
         this.mem_grade = mem_grade;
     }
 
+    public int getIs_deleted() {
+        return is_deleted;
+    }
+
+    public void setIs_deleted(int is_deleted) {
+        this.is_deleted = is_deleted;
+    }
+
     @Override
     public String toString() {
         return "MemberDTO [mem_id=" + mem_id + ", username=" + username + ", passwd=" + passwd + ", email=" + email
                 + ", phone=" + phone + ", regdate=" + regdate + ", birth=" + birth + ", gender=" + gender + ", zipcode="
                 + zipcode + ", address1=" + address1 + ", address2=" + address2 + ", sms_agree=" + sms_agree
-                + ", email_agree=" + email_agree + ", mem_grade=" + mem_grade + "]";
+                + ", email_agree=" + email_agree + ", mem_grade=" + mem_grade + ", is_deleted=" + is_deleted + "]";
     }
 }

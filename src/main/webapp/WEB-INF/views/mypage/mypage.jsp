@@ -34,14 +34,14 @@
         <div class="profile-header">
           <div class="user-info">
             <h2>안녕하세요! ${username}님</h2>
-           <p><h1>현재등급: 
-    <c:choose>
-        <c:when test="${mem_grade == 0}">관리자</c:when>
-        <c:when test="${mem_grade == 1}">일반 회원</c:when>
-        <c:when test="${mem_grade == 2}">우수 회원</c:when>
-        <c:otherwise>알 수 없음</c:otherwise>
-    </c:choose>
-</h1></p>
+            <p><h1>현재등급: 
+              <c:choose>
+                  <c:when test="${mem_grade == 0}">관리자</c:when>
+                  <c:when test="${mem_grade == 1}">일반 회원</c:when>
+                  <c:when test="${mem_grade == 2}">우수 회원</c:when>
+                  <c:otherwise>알 수 없음</c:otherwise>
+              </c:choose>
+            </h1></p>
           </div>
         </div>
 
@@ -52,15 +52,7 @@
         </div>
 
         <div class="card-container">
-          <div class="card">
-            <h5>포인트 이용내역</h5>
-            <p>적립예정: 0 P</p>
-            <p>당월소멸예정: 0 P</p>
-          </div>
-          <div class="card">
-            <h5>선호하는 극장</h5>
-            <p>선호극장을 설정하세요.</p>
-          </div>
+          
           <div class="card">
             <h5>관람권/쿠폰</h5>
             <p>영화관람권: 0매</p>
@@ -68,15 +60,12 @@
           </div>
         </div>
 
-      
-     
         <div class="card mt-3">
           <div class="card-body">
             <h5 class="card-title">나의 예매내역</h5>
-            <a href="<c:url value='/mypage/mypage/bookinglist' />" class="btn btn-link">더보기</a>
+            <a href="<c:url value='/mypage/bookinglist' />" class="btn btn-link">더보기</a>
           </div>
         </div>
-
       
       </div>
     </div>

@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,5 +29,16 @@ public class BookingListCont {
         model.addAttribute("bookingList", bookingList);
         model.addAttribute("loggedIn", memId != null); // 로그인 여부를 모델에 추가
         return "mypage/bookinglist"; // JSP 파일 경로 (mypage/bookinglist.jsp)
+    }
+
+    @GetMapping("/loadMoreBookings")
+    @ResponseBody
+    public List<BookingListDTO> loadMoreBookings(HttpSession session, @RequestParam("offset") int offset) {
+        String memId = (String) session.getAttribute("mem_id");
+        if (memId != null) {
+            return bookingListService.getBookingList(memId, offset, 5);
+        } else {
+            return new ArrayList<>();
+        }
     }
 }

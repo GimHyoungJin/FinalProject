@@ -54,7 +54,7 @@ public class AdminCont {
 
     @PostMapping("/delete")
     public String deleteMember(@RequestParam("mem_id") String mem_id) {
-        memberDAO.deleteMember(mem_id);
+        memberDAO.softDeleteMember(mem_id);
         return "redirect:/admin/members";
     }
 }
