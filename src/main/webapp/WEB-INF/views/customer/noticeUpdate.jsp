@@ -95,7 +95,6 @@
               <textarea class="form-control" id="content" name="content" rows="10" required>${notice.content}</textarea>
             </div>
             <button type="submit" class="btn btn-primary" >수정</button>
-            <button type="reset" class="btn btn-secondary">다시입력</button>
            <button type="button" class="btn btn-danger" onclick="window.location.href='/customer/noticeDetail?noticeNum=${notice.noticeNum}'">수정취소</button>
           </form>
         </div>
