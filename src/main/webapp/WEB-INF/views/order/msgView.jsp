@@ -37,9 +37,9 @@
   </div><!-- row end -->
    <div class="row">
     <div class="col-sm-12">
- 		<p>${msg1}</p>
- 		<p>${msg2}</p>
- 		<p>${msg3}</p>
+ 		<p><img src='../images/logo/movio logo.png' width='50'></p>
+ 		<p>주문이 완료되었습니다</p>
+ 		<p><a href='/product/list'> [계속쇼핑하기] </a></p>
     </div><!-- col end -->
   </div><!-- row end -->
   
