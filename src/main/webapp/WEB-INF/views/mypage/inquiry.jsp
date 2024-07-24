@@ -48,9 +48,7 @@
               <table class="table table-bordered">
                 <thead>
                   <tr>
-                    <th>번호</th>
                     <th>회원 ID</th>
-                    <th>극장</th>
                     <th>유형</th>
                     <th>제목</th>
                     <th>내용</th>
@@ -60,9 +58,7 @@
                 <tbody>
                   <c:forEach var="inq" items="${inquiry}">
                     <tr>
-                      <td>${inq.inq_num}</td>
                       <td>${inq.mem_id}</td>
-                      <td>${inq.theater_id}</td>
                       <td>${inq.inq_type}</td>
                       <td>${inq.inq_title}</td>
                       <td>${inq.inq_content}</td>
@@ -83,9 +79,7 @@
               <table class="table table-bordered">
                 <thead>
                   <tr>
-                    <th>번호</th>
                     <th>회원 ID</th>
-                    <th>극장</th>
                     <th>유형</th>
                     <th>제목</th>
                     <th>내용</th>
@@ -95,9 +89,7 @@
                 <tbody>
                   <c:forEach var="lost" items="${lostInquiry}">
                     <tr>
-                      <td>${lost.inq_num}</td>
                       <td>${lost.mem_id}</td>
-                      <td>${lost.theater_id}</td>
                       <td>${lost.inq_type}</td>
                       <td>${lost.inq_title}</td>
                       <td>${lost.inq_content}</td>
