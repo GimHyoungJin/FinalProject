@@ -13,7 +13,7 @@
   <link href="<c:url value='/css/admin/sidebar.css' />" rel="stylesheet" type="text/css">
 </head>
 <body>
-  <%@ include file="/WEB-INF/header.jsp" %>
+  <%@ include file="../../header.jsp" %>
 
   <div class="container-fluid mypage-container">
     <div class="row">

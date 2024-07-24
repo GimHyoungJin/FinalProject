@@ -14,7 +14,7 @@
   <link href="<c:url value='/css/mypage/mypage.css' />" rel="stylesheet" type="text/css">
 </head>
 <body>
-  <%@ include file="/WEB-INF/header.jsp" %>
+  <%@ include file="../../header.jsp" %>
   <div class="container-fluid mypage-container">
     <div class="row">
       <div class="col-md-3 sidebar">
@@ -70,6 +70,6 @@
       </div>
     </div>
   </div>
-  <%@ include file="/WEB-INF/footer.jsp" %>
+  <%@ include file="../../footer.jsp" %>
 </body>
 </html>

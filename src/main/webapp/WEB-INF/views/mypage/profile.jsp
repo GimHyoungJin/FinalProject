@@ -20,7 +20,7 @@
   </style>
 </head>
 <body>
-  <%@ include file="/WEB-INF/header.jsp" %>
+  <%@ include file="../../header.jsp" %>
 
   <div class="container-fluid mypage-container">
     <div class="row">
@@ -136,7 +136,7 @@
       </div>
     </div>
   </div>
-  <%@ include file="/WEB-INF/footer.jsp" %>
+  <%@ include file="../../footer.jsp" %>
 
   <script>
     function confirmDeleteProfile() {

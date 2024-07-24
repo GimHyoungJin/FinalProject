@@ -57,7 +57,7 @@
   </style>
 </head>
 <body>
-  <%@ include file="/WEB-INF/header.jsp" %>
+  <%@ include file="../../header.jsp" %>
   <!-- 메인 콘텐츠 시작 -->
 
   <div class="container-fluid mypage-container">
@@ -182,7 +182,7 @@
   <!-- 모달 끝 -->
 
   <!-- 메인 콘텐츠 끝 -->
-  <%@ include file="/WEB-INF/footer.jsp" %>
+  <%@ include file="../../footer.jsp" %>
 
 	  <!-- JavaScript 추가 -->
 	  <script>
