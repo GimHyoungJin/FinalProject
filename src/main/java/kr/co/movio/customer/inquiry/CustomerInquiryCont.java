@@ -93,34 +93,32 @@ public class CustomerInquiryCont {
         CustomerInquiryDTO inquiry = inquiryService.getInquiryById(inqNum);
         String memId = inquiry.getMem_id();
         String username = inquiryService.getUsernameByMemId(memId);
-
+        
+        List<InquiryDetailDTO> replies = inquiryService.getRepliesByInquiryId(inqNum);
+        
         mav.addObject("inquiry", inquiry);
         mav.addObject("username", username);
+        mav.addObject("replies", replies);
 
         return mav;
     }
     
-    
-    // 문의 수정 폼 보여주기
-    @GetMapping("/inquiryEditForm")
-    public ModelAndView showInquiryEditForm(int inq_num) {
-        ModelAndView mav = new ModelAndView("customer/inquiryEditForm");
-        CustomerInquiryDTO inquiry = inquiryService.getInquiryById(inq_num);
-        mav.addObject("inquiry", inquiry);
-        return mav;
-    }
-
-    // 문의 수정
-    @PostMapping("/editInquiry")
-    public String editInquiry(CustomerInquiryDTO inquiryDTO) {
-        inquiryService.updateInquiry(inquiryDTO);
-        return "redirect:/customer/inquiryDetail?inq_num=" + inquiryDTO.getInq_num();
-    }
-
     // 문의 삭제
     @PostMapping("/deleteInquiry")
     public String deleteInquiry(String inq_num) {
         inquiryService.deleteInquiry(inq_num);
         return "redirect:/customer/inquiryList";
     }
+    
+    //답변달기
+    @PostMapping("/addReply")
+    public String addReply(InquiryDetailDTO inquiryDetailDTO, RedirectAttributes redirectAttributes) {
+    	 System.out.println("addReply 요청 수신: inq_num = " + inquiryDetailDTO.getInq_num());
+         System.out.println("답변 내용: " + inquiryDetailDTO.getInqde_content());
+    	
+    	inquiryService.addReply(inquiryDetailDTO);
+        redirectAttributes.addAttribute("inq_num", inquiryDetailDTO.getInq_num());
+        return "redirect:/customer/inquiryDetail";
+    }
+    
 }

@@ -45,5 +45,12 @@ public interface CustomerInquiryService {
    
    //memID로 유저 이름 가져오기
    String getUsernameByMemId(String memId);
+   
+   //답변다는 쿼리문
+   void addReply(InquiryDetailDTO inquriyDetailDTO);
+   
+   //답변 보여주기
+   List<InquiryDetailDTO> getRepliesByInquiryId(int inq_num);
+   
         
 }

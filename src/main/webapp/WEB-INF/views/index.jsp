@@ -76,19 +76,13 @@
             <a href="<c:url value='/customer/inquiryList' />">
                 <img src="<c:url value='/images/logo/문의.png' />" alt="3번 아이콘">
             </a>
-            <p>1:1 문의</p>
+            <p>통합 문의</p>
         </div>
         <div class="icon">
             <a href="<c:url value='/customer/home' />">
                 <img src="<c:url value='/images/logo/고객센터.png' />" alt="4번 아이콘">
             </a>
             <p>고객센터</p>
-        </div>
-        <div class="icon">
-            <a href="<c:url value='/customer/lostItem' />">
-                <img src="<c:url value='/images/logo/분실물.png' />" alt="5번 아이콘">
-            </a>
-            <p>분실물 문의</p>
         </div>
     </div>
 </section>

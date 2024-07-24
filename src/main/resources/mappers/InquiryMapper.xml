@@ -88,6 +88,20 @@
 	    WHERE mem_id = #{mem_id}
 	</select>
     
+      <!-- 답변 추가 -->
+    <insert id="addReply" parameterType="kr.co.movio.customer.inquiry.InquiryDetailDTO">
+        INSERT INTO inquirydetail (inq_num, inqde_content, inqde_date)
+        VALUES (#{inq_num}, #{inqde_content}, CURRENT_DATE)
+    </insert>
     
+    <!-- 답변 목록 보여주는것 -->
+    <select id="getRepliesByInquiryId" parameterType="int" resultType="kr.co.movio.customer.inquiry.InquiryDetailDTO">
+        SELECT * FROM inquirydetail WHERE inq_num = #{inq_num}
+    </select>
+    
+    <!-- 답변에 따라 상태 업데이트 -->
+     <update id="updateInquiryStatus">
+        UPDATE inquiry SET inq_status = #{status} WHERE inq_num = #{inq_num}
+    </update>
     
 </mapper>

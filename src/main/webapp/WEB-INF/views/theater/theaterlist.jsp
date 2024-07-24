@@ -13,7 +13,7 @@
   <link href="<c:url value='/css/theater/theater.css' />" rel="stylesheet" type="text/css"> <!-- theater.css 추가 -->
 </head>
 <body>
-  <%@ include file="/WEB-INF/header.jsp" %>
+  <%@ include file="../../header.jsp" %>
 
   <div class="container mt-4">
     <br><br><h5>전체 극장</h5><br><br>
@@ -235,6 +235,6 @@
 
   </div>
   
-  <%@ include file="/WEB-INF/footer.jsp" %>
+  <%@ include file="../../footer.jsp" %>
 </body>
 </html>

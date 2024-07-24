@@ -15,10 +15,11 @@
   <style>
     .card-custom {
       width: 700px; /* 고정형 크기 설정 */
-      height: 800px;
+      height: 750px;
       margin: auto; /* 중앙 정렬 */
       border-radius: 15px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      position: relative;
     }
     .card-header-custom {
       background-color: #f8f9fa;
@@ -55,6 +56,50 @@
     }
     .info-content {
       margin-right: 10px;
+    }
+    
+    .reply-section {
+      margin-top: 20px;
+      position: relative;
+    }
+    
+    .reply-section .card-header.card-header-custom {
+	  background-color: #bdafde;
+	  color: white;
+	}
+	
+    .reply-content {
+      margin-bottom: 10px;
+    }
+    .card-reply {
+      width: 650px; /* 고정형 크기 설정 */
+      margin: auto; /* 중앙 정렬 */
+      margin-top: 20px;
+      margin-bottom: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+    
+    .arrow {
+      width: 0; 
+      height: 0; 
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid #ccc;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    .arrow-up {
+      top: -10px;
+      border-top: none;
+      border-bottom: 10px solid #ccc;
+    }
+    
+    .arrow-down {
+      bottom: -10px;
     }
   </style>
   <!-- 공통 끝 -->
@@ -104,11 +149,59 @@
         </div>
       </div>
     </div>
-    <div class="btn-group-custom">
-      <button type="button" class="btn btn-secondary btn-custom me-2" onclick="location.href='<c:url value='/customer/inquiryList' />'">목록</button>
-      <div class="admin-button-container" style="display: none;">
-      <button type="button" class="btn btn-danger btn-custom" onclick="deleteInquiry(${inquiry.inq_num})">삭제</button>
+    <div class="arrow arrow-down"></div>
+  </div>
+
+ <!-- 답변 내용 표시 카드 섹션 -->
+<c:if test="${not empty replies}">
+  <div class="reply-section">
+    <div class="arrow arrow-up"></div>
+    <div class="card card-reply">
+      <div class="card-header card-header-custom">
+        <h5 class="card-title mb-0">답변</h5>
       </div>
+      <div class="card-body card-body-custom">
+        <c:forEach var="reply" items="${replies}">
+          <div class="reply-content">
+            <span>${reply.inqde_content}</span>
+            <br>
+            <small>작성일 : ${reply.inqde_date}</small>
+          </div>
+          <hr>
+        </c:forEach>
+      </div>
+    </div>
+  </div>
+</c:if>
+ 
+ <!-- 답변 다는 카드 섹션--> 
+<div class="admin-button-container" style="display: none;">
+  <div class="arrow arrow-down"></div>
+  <div class="card card-reply">
+    <div class="card-header card-header-custom">
+      <h5 class="card-title mb-0">답변</h5>
+    </div>
+    <div class="card-body card-body-custom">
+      <form id="replyForm" method="post" action="<c:url value='/customer/addReply' />">
+        <input type="hidden" name="inq_num" value="${inquiry.inq_num}" />
+        <div class="mb-3">
+          <label for="replyContent" class="form-label">답변 작성</label>
+          <textarea class="form-control" id="replyContent" name="inqde_content" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-custom">답변 달기</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+ <!-- 목록 및 삭제 버튼 -->
+  <div class="btn-group-custom">
+    <button type="button" class="btn btn-secondary btn-custom me-2" onclick="location.href='<c:url value='/customer/inquiryList' />'">목록</button>
+    <div class="admin-button-container" style="display: none;">
+      <form id="deleteForm" method="post" action="<c:url value='/customer/deleteInquiry' />">
+        <input type="hidden" name="inq_num" value="${inquiry.inq_num}" />
+        <button type="button" class="btn btn-danger btn-custom" onclick="confirmDelete()">삭제</button>
+      </form>
     </div>
   </div>
   
@@ -116,9 +209,9 @@
   <%@ include file="../../footer.jsp" %>
 
   <script>
-    function deleteInquiry(inq_num) {
-      if(confirm('삭제하시겠습니까?')) {
-        window.location.href = '/customer/deleteInquiry?inq_num=' + inq_num;
+    function confirmDelete() {
+      if (confirm('삭제하시겠습니까?')) {
+        document.getElementById('deleteForm').submit();
       }
     }
   </script>

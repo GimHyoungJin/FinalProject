@@ -67,8 +67,11 @@ public class CustomerInquiryDAO {
     }
 
     // 문의 삭제
-    public int delete(String inq_num) {
-        return sqlSession.delete("customer.delete", inq_num);
+    public void delete(int inq_num) {
+        // inquirydetail 테이블에서 관련 레코드 삭제
+        sqlSession.delete("customer.deleteInquiryDetail", inq_num);
+        // inquiry 테이블에서 레코드 삭제
+        sqlSession.delete("customer.delete", inq_num);
     }
 
     // 문의 답변 저장
@@ -82,11 +85,25 @@ public class CustomerInquiryDAO {
     }
     
     //inq_num에 맞는 비밀번호 찾기 
-    public CustomerInquiryDTO findByInqNum(int inqNum) {
-        return sqlSession.selectOne("customer.findByInqNum", inqNum);
+    public CustomerInquiryDTO findByInqNum(int inq_num) {
+        return sqlSession.selectOne("customer.findByInqNum", inq_num);
     }
     
     public String getUsernameByMemId(String memId) {
         return sqlSession.selectOne("customer.getUsernameByMemId", memId);
+    }
+    
+    public void addReply(InquiryDetailDTO inquiryDetailDTO) {
+        sqlSession.insert("customer.addReply", inquiryDetailDTO);
+    }
+    
+    
+    
+    public List<InquiryDetailDTO> getRepliesByInquiryId(int inq_num) {
+        return sqlSession.selectList("customer.getRepliesByInquiryId", inq_num);
+    }
+    
+    public void updateInquiryStatus(int inq_num, String status) {
+        sqlSession.update("customer.updateInquiryStatus", Map.of("inq_num", inq_num, "status", status));
     }
 }

@@ -2,6 +2,7 @@ package kr.co.movio.customer.inquiry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -98,4 +99,19 @@ public class CustomerInquiryServiceImpl implements CustomerInquiryService {
     public String getUsernameByMemId(String memId) {
         return inquiryDAO.getUsernameByMemId(memId);
     }
+    
+    @Override
+    //답변 추가 답변 추가되면 답변 상태 업데이트
+    @Transactional
+    public void addReply(InquiryDetailDTO inquiryDetailDTO) {
+        inquiryDAO.addReply(inquiryDetailDTO);
+        inquiryDAO.updateInquiryStatus(inquiryDetailDTO.getInq_num(), "1");
+    }
+    
+    @Override
+    //답변 보여주는 거
+    public List<InquiryDetailDTO> getRepliesByInquiryId(int inq_num) {
+        return inquiryDAO.getRepliesByInquiryId(inq_num);
+    }
+    
 }
