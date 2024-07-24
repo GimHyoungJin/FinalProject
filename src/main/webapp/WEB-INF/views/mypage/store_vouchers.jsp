@@ -160,7 +160,7 @@
          <option value="snack" <c:if test="${param.categoryId == 'snack'}">selected</c:if>>팝콘</option>
           <option value="ticket" <c:if test="${param.categoryId == 'ticket'}">selected</c:if>>관람권</option>
     </select>
-</div>
+	</div>
 		  <div class="mb-3">
 		    <label for="voucherNameInput" class="form-label">교환권명</label>
 		    <input type="text" class="form-control" id="voucherNameInput" placeholder="교환권명을 입력해 주세요">
@@ -186,10 +186,10 @@
 
 	  <!-- JavaScript 추가 -->
 	  <script>
-$(document).ready(function() {
+	$(document).ready(function() {
     $('#registerVoucherBtn').click(function() {
         var voucherCode = $('#voucherInput').val().trim();
-        var category = $('#categoryInput').val().trim();
+        var category = $('#areaId').val().trim(); // 수정된 부분
         var voucherName = $('#voucherNameInput').val().trim();
 
         // 입력 값을 콘솔에 출력
