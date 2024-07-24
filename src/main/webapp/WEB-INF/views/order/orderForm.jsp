@@ -196,30 +196,25 @@ async function inicisPay(useremail, username, proName, productPrice, proDetailCo
                 });
 				console.log(response);
                 if (response.ok) {
-                    const result = await response.json();
-                    
-                    let flag = result.data;
-                    
-                    if (flag == "success") {
-                        alert('결제 완료!');
-                    } else {
-                        alert('결제 처리 중 오류가 발생했습니다. 다시 시도해주세요.');
-                    }
-                    
+                    // response.status 값이 200일 때 rsp.success 값에 따라 페이지 이동
+                    let flag = rsp.success ? "success" : "fail";
                     window.location.href = '/order/msgView?flag=' + flag;
 
                 } else {
                     alert(`error:[${response.status}]\n결제요청이 승인된 경우 관리자에게 문의바랍니다.`);
+                    window.location.href = '/order/msgView?flag=fail';
                 }
 				
             } else {
                 alert(rsp.error_msg);
+                window.location.href = '/order/msgView?flag=fail';
             }
         });
     } else {
         return false;
     }
 }
+
 
 
 </script>

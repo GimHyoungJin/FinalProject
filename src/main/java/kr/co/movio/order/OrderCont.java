@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import kr.co.movio.member.MemberDAO;
@@ -50,7 +53,7 @@ public class OrderCont {
 
     @PostMapping("/insert")
     @ResponseBody
-    public String orderInsert(@RequestBody String inicis, HttpSession session) {
+    public String orderInsert(@RequestBody InicisRequest inicis, HttpSession session) {
         JSONObject result = new JSONObject();
         logger.info("Received inicis data: " + inicis);
 
@@ -61,8 +64,17 @@ public class OrderCont {
         }
 
         try {
+        	ObjectMapper objectMapper = new ObjectMapper();
+        	String jsonString = null;
+			try {
+				jsonString = objectMapper.writeValueAsString(inicis);
+			} catch (JsonProcessingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        	
             JSONParser parser = new JSONParser();
-            JSONObject jsonObject = (JSONObject) parser.parse(inicis);
+            JSONObject jsonObject = (JSONObject) parser.parse(jsonString);
 
             // 데이터 로그 추가
             logger.info("Parsed JSON data: " + jsonObject.toJSONString());
@@ -91,8 +103,8 @@ public class OrderCont {
 
             // 트랜잭션 시작
             try {
-                orderService.orderInsert(orderDto);
-
+                orderService.orderInsert(orderDto, s_id);
+                
                 // 로그 추가
                 logger.info("Inserting order with data: " + jsonObject);
 
@@ -194,10 +206,10 @@ public class OrderCont {
 	}//end
 
 
-@GetMapping("/checkLogin")
-@ResponseBody
-public boolean checkLogin(HttpSession session) {
-    String s_id = (String) session.getAttribute("mem_id");
-    return s_id != null;
-}
+	@GetMapping("/checkLogin")
+	@ResponseBody
+	public boolean checkLogin(HttpSession session) {
+	    String s_id = (String) session.getAttribute("mem_id");
+	    return s_id != null;
+	}
 }

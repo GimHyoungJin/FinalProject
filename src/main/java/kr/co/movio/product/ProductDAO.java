@@ -57,8 +57,8 @@ public class ProductDAO {
         return sqlSession.selectOne("kr.co.movio.product.ProductDAO.getProCodeByDetailCode", proDetailCode);
     }
 
-    public void updateProductStock(ProductDTO product) {
-        sqlSession.update("kr.co.movio.product.ProductMapper.updateProductStock", product);
+    public void updateProductStock(Map<String, Object> params) {
+        sqlSession.update("kr.co.movio.order.OrderMapper.updateProductStock", params);
     }
 
     public ProductDTO getProductByName(String proName) {

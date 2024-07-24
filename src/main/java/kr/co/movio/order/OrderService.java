@@ -38,23 +38,9 @@ public class OrderService {
 
     public void placeOrder(OrderDTO order, String memId) {
         try {
-            // 총 금액 계산
-            int totalAmount = orderDAO.totalamount(memId);
-            order.setOrder_total(totalAmount);
-
-            // 주문 번호 생성
-            String orderNo = generateOrderNo();
-            order.setOrder_no(orderNo);
-
-            // 주문 상태 설정
-            order.setOrder_state("P");
-
-            // 주문 삽입
-            orderDAO.orderInsert(order);
-            System.out.println("Order inserted: " + order);
-
             // 장바구니 아이템 가져오기
             List<CartDTO> cartItems = orderDAO.getCartItems(memId);
+            System.out.println(cartItems);
             for (CartDTO cartItem : cartItems) {
                 String proDetailCode = cartItem.getPro_detail_code();
                 int quantity = cartItem.getCart_amount();
@@ -63,16 +49,18 @@ public class OrderService {
                 ProductDTO product = productDAO.detail(proDetailCode);
                 if (product.getPro_stock() >= quantity) {
                     // 재고 업데이트
-                    product.setPro_stock(product.getPro_stock() - quantity);
-                    productDAO.updateProductStock(product);
-
+                	Map<String, Object> params = new HashMap<>();
+                    params.put("proDetailCode", proDetailCode);
+                    params.put("orderDetailAmount", quantity);
+                    productDAO.updateProductStock(params);
+                      
                     // 주문 상세 정보 삽입
-                    Map<String, Object> params = new HashMap<>();
-                    params.put("order_no", orderNo);
-                    params.put("pro_detail_code", proDetailCode);
-                    params.put("order_detail_amount", quantity);
-                    params.put("order_detail_price", cartItem.getCart_price() * quantity);
-                    orderDAO.orderdetailInsert(params);
+                    Map<String, Object> params2 = new HashMap<>();
+                    params2.put("order_no", order.getOrder_no());
+                    params2.put("pro_detail_code", proDetailCode);
+                    params2.put("order_detail_amount", quantity);
+                    params2.put("order_detail_price", cartItem.getCart_price() * quantity);
+                    orderDAO.orderdetailInsert(params2);
                 } else {
                     throw new RuntimeException("재고가 부족합니다: " + product.getPro_name());
                 }
@@ -100,8 +88,8 @@ public class OrderService {
         orderDAO.insertPaymentInfo(paymentInfo);
     }
 
-    public void orderInsert(OrderDTO orderDto) {
-        orderDAO.orderInsert(orderDto);
+    public void orderInsert(OrderDTO orderDto, String memId) {
+        orderDAO.orderInsert(orderDto);placeOrder(orderDto, memId);
     }
 
     public int orderdetailInsert(Map<String, Object> map) {
@@ -120,8 +108,9 @@ public class OrderService {
         params.put("proDetailCode", proDetailCode);
         params.put("orderDetailAmount", orderDetailAmount);
 
-        // 로깅 추가
+        // 로깅 추가	
         System.out.println("Executing SQL to reduce stock for product: " + proDetailCode + " by amount: " + orderDetailAmount);
-
+        
+        productDAO.updateProductStock(params);
     }
 }

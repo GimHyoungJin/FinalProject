@@ -26,6 +26,12 @@
         WHERE o.order_no = #{order_no}
     </select>
     
+        <!-- 주문 상세 정보 삽입 -->
+    <insert id="orderdetailInsert" parameterType="map">
+        INSERT INTO orderdetail (order_no, pro_detail_code, order_detail_amount, order_detail_price)
+        VALUES (#{order_no}, #{pro_detail_code}, #{order_detail_amount}, #{order_detail_price})
+    </insert>
+    
     <resultMap id="CartResultMap" type="kr.co.movio.cart.CartDTO">
         <result property="mem_id" column="mem_id" />
         <result property="cart_no" column="cart_no" />
@@ -48,7 +54,7 @@
         VALUES (#{gift_id}, #{order_no}, #{imp_uid}, #{mer_uid}, #{paid_amount}, #{pay_method}, #{pay_status}, #{card_information})
     </insert>
     
-    <update id="reduceProductStock" parameterType="map">
+    <update id="updateProductStock" parameterType="map">
 	    UPDATE product 
 	    SET pro_stock = pro_stock - #{orderDetailAmount}
 	    WHERE pro_detail_code = #{proDetailCode}
