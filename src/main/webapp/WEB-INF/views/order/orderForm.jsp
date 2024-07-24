@@ -58,8 +58,8 @@
             <!-- 결제 버튼 -->
             <tr>
               <td colspan="2" align="center">
-                <input type="button" value="결제하기" class="btn btn-dark" 
-                       onclick="checkLoginAndPay('inicis', '${useremail}', '${username}', '${proName}', ${totalPrice})">
+				<input type="button" value="결제하기" class="btn btn-dark" 
+       				   onclick="checkLoginAndPay('inicis', '${useremail}', '${username}', '${proName}', ${totalPrice}, '${proDetailCode}', ${orderDetailAmount})">
               </td>
             </tr>
           </tbody>
@@ -109,9 +109,8 @@ var milliseconds = today.getMilliseconds();
 var makeMerchantUid = `IMP${hours}${minutes}${seconds}${milliseconds}`;
 
 // 로그인 상태 확인 및 결제 진행
-async function checkLoginAndPay(paymentMethod, useremail, username, proName, productPrice) {
-	
-	// 주문서 유효성 검사
+async function checkLoginAndPay(paymentMethod, useremail, username, proName, productPrice, proDetailCode, orderDetailAmount) {
+    // 주문서 유효성 검사
 	let deliverynm = $("#deliverynm").val().trim();
     if (deliverynm.length <= 2) {
         alert("받는사람을 입력해주세요");
@@ -133,7 +132,7 @@ async function checkLoginAndPay(paymentMethod, useremail, username, proName, pro
 	    const isLoggedIn = await checkLoginStatus();
 	    if (isLoggedIn) {
 	        if (paymentMethod === 'inicis') {
-	            inicisPay(useremail, username, proName, productPrice);
+	            inicisPay(useremail, username, proName, productPrice, proDetailCode, orderDetailAmount);
 	        }
 	    } else {
 	        showLoginModal();
@@ -159,12 +158,12 @@ function showLoginModal() {
 }
 
 //이니시스 결제 진행
-async function inicisPay(useremail, username, proName, productPrice) {
+async function inicisPay(useremail, username, proName, productPrice, proDetailCode, orderDetailAmount) {
     if (confirm("결제 하시겠습니까?")) {
         IMP.request_pay({
             pg: 'html5_inicis.INIpayTest',
             pay_method: 'card',
-            merchant_uid: 'merchant_' + new Date().getTime(),
+            mer_uid: 'merchant_' + new Date().getTime(),
             name: proName,
             amount: productPrice,
             buyer_email: useremail,
@@ -172,8 +171,7 @@ async function inicisPay(useremail, username, proName, productPrice) {
             goodsname: proName // 추가된 필수 파라미터
         }, async function (rsp) {
         	
-        	//alert(rsp);
-        	console.log(rsp);
+            console.log(rsp);
         	
             if (rsp.success) {
                 // 결제가 성공하면 서버에 결제 정보 전송
@@ -184,27 +182,29 @@ async function inicisPay(useremail, username, proName, productPrice) {
                     },
                     body: JSON.stringify({
                         imp_uid: rsp.imp_uid,
-                        merchant_uid: rsp.merchant_uid,
+                        mer_uid: rsp.merchant_uid,
                         paid_amount: rsp.paid_amount,
                         apply_num: rsp.apply_num,
                         buyer_email: rsp.buyer_email,
-                        buyer_name: rsp.buyer_name
+                        buyer_name: rsp.buyer_name,
+                        pay_method: rsp.pay_method,
+                        pay_status: rsp.status,
+                        card_information: rsp.card_name,
+                        pro_detail_code: proDetailCode, // 상품 상세 코드 추가
+                        order_detail_amount: orderDetailAmount // 주문 수량 추가
                     })
                 });
-				//alert(response);
 				console.log(response);
                 if (response.ok) {
                     const result = await response.json();
                     
-                    //console.log(result);
-                    //alert(result.data); 성공 success 실패 fail
                     let flag = result.data;
                     
-                    if (flag=="success") {
+                    if (flag == "success") {
                         alert('결제 완료!');
                     } else {
                         alert('결제 처리 중 오류가 발생했습니다. 다시 시도해주세요.');
-                    }//end
+                    }
                     
                     window.location.href = '/order/msgView?flag=' + flag;
 
@@ -220,6 +220,7 @@ async function inicisPay(useremail, username, proName, productPrice) {
         return false;
     }
 }
+
 
 </script>
 </body>

@@ -13,19 +13,13 @@
         VALUES (#{order_no}, #{mem_id}, #{order_total}, #{order_state}, CURRENT_TIMESTAMP)
     </insert>
 
-    <!-- 주문 상세 정보 삽입 -->
-    <insert id="orderdetailInsert" parameterType="map">
-        INSERT INTO orderdetail (order_no, pro_detail_code, order_detail_amount, order_detail_price)
-        VALUES (#{order_no}, #{pro_detail_code}, #{order_detail_amount}, #{order_detail_price})
-    </insert>
-
     <!-- 장바구니 삭제 -->
     <delete id="cartDelete" parameterType="String">
         DELETE FROM cart WHERE mem_id = #{mem_id}
     </delete>
 
     <!-- 주문 상세 정보 조회 -->
-    <select id="orderDesc" parameterType="String" resultType="map">
+    <select id="orderDesc" parameterType="String" resultType="java.util.Map">
         SELECT od.pro_detail_code, od.order_detail_amount AS quantity, od.order_detail_price AS price
         FROM orderdetail od 
         JOIN orders o ON od.order_no = o.order_no 
@@ -47,4 +41,18 @@
         JOIN product p ON c.pro_detail_code = p.pro_detail_code
         WHERE c.mem_id = #{mem_id}
     </select>
+    
+    <!-- 결제 정보 삽입 -->
+    <insert id="insertPaymentInfo"  parameterType="java.util.Map">
+        INSERT INTO productpayment (gift_id, order_no, imp_uid, mer_uid, paid_amount, pay_method, pay_status, card_information)
+        VALUES (#{gift_id}, #{order_no}, #{imp_uid}, #{mer_uid}, #{paid_amount}, #{pay_method}, #{pay_status}, #{card_information})
+    </insert>
+    
+    <update id="reduceProductStock" parameterType="map">
+	    UPDATE product 
+	    SET pro_stock = pro_stock - #{orderDetailAmount}
+	    WHERE pro_detail_code = #{proDetailCode}
+	</update>
+    
+    
 </mapper>

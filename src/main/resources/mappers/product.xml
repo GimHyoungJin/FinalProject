@@ -4,6 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="kr.co.movio.product.ProductDAO">
+
     <insert id="insert">
         INSERT INTO product (pro_detail_code, pro_code, pro_name, pro_detail, pro_price, original_price,  pro_photo, pro_stock)
         VALUES (#{pro_detail_code}, #{pro_code}, #{pro_name}, #{pro_detail}, #{pro_price}, #{original_price}, #{pro_photo}, #{pro_stock})
@@ -24,7 +25,7 @@
         ORDER BY p.pro_detail_code
     </select>
 
-    <select id="detail" parameterType="string" resultType="kr.co.movio.product.ProductDTO">
+    <select id="detail" parameterType="String" resultType="kr.co.movio.product.ProductDTO">
         SELECT * FROM product WHERE pro_detail_code = #{pro_detail_code}
     </select>
 
@@ -95,20 +96,26 @@
     </update>
     
     <resultMap id="ProductResultMap" type="kr.co.movio.product.ProductDTO">
-    <id property="pro_detail_code" column="pro_detail_code" />
-    <result property="pro_code" column="pro_code" />
-    <result property="pro_name" column="pro_name" />
-    <result property="pro_detail" column="pro_detail" />
-    <result property="pro_price" column="pro_price" />
-    <result property="original_price" column="original_price" />
-    <result property="pro_photo" column="pro_photo" />
-    <result property="filesize" column="filesize" />
-    <result property="category" column="category" />
-    <result property="proStock" column="pro_stock" />
-	</resultMap>
-	
-	<select id="selectProducts" resultMap="ProductResultMap">
-    SELECT * FROM product
-	</select>
-	
+        <id property="pro_detail_code" column="pro_detail_code" />
+        <result property="pro_code" column="pro_code" />
+        <result property="pro_name" column="pro_name" />
+        <result property="pro_detail" column="pro_detail" />
+        <result property="pro_price" column="pro_price" />
+        <result property="original_price" column="original_price" />
+        <result property="pro_photo" column="pro_photo" />
+        <result property="filesize" column="filesize" />
+        <result property="category" column="category" />
+        <result property="pro_stock" column="pro_stock" />
+    </resultMap>
+    
+    <select id="selectProducts" resultMap="ProductResultMap">
+        SELECT * FROM product
+    </select>
+        
+    <update id="reduceStock" parameterType="map">
+        UPDATE product
+        SET pro_stock = pro_stock - #{quantity}
+        WHERE pro_detail_code = #{pro_detail_code} AND pro_stock >= #{quantity}
+    </update>
+
 </mapper>

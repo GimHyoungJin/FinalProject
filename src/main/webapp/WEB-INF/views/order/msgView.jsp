@@ -35,7 +35,6 @@
  		<p><h3>Store 주문 내역서</h3></p>
     </div><!-- col end -->
   </div><!-- row end -->
-  	
    <div class="row">
     <div class="col-sm-12">
  		<p>${msg1}</p>
@@ -44,13 +43,6 @@
     </div><!-- col end -->
   </div><!-- row end -->
   
-   <div class="row">
-    <div class="col-sm-12">
- 		<p>${content}</p>
-    </div><!-- col end -->
-  </div><!-- row end -->
-  <!-- 본문 끝 -->
-</div><!-- container end -->
 
 <%@ include file="../../footer.jsp" %>
 </body>

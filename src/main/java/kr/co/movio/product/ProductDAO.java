@@ -1,5 +1,6 @@
 package kr.co.movio.product;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
@@ -48,17 +49,29 @@ public class ProductDAO {
         return products;
     }
 
-    public Product getProductByDetailCode(String proDetailCode) {
+    public ProductDTO getProductByDetailCode(String proDetailCode) {
         return sqlSession.selectOne("kr.co.movio.product.ProductDAO.getProductByDetailCode", proDetailCode);
     }
-    
+
     public String getProCodeByDetailCode(String proDetailCode) {
         return sqlSession.selectOne("kr.co.movio.product.ProductDAO.getProCodeByDetailCode", proDetailCode);
     }
 
-    public int updateProductStock(ProductDTO product) {
-        int result = sqlSession.update("kr.co.movio.product.ProductDAO.updateProductStock", product);
-        System.out.println("updateProductStock result: " + result); // 디버깅 로그 추가
+    public void updateProductStock(ProductDTO product) {
+        sqlSession.update("kr.co.movio.product.ProductMapper.updateProductStock", product);
+    }
+
+    public ProductDTO getProductByName(String proName) {
+        return sqlSession.selectOne("kr.co.movio.product.ProductMapper.getProductByName", proName);
+    }
+
+    public int reduceStock(String proName, int quantity) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("pro_name", proName);
+        params.put("quantity", quantity);
+        System.out.println("Reducing stock for: " + proName + " by " + quantity); // 로그 추가
+        int result = sqlSession.update("kr.co.movio.product.ProductDAO.reduceStock", params);
+        System.out.println("reduceStock result: " + result); // 로그 추가
         return result;
     }
 }
