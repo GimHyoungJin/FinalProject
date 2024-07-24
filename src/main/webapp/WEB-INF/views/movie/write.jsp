@@ -14,7 +14,7 @@
   <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"></script>
 </head>
 <body>
-  <%@ include file="/WEB-INF/header.jsp" %>
+  <%@ include file="../../header.jsp" %>
   <!-- 메인 콘텐츠 시작 -->
   
   <div class="container mt-4">
@@ -69,6 +69,6 @@
     </div>
   
   <!-- 메인 콘텐츠 끝 -->
-  <%@ include file="/WEB-INF/footer.jsp" %>
+  <%@ include file="../../footer.jsp" %>
 </body>
 </html>

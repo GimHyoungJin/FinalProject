@@ -105,7 +105,7 @@
     </style>
 </head>
 <body>
-    <%@ include file="/WEB-INF/header.jsp" %>
+    <%@ include file="../../header.jsp" %>
 
     <div class="header-background">
         <div class="theater-header">
@@ -143,6 +143,6 @@
         </div>
     </div>
 
-    <%@ include file="/WEB-INF/footer.jsp" %>
+    <%@ include file="../../footer.jsp" %>
 </body>
 </html>

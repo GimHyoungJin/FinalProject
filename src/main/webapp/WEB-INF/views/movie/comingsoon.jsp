@@ -15,7 +15,7 @@
 
 </head>
 <body>
-  	<%@ include file="/WEB-INF/header.jsp" %>
+  	<%@ include file="../../header.jsp" %>
   	<!-- 메인 콘텐츠 시작 -->
   	<div class="container mt-4">
         <h1>상영예정작</h1>
@@ -76,6 +76,6 @@
 	        </div>
 	    </div>
   
-  	<%@ include file="/WEB-INF/footer.jsp" %>
+  	<%@ include file="../../footer.jsp" %>
 </body>
 </html>

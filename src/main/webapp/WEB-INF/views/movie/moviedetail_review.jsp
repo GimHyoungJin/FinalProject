@@ -223,7 +223,7 @@
 
 </head>
 <body>
-    <%@ include file="/WEB-INF/header.jsp" %>
+    <%@ include file="../../header.jsp" %>
 
     <div class="header-background">
         <div class="container mt-4">
@@ -460,7 +460,7 @@
         }
     </script>
 
-    <%@ include file="/WEB-INF/footer.jsp" %>
+    <%@ include file="../../footer.jsp" %>
 
     <!-- 수정 모달 -->
     <div id="editReviewModal" class="modal fade" tabindex="-1" aria-labelledby="editReviewModalLabel" aria-hidden="true">
