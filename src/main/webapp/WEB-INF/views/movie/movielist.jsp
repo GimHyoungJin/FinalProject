@@ -20,21 +20,40 @@
             max-width: 100%;
         }
         /* 맨 위로 버튼 스타일 */
-		#scrollTopBtn {
-		  display: none; /* 기본적으로 버튼 숨기기 */
-		  position: fixed; /* 고정 위치 */
-		  bottom: 20px; /* 하단에서 20px */
-		  right: 20px; /* 우측에서 20px */
-		  z-index: 99; /* 다른 요소 위에 표시 */
-		  border: none; /* 테두리 없음 */
-		  outline: none; /* 외곽선 없음 */
-		  background-color: #555; /* 배경색 설정 */
-		  color: white; /* 텍스트 색상 */
-		  cursor: pointer; /* 마우스 커서 포인터 */
-		  padding: 15px; /* 내부 여백 */
-		  border-radius: 50%; /* 원형 버튼 */
-		  box-shadow: 0px 0px 10px rgba(0,0,0,0.3); /* 그림자 추가 */
-		}
+        #scrollTopBtn {
+            display: none; /* 기본적으로 버튼 숨기기 */
+            position: fixed; /* 고정 위치 */
+            bottom: 20px; /* 하단에서 20px */
+            right: 20px; /* 우측에서 20px */
+            z-index: 99; /* 다른 요소 위에 표시 */
+            border: none; /* 테두리 없음 */
+            outline: none; /* 외곽선 없음 */
+            background-color: #555; /* 배경색 설정 */
+            color: white; /* 텍스트 색상 */
+            cursor: pointer; /* 마우스 커서 포인터 */
+            padding: 15px; /* 내부 여백 */
+            border-radius: 50%; /* 원형 버튼 */
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.3); /* 그림자 추가 */
+        }
+
+        /* 예매 버튼 스타일 */
+        .btn-primary {
+            background-color: black !important; /* 배경색 검은색 */
+            color: white !important; /* 글자색 흰색 */
+            border-color: black !important; /* 테두리색 검은색 */
+        }
+
+        .btn-primary:hover {
+            background-color: #333 !important; /* 호버시 배경색 조금 밝은 검은색 */
+            border-color: #333 !important; /* 호버시 테두리색 조금 밝은 검은색 */
+        }
+
+        /* 관리자 버튼 컨테이너 스타일 */
+        .admin-button-container {
+            display: flex;
+            justify-content: flex-end; /* 버튼을 오른쪽으로 정렬 */
+            margin-bottom: 10px;
+        }
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -54,8 +73,7 @@
     <%@ include file="../../header.jsp" %>
     
     <!-- 영화 페이지 메인 콘텐츠 -->
-    <div class="container mt-4 d-flex justify-content-between align-items-center">
-        <h1>박스오피스</h1>
+    <div class="container mt-4">
         <!-- 관리자만 해당 버튼 보임 -->
         <div class="admin-button-container" style="display: none;">
             <a href="<c:url value='/movie/write' />" class="btn btn-primary">영화등록</a>
@@ -75,7 +93,7 @@
         </div>
     </nav>
 
-	<button id="scrollTopBtn" onclick="scrollToTop()">TOP</button>
+    <button id="scrollTopBtn" onclick="scrollToTop()">TOP</button>
     <!-- 구분선 -->
     <div class="divider"></div>
     

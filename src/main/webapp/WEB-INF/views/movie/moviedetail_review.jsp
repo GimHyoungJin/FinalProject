@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -223,7 +224,7 @@
 
 </head>
 <body>
-    <%@ include file="../../header.jsp" %>
+    <%@ include file="/WEB-INF/header.jsp" %>
 
     <div class="header-background">
         <div class="container mt-4">
@@ -246,7 +247,7 @@
             </div>
             <div class="stat">
                 <h2>예매율</h2>
-                <p>${movieGrade}%</p>
+                <p><fmt:formatNumber value="${movieGrade}" type="number" maxFractionDigits="1" />%</p>
             </div>
             <div class="stat">
                 <h2>누적 관객수</h2>
@@ -460,7 +461,7 @@
         }
     </script>
 
-    <%@ include file="../../footer.jsp" %>
+    <%@ include file="/WEB-INF/footer.jsp" %>
 
     <!-- 수정 모달 -->
     <div id="editReviewModal" class="modal fade" tabindex="-1" aria-labelledby="editReviewModalLabel" aria-hidden="true">
