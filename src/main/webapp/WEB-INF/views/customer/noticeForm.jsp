@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <title>관리자 공지사항 상세보기</title>
+  <title>공지사항 작성</title>
   <meta charset="utf-8">
   <!-- 공통 시작 -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -14,8 +14,8 @@
   <link href="<c:url value='/css/footer.css' />" rel="stylesheet" type="text/css">
   <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js"></script>
   <!-- 공통 끝 -->
- <link href="<c:url value='/css/customer/customer_sidebar.css' />" rel="stylesheet" type="text/css">
-  <script src="<c:url value='/js/adminNotice.js' />"></script>
+  <link href="<c:url value='/css/customer/customer_sidebar.css' />" rel="stylesheet" type="text/css">
+  <script src="<c:url value='/js/notice.js' />"></script>
   <style>
     .content-wrapper {
       margin-top: 20px;
@@ -73,30 +73,29 @@
 <body>
   <%@ include file="../../header.jsp" %>
   <!-- 메인 콘텐츠 시작 -->
-<div class="container-fluid content-container">
+  <div class="container-fluid content-container">
     <div class="row">
       <div class="col-3">
-        <%@ include file="../customer/customer_sidebar.jsp" %>
+        <%@ include file="customer_sidebar.jsp" %>
       </div>
       <div class="col-9 d-flex justify-content-center">
         <div class="content-wrapper">
-          <h2>공지사항 수정</h2>
-          <c:if test="${not empty errorMessage}">
+         <c:if test="${not empty errorMessage}">
               <div class="alert alert-danger">${errorMessage}</div>
           </c:if>
-          <form id="noticeForm" action="/admin/notices?action=update" method="post">
-            <input type="hidden" name="noticeNum" value="${notice.noticeNum}">
+          <h2>공지사항 작성</h2>
+          <form id="noticeForm" action="/customer/noticeCreate" method="post">
             <div class="mb-3">
               <label for="title" class="form-label">제목</label>
-              <input type="text" class="form-control" id="title" name="title" value="${notice.title}" required>
+              <input type="text" class="form-control" id="title" name="title" required>
             </div>
             <div class="mb-3">
               <label for="content" class="form-label">내용</label>
-              <textarea class="form-control" id="content" name="content" rows="10" required>${notice.content}</textarea>
+              <textarea class="form-control" id="content" name="content" rows="10" required></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">수정</button>
+            <button type="submit" class="btn btn-primary">작성</button>
             <button type="reset" class="btn btn-secondary">다시입력</button>
-            <button type="button" class="btn btn-danger" onclick="window.location.href='/admin/notices?action=detail&noticeNum=${notice.noticeNum}'">수정취소</button>
+            <button type="button" class="btn btn-danger" onclick="window.location.href='/customer/noticelist?page=1&size=10'">작성취소</button>
           </form>
         </div>
       </div>

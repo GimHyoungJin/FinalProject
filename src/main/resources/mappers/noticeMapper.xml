@@ -6,7 +6,7 @@
 <mapper namespace="NoticeMapper">
     <!-- 공지사항 목록 조회 -->
     <select id="getNotices" parameterType="map" resultType="kr.co.movio.customer.notice.NoticeDTO">
-        SELECT notice_num, title, content, regdate, chdate, view_count
+        SELECT notice_num AS noticeNum, title, content, regdate, chdate, view_count AS viewCount
         FROM notice
         ORDER BY regdate DESC
         LIMIT #{limit} OFFSET #{offset}
@@ -19,7 +19,7 @@
 
     <!-- 공지사항 상세 조회 -->
     <select id="getNoticeDetail" parameterType="int" resultType="kr.co.movio.customer.notice.NoticeDTO">
-        SELECT notice_num, title, content, regdate, chdate, view_count
+        SELECT notice_num AS noticeNum, title, content, regdate, chdate, view_count AS viewCount
         FROM notice
         WHERE notice_num = #{noticeNum}
     </select>
@@ -33,7 +33,7 @@
 
     <!-- 공지사항 검색 -->
     <select id="searchNotices" parameterType="map" resultType="kr.co.movio.customer.notice.NoticeDTO">
-        SELECT notice_num, title, content, regdate, chdate, view_count
+        SELECT notice_num AS noticeNum, title, content, regdate, chdate, view_count AS viewCount
         FROM notice
         WHERE title LIKE CONCAT('%', #{keyword}, '%')
            OR content LIKE CONCAT('%', #{keyword}, '%')
@@ -48,4 +48,23 @@
         WHERE title LIKE CONCAT('%', #{keyword}, '%')
            OR content LIKE CONCAT('%', #{keyword}, '%')
     </select>
+
+    <!-- 공지사항 생성 -->
+    <insert id="createNotice" parameterType="kr.co.movio.customer.notice.NoticeDTO">
+        INSERT INTO notice (title, content, regdate, chdate, view_count)
+        VALUES (#{title}, #{content}, #{regdate}, #{chdate}, #{viewCount})
+    </insert>
+
+    <!-- 공지사항 수정 -->
+    <update id="updateNotice" parameterType="kr.co.movio.customer.notice.NoticeDTO">
+        UPDATE notice
+        SET title = #{title}, content = #{content}, chdate = #{chdate}
+        WHERE notice_num = #{noticeNum}
+    </update>
+
+    <!-- 공지사항 삭제 -->
+    <delete id="deleteNotice" parameterType="int">
+        DELETE FROM notice
+        WHERE notice_num = #{noticeNum}
+    </delete>
 </mapper>

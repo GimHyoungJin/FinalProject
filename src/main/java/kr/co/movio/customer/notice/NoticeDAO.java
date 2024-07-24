@@ -50,4 +50,19 @@ public class NoticeDAO {
     public int getTotalNoticesByKeyword(String keyword) {
         return sqlSession.selectOne("NoticeMapper.getTotalNoticesByKeyword", keyword);
     }
+
+    // 공지사항 생성
+    public void createNotice(NoticeDTO notice) {
+        sqlSession.insert("NoticeMapper.createNotice", notice);
+    }
+
+    // 공지사항 수정
+    public void updateNotice(NoticeDTO notice) {
+        sqlSession.update("NoticeMapper.updateNotice", notice);
+    }
+
+    // 공지사항 삭제
+    public void deleteNotice(int noticeNum) {
+        sqlSession.delete("NoticeMapper.deleteNotice", noticeNum);
+    }
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -44,22 +45,12 @@
             <div class="section">
               <a href="<c:url value='/customer/inquiryList' />"> 
 
-                <img src="<c:url value='/images/logo/문의.png' />" alt="1:1 문의">
-                <p>1:1 문의</p>
-                <p class="description">해결되지 않은 문제가 있나요? 1:1문의로 문의주세요</p>
+                <img src="<c:url value='/images/logo/문의.png' />" alt="통합 문의">
+                <p>통합 문의</p>
+                <p class="description">해결되지 않은 문제가 있나요? 통합 문의로 문의주세요</p>
               </a>
             </div>
             <!-- 1:1 문의 끝 -->
-            
-            <!-- 분실물 문의 시작 -->
-            <div class="section">
-              <a href="<c:url value='/customer/lostItemList' />"> 
-                <img src="<c:url value='/images/logo/분실물.png' />" alt="분실물 문의">
-                <p>분실물 문의</p>
-                <p class="description">잃어버린 물건을 접수해 주시면 신속히 찾아드리겠습니다.</p>
-              </a>
-            </div>
-            <!-- 분실물 문의 끝 -->
             
             <!-- 이용 약관 시작 -->
             <div class="section">
@@ -88,19 +79,17 @@
                     <th>날짜</th>
                 </tr>
             </thead>
-            <tbody>
-                <!-- 공지사항 리스트를 반복문으로 출력 -->
-                <c:forEach var="notice" items="${recentNotices}">
+            <tr>
+             <tbody>
+                  <c:forEach var="notice" items="${noticeList}">
                     <tr>
-                        <td>
-                            <a href="#" class="recent-notice-link" data-id="${notice.noticeNum}">
-                                ${notice.title}
-                            </a>
-                        </td>
-                        <td>${notice.regdate}</td>
+                      <td><a href="<c:url value='/customer/noticeDetail?noticeNum=${notice.noticeNum}' />">${notice.title}</a></td>
+                      <td><fmt:formatDate value="${notice.regdate}" pattern="yyyy-MM-dd HH:mm" /></td>
                     </tr>
-                </c:forEach>
-            </tbody>
+                  </c:forEach>
+                </tbody>
+            </tr>
+            
         </table>
     </div>
     <!-- 공지사항 목록 끝 -->

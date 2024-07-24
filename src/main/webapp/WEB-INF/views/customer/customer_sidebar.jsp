@@ -37,28 +37,15 @@
             </a>
         </li>
         
-        <!-- 1:1문의 메뉴 아이템 -->
+        <!-- 통합문의 메뉴 아이템 -->
         <li class="sidebar-item">
             <a href="<c:url value='/customer/inquiryList' />" class="${fn:endsWith(pageContext.request.requestURI, '/customer/inquiryForm') ? 'active' : ''}">
-                <!-- 1:1문의 아이콘 이미지 -->
+                <!-- 통합문의 아이콘 이미지 -->
                 <div class="front">
-                    <img src="<c:url value='/images/logo/inquiry.png' />" alt="1:1문의 아이콘">
+                    <img src="<c:url value='/images/logo/inquiry.png' />" alt="통합문의 아이콘">
                 </div>
                 <div class="back">
                     INQUIRY
-                </div>
-            </a>
-        </li>
-        
-        <!-- 분실물 문의 메뉴 아이템 -->
-        <li class="sidebar-item">
-            <a href="<c:url value='/customer/lostItemList' />" class="${fn:endsWith(pageContext.request.requestURI, '/customer/lostItemList') ? 'active' : ''}">
-                <!-- 분실물 문의 아이콘 이미지 -->
-                <div class="front">
-                    <img src="<c:url value='/images/logo/lostitem.png' />" alt="분실물 문의 아이콘">
-                </div>
-                <div class="back">
-                    LOST ITEM
                 </div>
             </a>
         </li>
