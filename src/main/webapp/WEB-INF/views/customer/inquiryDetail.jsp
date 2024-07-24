@@ -173,7 +173,7 @@
     </div>
   </div>
 </c:if>
-
+ 
  <!-- 답변 다는 카드 섹션--> 
 <div class="admin-button-container" style="display: none;">
   <div class="arrow arrow-down"></div>
@@ -210,7 +210,7 @@
 
   <script>
     function confirmDelete() {
-      if (confirm('정말 삭제하시겠습니까?')) {
+      if (confirm('삭제하시겠습니까?')) {
         document.getElementById('deleteForm').submit();
       }
     }
