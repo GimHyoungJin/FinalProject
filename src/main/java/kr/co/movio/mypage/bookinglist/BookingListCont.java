@@ -20,15 +20,17 @@ public class BookingListCont {
 
     @GetMapping
     public String getBookingList(HttpSession session, Model model) {
-        // 세션에서 로그인된 사용자 정보 가져오기
         String memId = (String) session.getAttribute("mem_id");
-        List<BookingListDTO> bookingList = new ArrayList<>();
+        List<BookingListDTO> bookingList = null;
+        List<BookingListDTO> orderList = null;
         if (memId != null) {
             bookingList = bookingListService.getBookingList(memId);
+            orderList = bookingListService.getOrderList(memId);
         }
         model.addAttribute("bookingList", bookingList);
-        model.addAttribute("loggedIn", memId != null); // 로그인 여부를 모델에 추가
-        return "mypage/bookinglist"; // JSP 파일 경로 (mypage/bookinglist.jsp)
+        model.addAttribute("orderList", orderList);
+        model.addAttribute("loggedIn", memId != null);
+        return "mypage/bookinglist";
     }
 
     @GetMapping("/loadMoreBookings")

@@ -54,19 +54,47 @@
         <div class="card-container">
           
           <div class="card">
-            <h5>관람권/쿠폰</h5>
-            <p>영화관람권: 0매</p>
-            <p>스토어교환권: 0매</p>
+            <h5>스토어교환권</h5>
+            <p>세트: 0매</p>
+            <p>음료: 0매</p>
+            <p>스낵: 0매</p>
+            <p>관람권: 0매</p>
           </div>
         </div>
 
         <div class="card mt-3">
           <div class="card-body">
-            <h5 class="card-title">나의 예매내역</h5>
+           
+            
+          </div>
+          
+          <div class="card mt-3">
+          <div class="card-body">
+            <h5 class="card-title">예매/구매 내역</h5>
             <a href="<c:url value='/mypage/bookinglist' />" class="btn btn-link">더보기</a>
           </div>
         </div>
-      
+
+        <div class="card mt-3">
+          <div class="card-body">
+            <h5 class="card-title">나의 문의내역</h5>
+            <a href="<c:url value='/mypage/inquiry' />" class="btn btn-link">더보기</a>
+          </div>
+        </div>
+
+        <div class="card mt-3">
+          <div class="card-body">
+            <h5 class="card-title">회원정보</h5>
+            <a href="<c:url value='/mypage/profile' />" class="btn btn-link">더보기</a>
+          </div>
+        </div>
+
+        <div class="card mt-3">
+          <div class="card-body">
+            <h5 class="card-title">스토어 교환권</h5>
+            <a href="<c:url value='/mypage/store_vouchers' />" class="btn btn-link">더보기</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
