@@ -12,13 +12,23 @@
   <link href="<c:url value='/css/footer.css' />" rel="stylesheet" type="text/css">
   <link href="<c:url value='/resources/css/movie/movie.css' />" rel="stylesheet" type="text/css">
   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/movie/movie.css">
+<style>
+        .btn-primary {
+            background-color: black !important; /* 배경색 검은색 */
+            color: white !important; /* 글자색 흰색 */
+            border-color: black !important; /* 테두리색 검은색 */
+        }
 
+        .btn-primary:hover {
+            background-color: #333 !important; /* 호버시 배경색 조금 밝은 검은색 */
+            border-color: #333 !important; /* 호버시 테두리색 조금 밝은 검은색 */
+        }
+    </style>
 </head>
 <body>
   	<%@ include file="../../header.jsp" %>
   	<!-- 메인 콘텐츠 시작 -->
   	<div class="container mt-4">
-        <h1>상영예정작</h1>
     </div>
     
     <nav class="navbar navbar-expand-sm navbar-light bg-light"> <!-- 밝은 배경색과 어두운 텍스트 -->
