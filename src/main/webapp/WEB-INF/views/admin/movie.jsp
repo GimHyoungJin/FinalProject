@@ -98,7 +98,7 @@
         <label for="trailerUrl" class="form-label">트레일러 URL</label>
         <input type="url" class="form-control" id="trailerUrl" name="trailer_url" required>
     </div>
-    <button type="submit" class="btn btn-primary">추가</button>
+    <button type="submit" class="btn btn-dark">추가</button>
 </form>
 
                         <!-- 영화 목록 테이블 -->
@@ -134,7 +134,7 @@
                                                 <input type="hidden" name="id" value="${movie.movie_id}">
                                                 <button type="submit" class="btn btn-danger">삭제</button>
                                             </form>
-                                            <a href="<c:url value='/admin/movie/edit?id=${movie.movie_id}' />" class="btn btn-primary">수정</a>
+                                            <a href="<c:url value='/admin/movie/edit?id=${movie.movie_id}' />" class="btn btn-dark">수정</a>
                                         </td>
                                     </tr>
                                 </c:forEach>

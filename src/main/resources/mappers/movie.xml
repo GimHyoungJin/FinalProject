@@ -29,6 +29,10 @@
         WHERE movie_id = #{movie_id}
     </update>
 
+    <delete id="deleteScreenMoviesByMovieId" parameterType="int">
+        DELETE FROM screenmovie WHERE movie_id = #{movie_id}
+    </delete>
+
     <delete id="deleteMovie" parameterType="int">
         DELETE FROM movie WHERE movie_id = #{movie_id}
     </delete>

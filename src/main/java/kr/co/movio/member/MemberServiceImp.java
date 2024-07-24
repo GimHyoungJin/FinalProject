@@ -1,6 +1,8 @@
 package kr.co.movio.member;
 
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -112,6 +114,13 @@ public class MemberServiceImp implements MemberService {
  @Override
  public String getMemberGrade(String mem_id) {
      return memberDAO.getMemberGrade(mem_id);
+ }
+ 
+//기존 메소드들 구현
+
+ @Override
+ public void deactivateMember(String memId) {
+     memberDAO.deactivateMember(memId);
  }
 
 }

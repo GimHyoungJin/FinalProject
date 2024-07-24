@@ -53,13 +53,7 @@
 
         <div class="card-container">
           
-          <div class="card">
-            <h5>스토어교환권</h5>
-            <p>세트: 0매</p>
-            <p>음료: 0매</p>
-            <p>스낵: 0매</p>
-            <p>관람권: 0매</p>
-          </div>
+          
         </div>
 
         <div class="card mt-3">
@@ -93,6 +87,14 @@
           <div class="card-body">
             <h5 class="card-title">스토어 교환권</h5>
             <a href="<c:url value='/mypage/store_vouchers' />" class="btn btn-link">더보기</a>
+          </div>
+          
+          <div class="card">
+            <h5>스토어교환권</h5>
+            <p>세트: 0매</p>
+            <p>음료: 0매</p>
+            <p>스낵: 0매</p>
+            <p>관람권: 0매</p>
           </div>
         </div>
       </div>

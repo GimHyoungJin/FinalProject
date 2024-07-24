@@ -120,7 +120,13 @@ public class AdminMovieCont {
     public String deleteMovie(@RequestParam("id") String movieId) {
         try {
             int movie_Id = Integer.parseInt(movieId);
+
+            // 연관된 screenmovie 레코드 먼저 삭제
+            movieDAO.deleteScreenMoviesByMovieId(movie_Id);
+
+            // movie 레코드 삭제
             movieDAO.deleteMovie(movie_Id);
+
             return "redirect:/admin/movie";
         } catch (Exception e) {
             e.printStackTrace();

@@ -54,6 +54,7 @@
                     <th>SMS 수신 동의</th>
                     <th>이메일 수신 동의</th>
                     <th>회원 등급</th>
+                    <th>상태</th>
                     <th>관리</th>
                   </tr>
                 </thead>
@@ -71,15 +72,24 @@
                       <td>${member.address}</td>
                       <td>${member.sms_agree}</td>
                       <td>${member.email_agree}</td>
+                      <td>${member.mem_grade}</td>
+                      <!-- 비활성화 상태를 표시하는 조건 추가 -->
+					<td>
+    					<c:choose>
+        					<c:when test="${member.is_deleted == true}">
+          					  비활성화
+       					 </c:when>
+       					 <c:otherwise>
+         					   활성화
+        				</c:otherwise>
+    					</c:choose>
+					 </td>
                       <td>
-                         ${member.mem_grade}</td>
-                      </td>
-                      <td>
-                          <form action="<c:url value='/admin/members/delete' />" method="post" class="d-inline">
-                              <input type="hidden" name="mem_id" value="${member.mem_id}">
-                              <button type="submit" class="btn btn-danger">삭제</button>
-                          </form>
-                          <a href="<c:url value='/admin/members/edit?mem_id=${member.mem_id}' />" class="btn btn-primary">수정</a>
+                        <form action="<c:url value='/admin/members/deactivate' />" method="post" class="d-inline">
+                            <input type="hidden" name="mem_id" value="${member.mem_id}">
+                            <button type="submit" class="btn btn-danger">비활성화</button>
+                        </form>
+                        <a href="<c:url value='/admin/members/edit?mem_id=${member.mem_id}' />" class="btn btn-dark">수정</a>
                       </td>
                     </tr>
                   </c:forEach>

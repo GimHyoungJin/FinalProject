@@ -32,11 +32,7 @@
           <label for="passwd" class="form-label">비밀번호</label>
           <input type="password" class="form-control" id="passwd" name="passwd" value="${member.passwd}" required>
         </div>
-        <div class="mb-3">
-          <label for="repasswd" class="form-label">비밀번호 확인</label>
-          <input type="password" class="form-control" id="repasswd" name="repasswd" value="${member.passwd}" required>
-          <div id="password-check-result" class="invalid-feedback"></div>
-        </div>
+       
         <div class="mb-3">
           <label for="email" class="form-label">이메일</label>
           <input type="email" class="form-control" id="email" name="email" value="${member.email}" required>
@@ -94,8 +90,8 @@
             <option value="0" <c:if test="${member.mem_grade == 0}">selected</c:if>>관리자</option>
           </select>
         </div>
-        <input type="submit" value="수정" class="btn btn-primary">
-        <button type="button" class="btn btn-danger" onclick="window.location.href='<c:url value='/admin/members' />'">취소</button>
+        <input type="submit" class="btn btn-dark" value="수정" >
+        <button type="button" class="btn btn-dark" onclick="window.location.href='<c:url value='/admin/members' />'">취소</button>
       </div>
     </form>
   </div>

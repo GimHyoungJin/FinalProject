@@ -2,6 +2,8 @@ package kr.co.movio.mypage.profile;
 
 import kr.co.movio.member.MemberDAO;
 import kr.co.movio.member.MemberDTO;
+import kr.co.movio.member.MemberService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +23,7 @@ public class ProfileCont {
 
     @Autowired
     private MemberDAO memberDAO;
+    private MemberService memberService;
 
     @GetMapping
     public String getProfile(HttpSession session, Model model) {
@@ -34,13 +37,13 @@ public class ProfileCont {
         return "mypage/profile";
     }
 
-    @PostMapping("/delete")
-    public String deleteProfile(@RequestParam("memId") String memId, HttpSession session) {
-        memberDAO.softDeleteMember(memId);
-        session.invalidate();  // 세션 무효화
-        return "redirect:/";  // 홈페이지 경로로 리다이렉트
+    @PostMapping("/deactivate")
+    public String deactivateMember(@RequestParam("memId") String memId) {
+        memberService.deactivateMember(memId);
+        return "redirect:/mypage/profile";
     }
-
+    
+    
     @PostMapping
     public String updateProfile(MemberDTO member, HttpSession session, Model model) {
         String memId = (String) session.getAttribute("mem_id");

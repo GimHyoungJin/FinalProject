@@ -14,8 +14,8 @@ public class MemberDTO {
     private String address2;
     private String sms_agree;
     private String email_agree;
-    private int mem_grade; // 추가된 속성
-    private int is_deleted; // 추가된 속성
+    private int mem_grade;
+    private int is_deleted; 
 
     // Getters and Setters
     public String getMem_id() {

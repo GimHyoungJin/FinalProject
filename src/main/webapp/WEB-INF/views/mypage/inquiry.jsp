@@ -31,10 +31,12 @@
       <div class="col-md-9">
         <div class="container mt-5">
          
-         <button class="btn btn-primary" onclick="location.href='<c:url value='/customer/inquiryForm' />'">문의하기</button>
+         
+          
           <ul class="nav nav-tabs"> <br><br>
             <li class="nav-item">
               <a class="nav-link active" data-bs-toggle="tab" href="#inquiry">1:1 문의내역</a>
+             
             </li>
             <li class="nav-item">
               <a class="nav-link" data-bs-toggle="tab" href="#lost">분실물 문의내역</a>
@@ -44,6 +46,7 @@
           <div class="tab-content mt-3">
             <div id="inquiry" class="tab-pane fade show active">
               <h2>1:1 문의내역</h2>
+              <button class="btn btn-dark" onclick="location.href='<c:url value='/customer/inquiryForm' />'">문의하기</button>
               <p class="mt-3">고객센터를 통해 남기신 1:1 문의내역을 확인하실 수 있습니다.</p>
               <div class="table-responsive">
                 <c:choose>
@@ -81,6 +84,7 @@
             </div>
             <div id="lost" class="tab-pane fade">
               <h2>분실물 문의내역</h2>
+              <button class="btn btn-dark" onclick="location.href='<c:url value='/customer/inquiryForm' />'">문의하기</button>
               <p class="mt-3">고객센터를 통해 남기신 분실물 문의내역을 확인하실 수 있습니다.</p>
               <div class="table-responsive">
                 <c:choose>

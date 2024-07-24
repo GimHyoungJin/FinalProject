@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -126,8 +126,11 @@
               </div>
               <div class="mb-3 row">
                 <div class="col-sm-10 offset-sm-2"> <br><br>
-                  <input type="submit" value="수정" class="btn btn-primary">
-                  <button type="button" class="btn btn-danger" onclick="confirmDeleteProfile()">회원탈퇴</button>
+                  <input type="submit" value="수정" class="btn btn-dark">
+                  <form action="<c:url value='/mypage/profile/deactivate' />" method="post" class="d-inline">
+                    <input type="hidden" name="memId" value="${profile.mem_id}">
+                 <!--     <button type="submit" class="btn btn-danger">비활성화</button> --> 
+                  </form>
                 </div>
               </div>
             </form>
@@ -139,27 +142,6 @@
   <%@ include file="../../footer.jsp" %>
 
   <script>
-    function confirmDeleteProfile() {
-      if (confirm("정말 계정을 삭제하시겠습니까?")) {
-        deleteProfile();
-      }
-    }
-
-    function deleteProfile() {
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = '<c:url value="/mypage/profile/delete" />';
-      
-      const hiddenField = document.createElement('input');
-      hiddenField.type = 'hidden';
-      hiddenField.name = 'memId';
-      hiddenField.value = '${profile.mem_id}';
-      
-      form.appendChild(hiddenField);
-      document.body.appendChild(form);
-      form.submit();
-    }
-
     $(document).ready(function() {
       <% if ("Y".equals(session.getAttribute("updateSuccess"))) { %>
         alert("변경사항이 적용되었습니다.");

@@ -97,54 +97,56 @@
               </div>
             </div>
 
-             <div id="purchase" class="tab-pane fade mt-3">
-              <h2>구매 내역</h2>
-              <div class="card mt-3">
-                <div class="card-body">
-                  <h5 class="card-title">구매내역</h5>
-                  <c:choose>
-                    <c:when test="${loggedIn}">
-                      <c:choose>
-                        <c:when test="${not empty orderList}">
-                          <div id="orderContent">
-                            <div id="main-info">
-                              <table class="table table-bordered">
-                                <thead>
-                                  <tr>
-                                    <th>주문 번호</th>
-                                    <th>회원 ID</th>
-                                    <th>총액</th>
-                                    <th>상태</th>
-                                    <th>주문 날짜</th>
-                                  </tr>
-                                </thead>
-                                <tbody id="orderTable">
-                                  <c:forEach var="order" items="${orderList}">
-                                    <tr>
-                                      <td>${order.orderNo}</td>
-                                      <td>${order.memId}</td>
-                                      <td>${order.orderTotal}</td>
-                                      <td>${order.orderState}</td>
-                                      <td>${order.orderDate}</td>
-                                    </tr>
-                                  </c:forEach>
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-                        </c:when>
-                        <c:otherwise>
-                          <p>구매내역이 없습니다.</p>
-                        </c:otherwise>
-                      </c:choose>
-                    </c:when>
-                    <c:otherwise>
-                      <p>구매내역이 없습니다. 로그인 후 구매내역을 확인할 수 있습니다.</p>
-                    </c:otherwise>
-                  </c:choose>
+           <div id="purchase" class="tab-pane fade mt-3">
+  <h2>구매 내역</h2>
+  <div class="card mt-3">
+    <div class="card-body">
+      <h5 class="card-title">구매내역</h5>
+      <c:choose>
+        <c:when test="${loggedIn}">
+          <c:choose>
+            <c:when test="${not empty orderList}">
+              <div id="orderContent">
+                <div id="main-info">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>주문 번호</th>
+                        <th>결제일시</th>
+                        <th>구분</th>
+                        <th>상품명</th>
+                        <th>결제금액</th>
+                        <th>상태</th>
+                      </tr>
+                    </thead>
+                    <tbody id="orderTable">
+                      <c:forEach var="order" items="${orderList}">
+                        <tr>
+                          <td>${order.orderNo}</td>
+                          <td>${order.orderDate}</td>
+                          <td>${order.orderType}</td>
+                          <td>${order.productName}</td>
+                          <td>${order.orderDetailPrice}</td>
+                          <td>${order.orderState}</td>
+                        </tr>
+                      </c:forEach>
+                    </tbody>
+                  </table>
                 </div>
               </div>
-            </div>
+            </c:when>
+            <c:otherwise>
+              <p>구매내역이 없습니다.</p>
+            </c:otherwise>
+          </c:choose>
+        </c:when>
+        <c:otherwise>
+          <p>구매내역이 없습니다. 로그인 후 구매내역을 확인할 수 있습니다.</p>
+        </c:otherwise>
+      </c:choose>
+    </div>
+  </div>
+</div>
           </div>
         </div>
       </div>

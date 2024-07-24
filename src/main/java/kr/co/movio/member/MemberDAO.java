@@ -2,6 +2,7 @@ package kr.co.movio.member;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,13 +63,23 @@ public class MemberDAO {
         return sqlSession.update("member.updateMember", member);
     }
 
-    // 멤버 삭제
+    // 로그인용 사용자 찾기
+    public MemberDTO findUserForLogin(MemberDTO memberDTO) {
+        return sqlSession.selectOne("member.findUserForLogin", memberDTO);
+    }
+    
+    // 멤버 삭제 메서드 수정
     public void softDeleteMember(String memId) {
         sqlSession.update("member.softDeleteMember", memId);
     }
 
-    // 로그인용 사용자 찾기
-    public MemberDTO findUserForLogin(MemberDTO memberDTO) {
-        return sqlSession.selectOne("member.findUserForLogin", memberDTO);
+    // 계정을 비활성화하고 무작위 비밀번호로 변경하는 메서드 추가
+    public void deactivateMember(String memId) {
+        String randomPassword = UUID.randomUUID().toString().replace("-", "").substring(0, 15);
+        MemberDTO member = new MemberDTO();
+        member.setMem_id(memId);
+        member.setPasswd(randomPassword);
+        updatePassword(member);
+        softDeleteMember(memId);
     }
 }

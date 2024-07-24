@@ -80,7 +80,7 @@
                                 <label for="longitude" class="form-label">경도</label>
                                 <input type="number" step="0.000001" class="form-control" id="longitude" name="longitude" value="${param.longitude}" required>
                             </div>
-                            <button type="submit" class="btn btn-primary">추가</button>
+                            <button type="submit" class="btn btn-dark">추가</button>
                         </form>
                     </div>
                 </div>

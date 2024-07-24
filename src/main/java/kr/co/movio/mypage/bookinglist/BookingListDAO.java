@@ -26,7 +26,7 @@ public class BookingListDAO {
         return sqlSession.selectList("bookingList.getBookingListWithPagination", params);
     }
     
-    public List<BookingListDTO> getOrderList(String memId) {
+    public List<OrderDetailDTO> getOrderList(String memId) {
         return sqlSession.selectList("bookingList.getOrderList", memId);
     }
 }

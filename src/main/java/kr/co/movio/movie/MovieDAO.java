@@ -35,5 +35,8 @@ public class MovieDAO {
     public String getMaxMovieId() {
         return sqlSession.selectOne("movie.getMaxMovieId");
     }
-    
+
+    public int deleteScreenMoviesByMovieId(int movieId) {
+        return sqlSession.delete("movie.deleteScreenMoviesByMovieId", movieId);
+    }
 }

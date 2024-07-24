@@ -78,20 +78,28 @@
         LIMIT #{offset}, #{limit}
     </select>
 
-    <!-- 구매 내역 조회 -->
-    <select id="getOrderList" resultType="kr.co.movio.mypage.bookinglist.BookingListDTO">
+     <!-- 구매 내역 조회 -->
+    <select id="getOrderList" resultType="kr.co.movio.mypage.bookinglist.OrderDetailDTO">
         SELECT 
-            order_no AS orderNo,
-            mem_id AS memId,
-            order_total AS orderTotal,
-            order_state AS orderState,
-            order_date AS orderDate
+            od.order_detail_no AS orderDetailNo,
+            o.order_no AS orderNo,
+            o.order_date AS orderDate,
+            od.pro_detail_code AS proDetailCode,
+            p.pro_name AS productName,
+            od.order_detail_price AS orderDetailPrice,
+            od.order_detail_amount AS orderDetailAmount,
+            o.order_state AS orderState,
+            '구매' AS orderType
         FROM 
-            orders
+            orderdetail od
+        INNER JOIN 
+            orders o ON od.order_no = o.order_no
+        INNER JOIN 
+            product p ON od.pro_detail_code = p.pro_detail_code
         WHERE 
-            mem_id = #{memId}
+            o.mem_id = #{memId}
         ORDER BY 
-            order_date DESC
+            o.order_date DESC
     </select>
 
 </mapper>

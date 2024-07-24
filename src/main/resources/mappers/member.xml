@@ -55,10 +55,13 @@
         SELECT mem_grade FROM member WHERE mem_id = #{mem_id}
     </select>
     
-    <select id="getAllMembers" resultType="java.util.Map">
-        SELECT mem_id, username, email, regdate, passwd , phone, birth , gender, CONCAT(address1, ' ', address2) AS address, sms_agree , email_agree , mem_grade 
-        FROM member
-    </select>
+  <select id="getAllMembers" resultType="java.util.Map">
+    SELECT mem_id, username, email, regdate, passwd, phone, birth, gender, 
+           CONCAT(address1, ' ', address2) AS address, sms_agree, email_agree, 
+           mem_grade, is_deleted
+    FROM member
+</select>
+
 
     <!-- 새로운 업데이트 및 삭제 쿼리 추가 -->
    <update id="updateMember" parameterType="kr.co.movio.member.MemberDTO">
@@ -69,9 +72,10 @@
     WHERE mem_id = #{mem_id}
 </update>
     
-   <update id="softDeleteMember" parameterType="String">
+  <!-- 멤버 계정 비활성화 메서드 추가 -->
+<update id="softDeleteMember" parameterType="String">
     UPDATE member
-    SET is_deleted = 1
+    SET is_deleted = true
     WHERE mem_id = #{mem_id}
 </update>
 

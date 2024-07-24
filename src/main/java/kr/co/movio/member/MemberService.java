@@ -1,5 +1,6 @@
 package kr.co.movio.member;
 
+
 public interface MemberService {
 	//해당 메소드들을 사용하기 위한 추상메소드 껍데기만 선언함
     boolean checkId(String id); //아이디 중복확인	
@@ -13,4 +14,7 @@ public interface MemberService {
     boolean checkSocialId(String socialId, String provider);//소셜 로그인 테이블 중복확인 로직
     boolean regSocialMember(SocialMemberDTO socialMemberDTO); //소셜 등록 로직
     String getMemberGrade(String mem_id); //멤버 등급을 확인하는 로직
-}
+    
+ // 계정 비활성화 메소드 선언 추가
+    void deactivateMember(String memId);
+    }

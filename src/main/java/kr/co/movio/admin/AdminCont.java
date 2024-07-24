@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import kr.co.movio.member.MemberDAO;
 import kr.co.movio.member.MemberDTO;
+import kr.co.movio.member.MemberService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +18,9 @@ public class AdminCont {
 
     @Autowired
     private MemberDAO memberDAO;
+
+    @Autowired
+    private MemberService memberService; // MemberService 주입
 
     @GetMapping
     public String getMembers(Model model) {
@@ -52,9 +56,15 @@ public class AdminCont {
         return "redirect:/admin/members";
     }
 
-    @PostMapping("/delete")
+    @PostMapping("/softDeleteMember")
     public String deleteMember(@RequestParam("mem_id") String mem_id) {
         memberDAO.softDeleteMember(mem_id);
+        return "redirect:/admin/members";
+    }
+
+    @PostMapping("/deactivate")
+    public String deactivateMember(@RequestParam("mem_id") String mem_id) {
+        memberService.deactivateMember(mem_id);
         return "redirect:/admin/members";
     }
 }
