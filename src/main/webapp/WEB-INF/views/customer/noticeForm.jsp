@@ -95,7 +95,6 @@
             </div>
             <button type="submit" class="btn btn-primary">작성</button>
             <button type="reset" class="btn btn-secondary">다시입력</button>
-            <button type="button" class="btn btn-danger" onclick="window.location.href='/customer/noticelist?page=1&size=10'">작성취소</button>
           </form>
         </div>
       </div>

@@ -17,6 +17,12 @@ public class BookingListDTO {
     private String theaterName;
     private String address;
 
+    // 추가된 필드 (orders 테이블 관련)
+    private String orderNo;
+    private int orderTotal;
+    private String orderState;
+    private String orderDate;
+
     // Getters and setters...
 
     public String getResId() {
@@ -137,5 +143,37 @@ public class BookingListDTO {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
+    }
+
+    public int getOrderTotal() {
+        return orderTotal;
+    }
+
+    public void setOrderTotal(int orderTotal) {
+        this.orderTotal = orderTotal;
+    }
+
+    public String getOrderState() {
+        return orderState;
+    }
+
+    public void setOrderState(String orderState) {
+        this.orderState = orderState;
+    }
+
+    public String getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(String orderDate) {
+        this.orderDate = orderDate;
     }
 }

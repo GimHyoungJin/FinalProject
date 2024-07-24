@@ -108,6 +108,8 @@
         .btn-primary, .btn-danger {
             font-size: 1.2em;
             padding: 10px 20px;
+            display: block; /* 블록 요소 */
+        	margin: 20px auto 0;
         }
 
         .nav-tabs {
