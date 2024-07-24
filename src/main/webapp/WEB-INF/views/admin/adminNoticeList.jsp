@@ -37,9 +37,9 @@
         </c:if>
                 <div class="notice-top">
                     <!-- 관리자만 공지사항 작성 가능 -->
-                    <c:if test="${sessionScope.username == 'master1004'}">
+                    <div class="admin-button-container" style="display: none;">
                         <button class="btn btn-primary" onclick="window.location.href='/admin/notices?action=createForm'">공지사항 작성</button>
-                    </c:if>
+                    </div>
                     <!-- 검색 바 -->
                     <div class="search-bar">
                         <select class="form-select">

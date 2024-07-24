@@ -2,15 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     checkAdminAccess();
 });
 
-// 관리자 접근 권한 확인
-function checkAdminAccess() {
-    var username = sessionStorage.getItem('username');
-    if (username !== 'master1004') {
-        alert('접근 권한이 없습니다.');
-        window.location.href = ''; // 접근 권한이 없을 경우 리디렉션할 페이지 (나중에 채워 넣기)
-    }
-}
-
 // 공지사항 폼 제출
 function submitNoticeForm(action) {
     var form = document.getElementById('noticeForm');
