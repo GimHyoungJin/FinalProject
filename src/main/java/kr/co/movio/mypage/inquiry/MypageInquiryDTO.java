@@ -3,7 +3,6 @@ package kr.co.movio.mypage.inquiry;
 public class MypageInquiryDTO {
     private String inq_num;
     private String mem_id;
-    private String theater_id;
     private String inq_type;
     private String inq_title;
     private String inq_content;
@@ -26,13 +25,6 @@ public class MypageInquiryDTO {
         this.mem_id = mem_id;
     }
 
-    public String getTheater_id() {
-        return theater_id;
-    }
-
-    public void setTheater_id(String theater_id) {
-        this.theater_id = theater_id;
-    }
 
     public String getInq_type() {
         return inq_type;
@@ -66,9 +58,11 @@ public class MypageInquiryDTO {
         this.inq_date = inq_date;
     }
 
-    @Override
-    public String toString() {
-        return "MypageInquiryDTO [inq_num=" + inq_num + ", mem_id=" + mem_id + ", theater_id=" + theater_id + ", inq_type="
-                + inq_type + ", inq_title=" + inq_title + ", inq_content=" + inq_content + ", inq_date=" + inq_date + "]";
-    }
+	@Override
+	public String toString() {
+		return "MypageInquiryDTO [inq_num=" + inq_num + ", mem_id=" + mem_id + ", inq_type=" + inq_type + ", inq_title="
+				+ inq_title + ", inq_content=" + inq_content + ", inq_date=" + inq_date + "]";
+	}
+
+    
 }
