@@ -46,18 +46,11 @@
                               <tr>
                                 <th>예매 ID</th>
                                 <th>회원 ID</th>
-                                <th>영화 ID</th>
                                 <th>좌석 정보</th>
-                                <th>성인</th>
-                                <th>청소년</th>
-                                <th>아동</th>
-                                <th>총 인원(티켓) 수</th>
-                                <th>예매 날짜</th>
+                              	<th>예매 날짜</th>
                                 <th>사용자 이름</th>
-                                <th>이메일</th>
                                 <th>영화 제목</th>
                                 <th>극장 이름</th>
-                                <th>주소</th>
                               </tr>
                             </thead>
                             <tbody id="bookingTable">
@@ -65,18 +58,11 @@
                                 <tr>
                                   <td>${booking.resId}</td>
                                   <td>${booking.memId}</td>
-                                  <td>${booking.screenMovieId}</td>
                                   <td>${booking.resSeatInfo}</td>
-                                  <td>${booking.adult}</td>
-                                  <td>${booking.teenager}</td>
-                                  <td>${booking.child}</td>
-                                  <td>${booking.totPeople}</td>
                                   <td>${booking.resDate}</td>
                                   <td>${booking.username}</td>
-                                  <td>${booking.email}</td>
                                   <td>${booking.movieTitle}</td>
                                   <td>${booking.theaterName}</td>
-                                  <td>${booking.address}</td>
                                 </tr>
                               </c:forEach>
                             </tbody>
