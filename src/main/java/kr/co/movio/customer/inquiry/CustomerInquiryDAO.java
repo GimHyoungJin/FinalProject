@@ -92,17 +92,16 @@ public class CustomerInquiryDAO {
     public String getUsernameByMemId(String memId) {
         return sqlSession.selectOne("customer.getUsernameByMemId", memId);
     }
-    
+
+    // 추가된 메서드들
     public void addReply(InquiryDetailDTO inquiryDetailDTO) {
         sqlSession.insert("customer.addReply", inquiryDetailDTO);
     }
-    
-    
-    
+
     public List<InquiryDetailDTO> getRepliesByInquiryId(int inq_num) {
         return sqlSession.selectList("customer.getRepliesByInquiryId", inq_num);
     }
-    
+
     public void updateInquiryStatus(int inq_num, String status) {
         sqlSession.update("customer.updateInquiryStatus", Map.of("inq_num", inq_num, "status", status));
     }
