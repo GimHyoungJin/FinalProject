@@ -55,7 +55,6 @@
                 <table class="table table-bordered">
                   <thead>
                     <tr>
-                      <th>번호</th>
                       <th>제목</th>
                       <th>접수상태</th>
                       <th>등록일</th>
@@ -65,7 +64,6 @@
                   <tbody>
                     <c:forEach var="inquiry" items="${inquiries}">
                       <tr>
-                        <td>${inquiry.inq_num}</td>
                         <td><a href="javascript:void(0);" onclick="showPasswordPrompt(${inquiry.inq_num});">${inquiry.inq_title}</a></td>
                         <td>
                           <c:choose>

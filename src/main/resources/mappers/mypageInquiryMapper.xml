@@ -5,7 +5,6 @@
         SELECT 
             inq_num AS inq_num,
             mem_id AS mem_id,
-            theater_id AS theater_id,
             inq_type AS inq_type,
             inq_title AS inq_title,
             inq_content AS inq_content,

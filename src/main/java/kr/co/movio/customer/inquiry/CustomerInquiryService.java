@@ -26,7 +26,7 @@ public interface CustomerInquiryService {
     void updateInquiry(CustomerInquiryDTO inquiryDTO);
 
     // 문의 삭제
-    void deleteInquiry(String inq_num);
+    void deleteInquiry(int inq_num);
 
     // 문의 답변 저장
     void saveInquiryDetail(InquiryDetailDTO detailDTO);

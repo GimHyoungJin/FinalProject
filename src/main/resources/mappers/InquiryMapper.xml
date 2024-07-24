@@ -68,7 +68,7 @@
         VALUES (#{inqde_num}, #{inq_num}, #{inqde_content}, #{inqde_date})
     </insert>
 
-    <select id="findInquiryDetailsByInquiryId" parameterType="String" resultType="kr.co.movio.customer.inquiry.InquiryDetailDTO">
+    <select id="findInquiryDetailsByInquiryId" parameterType="Int" resultType="kr.co.movio.customer.inquiry.InquiryDetailDTO">
         SELECT inqde_num, inq_num, inqde_content, inqde_date
         FROM inquirydetail
         WHERE inq_num = #{inq_num}

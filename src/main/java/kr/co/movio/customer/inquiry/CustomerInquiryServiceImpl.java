@@ -58,7 +58,7 @@ public class CustomerInquiryServiceImpl implements CustomerInquiryService {
 
     @Override
     // 문의 삭제
-    public void deleteInquiry(String inq_num) {
+    public void deleteInquiry(int inq_num) {
         inquiryDAO.delete(inq_num);
     }
 
