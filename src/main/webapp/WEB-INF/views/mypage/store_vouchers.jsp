@@ -54,6 +54,23 @@
     .dropdown-menu {
       min-width: auto;
     }
+    .table-custom thead th {
+      background-color: #000;
+      color: #fff;
+      border-bottom: 2px solid #4a4a4a;
+    }
+    .table-custom tbody tr:nth-child(odd) {
+      background-color: #f2f2f2;
+    }
+    .table-custom tbody tr:nth-child(even) {
+      background-color: #fff;
+    }
+    .table-custom tbody tr:hover {
+      background-color: #ddd;
+    }
+    .table-custom tbody td {
+      border-top: 1px solid #4a4a4a;
+    }
   </style>
 </head>
 <body>
@@ -101,7 +118,7 @@
                 </div>
               </div>
               <div id="voucherList">
-                <table class="table">
+                <table class="table table-bordered table-custom">
                   <thead>
                     <tr>
                       <th>구분</th>

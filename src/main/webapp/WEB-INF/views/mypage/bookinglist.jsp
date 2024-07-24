@@ -12,6 +12,25 @@
   <link href="<c:url value='/css/footer.css' />" rel="stylesheet" type="text/css">
   <link href="<c:url value='/css/admin/sidebar.css' />" rel="stylesheet" type="text/css">
   <link href="<c:url value='/css/style.css' />" rel="stylesheet" type="text/css">
+  <style>
+    .table-custom thead th {
+      background-color: #000;
+      color: #fff;
+      border-bottom: 2px solid #4a4a4a;
+    }
+    .table-custom tbody tr:nth-child(odd) {
+      background-color: #f2f2f2;
+    }
+    .table-custom tbody tr:nth-child(even) {
+      background-color: #fff;
+    }
+    .table-custom tbody tr:hover {
+      background-color: #ddd;
+    }
+    .table-custom tbody td {
+      border-top: 1px solid #4a4a4a;
+    }
+  </style>
 </head>
 <body>
   <%@ include file="../../header.jsp" %>
@@ -52,7 +71,7 @@
                         <c:when test="${not empty bookingList}">
                           <div id="bookingContent">
                             <div id="main-info">
-                              <table class="table table-bordered">
+                              <table class="table table-bordered table-custom">
                                 <thead>
                                   <tr>
                                     <th>예매 ID</th>
@@ -97,56 +116,56 @@
               </div>
             </div>
 
-           <div id="purchase" class="tab-pane fade mt-3">
-  <h2>구매 내역</h2>
-  <div class="card mt-3">
-    <div class="card-body">
-      <h5 class="card-title">구매내역</h5>
-      <c:choose>
-        <c:when test="${loggedIn}">
-          <c:choose>
-            <c:when test="${not empty orderList}">
-              <div id="orderContent">
-                <div id="main-info">
-                  <table class="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th>주문 번호</th>
-                        <th>결제일시</th>
-                        <th>구분</th>
-                        <th>상품명</th>
-                        <th>결제금액</th>
-                        <th>상태</th>
-                      </tr>
-                    </thead>
-                    <tbody id="orderTable">
-                      <c:forEach var="order" items="${orderList}">
-                        <tr>
-                          <td>${order.orderNo}</td>
-                          <td>${order.orderDate}</td>
-                          <td>${order.orderType}</td>
-                          <td>${order.productName}</td>
-                          <td>${order.orderDetailPrice}</td>
-                          <td>${order.orderState}</td>
-                        </tr>
-                      </c:forEach>
-                    </tbody>
-                  </table>
+            <div id="purchase" class="tab-pane fade mt-3">
+              <h2>구매 내역</h2>
+              <div class="card mt-3">
+                <div class="card-body">
+                  <h5 class="card-title">구매내역</h5>
+                  <c:choose>
+                    <c:when test="${loggedIn}">
+                      <c:choose>
+                        <c:when test="${not empty orderList}">
+                          <div id="orderContent">
+                            <div id="main-info">
+                              <table class="table table-bordered table-custom">
+                                <thead>
+                                  <tr>
+                                    <th>주문 번호</th>
+                                    <th>결제일시</th>
+                                    <th>구분</th>
+                                    <th>상품명</th>
+                                    <th>결제금액</th>
+                                    <th>상태</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="orderTable">
+                                  <c:forEach var="order" items="${orderList}">
+                                    <tr>
+                                      <td>${order.orderNo}</td>
+                                      <td>${order.orderDate}</td>
+                                      <td>${order.orderType}</td>
+                                      <td>${order.productName}</td>
+                                      <td>${order.orderDetailPrice}</td>
+                                      <td>${order.orderState}</td>
+                                    </tr>
+                                  </c:forEach>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </c:when>
+                        <c:otherwise>
+                          <p>구매내역이 없습니다.</p>
+                        </c:otherwise>
+                      </c:choose>
+                    </c:when>
+                    <c:otherwise>
+                      <p>구매내역이 없습니다. 로그인 후 구매내역을 확인할 수 있습니다.</p>
+                    </c:otherwise>
+                  </c:choose>
                 </div>
               </div>
-            </c:when>
-            <c:otherwise>
-              <p>구매내역이 없습니다.</p>
-            </c:otherwise>
-          </c:choose>
-        </c:when>
-        <c:otherwise>
-          <p>구매내역이 없습니다. 로그인 후 구매내역을 확인할 수 있습니다.</p>
-        </c:otherwise>
-      </c:choose>
-    </div>
-  </div>
-</div>
+            </div>
           </div>
         </div>
       </div>

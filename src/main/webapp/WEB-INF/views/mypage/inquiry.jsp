@@ -11,6 +11,25 @@
   <link href="<c:url value='/css/header.css' />" rel="stylesheet" type="text/css">
   <link href="<c:url value='/css/footer.css' />" rel="stylesheet" type="text/css">
   <link href="<c:url value='/css/admin/sidebar.css' />" rel="stylesheet" type="text/css">
+  <style>
+    .table-custom thead th {
+      background-color: #000;
+      color: #fff;
+      border-bottom: 2px solid #4a4a4a;
+    }
+    .table-custom tbody tr:nth-child(odd) {
+      background-color: #f2f2f2;
+    }
+    .table-custom tbody tr:nth-child(even) {
+      background-color: #fff;
+    }
+    .table-custom tbody tr:hover {
+      background-color: #ddd;
+    }
+    .table-custom tbody td {
+      border-top: 1px solid #4a4a4a;
+    }
+  </style>
 </head>
 <body>
   <%@ include file="../../header.jsp" %>
@@ -30,13 +49,9 @@
       </div>
       <div class="col-md-9">
         <div class="container mt-5">
-         
-         
-          
-          <ul class="nav nav-tabs"> <br><br>
+          <ul class="nav nav-tabs">
             <li class="nav-item">
               <a class="nav-link active" data-bs-toggle="tab" href="#inquiry">1:1 문의내역</a>
-             
             </li>
             <li class="nav-item">
               <a class="nav-link" data-bs-toggle="tab" href="#lost">분실물 문의내역</a>
@@ -54,7 +69,7 @@
                     <p>문의내역이 없습니다.</p>
                   </c:when>
                   <c:otherwise>
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-custom">
                       <thead>
                         <tr>
                           <th>회원 ID</th>
@@ -92,7 +107,7 @@
                     <p>분실물 문의내역이 없습니다.</p>
                   </c:when>
                   <c:otherwise>
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-custom">
                       <thead>
                         <tr>
                           <th>회원 ID</th>
