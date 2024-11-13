@@ -88,5 +88,15 @@
 ## 개발환경 
 <img src="https://github.com/user-attachments/assets/d871431e-b7f5-492c-9795-3124ed7a02b1" alt="개발환경" width="500">
 
+## 주요 화면구성
+<img src="https://github.com/user-attachments/assets/bc912d91-97fc-4689-a801-e6c4e8f1c12f" alt="주요화면구성1" width="800" height="500"/>
+<img src="https://github.com/user-attachments/assets/596596b7-6129-4852-aad8-e236a410835f" alt="주요화면구성2" width="800" height="500"/>
+<img src="https://github.com/user-attachments/assets/8cad1416-42d8-423e-87dd-f4bcc2a8bbb1" alt="주요화면구성3" width="800" height="500"/>
+<img src="https://github.com/user-attachments/assets/6455b01c-8eb1-4b6e-b6c4-0b3a49dfc439" alt="주요화면구성4" width="800" height="500"/>
+<img src="https://github.com/user-attachments/assets/658c0f0f-f944-46b9-bb2b-6279b375adf1" alt="주요화면구성5" width="800" height="500"/>
+<img src="https://github.com/user-attachments/assets/624c00c4-06e7-4aeb-815b-b848b36aa1e8" alt="주요화면구성6" width="800" height="500"/>
+<img src="https://github.com/user-attachments/assets/ce83cbce-dd6f-4241-8393-84bda55eb70b" alt="주요화면구성7" width="800" height="500"/>
+<img src="https://github.com/user-attachments/assets/39d79be2-6321-4159-8ad2-344422f048c3" alt="주요화면구성8" width="800" height="500"/>
+
 ## ERD
 <img src="https://github.com/user-attachments/assets/1505a759-f973-4a33-9d7d-da0ecee7354e" alt="이미지" width="800" height="500"/>
